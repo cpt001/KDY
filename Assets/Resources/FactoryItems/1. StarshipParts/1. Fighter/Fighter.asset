@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Fighter
+  m_EditorClassIdentifier: 
+  _guid: 
+  resourcesPath: 
+  numInputs: 1
+  numOutputs: 1
+  inputs:
+  - _item: {fileID: 11400000, guid: 3fcb9a0eaff81964eb1db70a6cb9efa2, type: 2}
+    itemGUID: 3fcb9a0eaff81964eb1db70a6cb9efa2
+    amount: 1
+  - _item: {fileID: 11400000, guid: 76752706b17472444b32737982880e5f, type: 2}
+    itemGUID: 76752706b17472444b32737982880e5f
+    amount: 1
+  - _item: {fileID: 11400000, guid: aab9e6165386765428aae95be37e2cd4, type: 2}
+    itemGUID: aab9e6165386765428aae95be37e2cd4
+    amount: 1
+  - _item: {fileID: 11400000, guid: d420cbc651e89c24291cbec7f6765cdb, type: 2}
+    itemGUID: d420cbc651e89c24291cbec7f6765cdb
+    amount: 1
+  outputs: []
+  tickCost: 30

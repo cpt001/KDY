@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc93331e9d78834392e6618f7c1427e, type: 3}
+  m_Name: Fighter_Fuselage
+  m_EditorClassIdentifier: 
+  _guid: 3fcb9a0eaff81964eb1db70a6cb9efa2
+  resourcesPath: FactoryItems/1. StarshipParts/1. Fighter/Fighter_Fuselage
+  icon: {fileID: 21300000, guid: e92527f6d0fe45342ab542b47346d45f, type: 3}
+  prefab: {fileID: 4127541879917799403, guid: e3364413e0e894c45b94c60f45067a25, type: 3}
+  itemData:
+    description: 
+    maxStack: 1
+  DebugColor: {r: 0, g: 0, b: 0, a: 0}

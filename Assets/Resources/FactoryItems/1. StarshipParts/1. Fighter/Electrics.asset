@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc93331e9d78834392e6618f7c1427e, type: 3}
+  m_Name: Electrics
+  m_EditorClassIdentifier: 
+  _guid: aab9e6165386765428aae95be37e2cd4
+  resourcesPath: FactoryItems/1. StarshipParts/1. Fighter/Electrics
+  icon: {fileID: 21300000, guid: 6601be924dc099f4ab466a055fa92118, type: 3}
+  prefab: {fileID: 919132149155446097, guid: 5a1d21cd750b9cc448aa76dfe7b91982, type: 3}
+  itemData:
+    description: 
+    maxStack: 10
+  DebugColor: {r: 0, g: 0, b: 0, a: 0}

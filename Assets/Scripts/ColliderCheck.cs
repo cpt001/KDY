@@ -6,6 +6,7 @@ public class ColliderCheck : MonoBehaviour
 {
     public bool placementValid;
     private List<Collider> trackedColliders = new List<Collider>();
+    private Renderer buildingGhostRenderer => GetComponent<Renderer>();
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ConveyorBelt") || other.gameObject.CompareTag("Machine"))
@@ -18,6 +19,14 @@ public class ColliderCheck : MonoBehaviour
         if (trackedColliders.Contains(other))
         {
             trackedColliders.Remove(other);
+        }
+        if (trackedColliders.Count == 0)
+        {
+            buildingGhostRenderer.material.SetColor("_Color", Color.red);
+        }
+        else
+        {
+            buildingGhostRenderer.material.SetColor("_Color", Color.blue);
         }
     }
     private void FixedUpdate()

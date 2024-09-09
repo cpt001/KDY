@@ -13,7 +13,7 @@ using UnityEngine;
 /// </summary>
 public class Structures : MonoBehaviour
 {
-    private GridCheck gridCheck;
+    private GridCheck gridCheck => Camera.main.GetComponent<GridCheck>();
     [SerializeField] private GridConveyor gridConveyor;
 
     #region Conveyance
@@ -48,7 +48,7 @@ public class Structures : MonoBehaviour
     [SerializeField] private GameObject wiringLoom;
     public void R_SetAcidBath() { gridCheck.buildingGhost = acidBath; }
     public void R_SetArcFurnace() { gridCheck.buildingGhost = arcFurnace; }
-    public void R_SetCrusher() { gridCheck.buildingGhost = crusher; }
+    public void R_SetCrusher() { gridCheck.buildingGhost = crusher; }//Debug.Log(""); }
     public void R_SetFurnace() { gridCheck.buildingGhost = furnace; }
     public void R_SetLoom() { gridCheck.buildingGhost = loom; }
     public void R_SetWasher() { gridCheck.buildingGhost = washer; }

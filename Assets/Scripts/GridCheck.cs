@@ -15,7 +15,7 @@ public class GridCheck : MonoBehaviour
     Camera mainCam => Camera.main;
     [SerializeField] private LayerMask layerMask;
     public GameObject buildingGhost = null;
-    public Renderer buildingGhostRenderer => buildingGhost.GetComponent<Renderer>();
+    //public Renderer buildingGhostRenderer;
     private ColliderCheck buildingColliderCheck => buildingGhost.GetComponent<ColliderCheck>();
     public Vector3 gridPoint;
     
@@ -28,7 +28,7 @@ public class GridCheck : MonoBehaviour
         else
         {
             MouseToWorldGrid();
-            PlacementValidity();
+            //PlacementValidity();
             HandleRotation();
         }
     }
@@ -53,7 +53,7 @@ public class GridCheck : MonoBehaviour
         return snapPos;
     }
 
-    void PlacementValidity()
+    /*void PlacementValidity()
     {
         if (!buildingColliderCheck.placementValid)
         {
@@ -68,7 +68,7 @@ public class GridCheck : MonoBehaviour
                 throw new System.NotImplementedException("Building placed, NYI!");
             }
         }
-    }
+    }*/
     void HandleRotation()
     {
         if (Input.GetKeyDown(KeyCode.Q) || (Input.GetKey(KeyCode.LeftShift) && Input.mouseScrollDelta.y < 0))

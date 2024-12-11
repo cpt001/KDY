@@ -298,7 +298,7 @@ public class SelectMachinery : MonoBehaviour
                 {   
                     //Switch case depending on what UI is active
                     case 1: { conveyanceSelection = ConveySelection.Monorail; structureSetup.Co_SetMonorail(); break; }
-                    case 2: { refineSelection = RefineSelection.Loom; structureSetup.R_SetLoom(); break; }
+                    case 2: { refineSelection = RefineSelection.Loom; structureSetup.R_SetSpinner(); break; }
                     case 3: { machiningSelection = MachiningSelection.Lathe; structureSetup.M_SetLathe(); break; }
                     case 4: { advancedSelection = AdvancedSelection.RivetingInnit; structureSetup.A_SetRivetingMachine(); break; }
                     case 6: { finalizingSelection = FinalizingSelection.StagingAssArea; structureSetup.F_SetStagingAssemblyArea(); break; }

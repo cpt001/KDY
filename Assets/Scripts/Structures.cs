@@ -18,7 +18,6 @@ public class Structures : MonoBehaviour
 
     #region Conveyance
     [Header("Conveyance Prefabs")]
-    [SerializeField] private GameObject conveyorStart;
     [SerializeField] private GameObject splitter;
     [SerializeField] private GameObject inserter;
     [SerializeField] private GameObject craneTrack;
@@ -43,14 +42,14 @@ public class Structures : MonoBehaviour
     [SerializeField] private GameObject arcFurnace;
     [SerializeField] private GameObject crusher;
     [SerializeField] private GameObject furnace;
-    [SerializeField] private GameObject loom;
+    [SerializeField] private GameObject spinner;
     [SerializeField] private GameObject washer;
     [SerializeField] private GameObject wiringLoom;
     public void R_SetAcidBath() { gridCheck.buildingGhost = acidBath; }
     public void R_SetArcFurnace() { gridCheck.buildingGhost = arcFurnace; }
     public void R_SetCrusher() { gridCheck.buildingGhost = crusher; }//Debug.Log(""); }
     public void R_SetFurnace() { gridCheck.buildingGhost = furnace; }
-    public void R_SetLoom() { gridCheck.buildingGhost = loom; }
+    public void R_SetSpinner() { gridCheck.buildingGhost = spinner; }
     public void R_SetWasher() { gridCheck.buildingGhost = washer; }
     public void R_SetWiringLoom() { gridCheck.buildingGhost = wiringLoom; }
     #endregion

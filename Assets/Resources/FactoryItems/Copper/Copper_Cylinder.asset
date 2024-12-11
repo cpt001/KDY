@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cc93331e9d78834392e6618f7c1427e, type: 3}
   m_Name: Copper_Cylinder
   m_EditorClassIdentifier: 
-  _guid: 
-  resourcesPath: 
+  _guid: 15a504150d399eb4d82761c74fb9b253
+  resourcesPath: FactoryItems/Copper/Copper_Cylinder
   icon: {fileID: 0}
   prefab: {fileID: 0}
   itemData:

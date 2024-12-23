@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="FactoryFramework.uss" />
-    <ui:Slider picking-mode="Ignore" label="Seconds to Create" value="42" high-value="100" binding-path="tickCost" low-value="0.1" show-input-field="true" direction="Horizontal" />
+    <Style src="project://database/Assets/FactoryFramework/Editor/FactoryFramework.uss?fileID=7433441132597879392&amp;guid=e4c029c2a4966704ab7c51cb0cf834d1&amp;type=3#FactoryFramework" />
+    <ui:Slider picking-mode="Ignore" label="Seconds to Create" value="42" high-value="100" binding-path="secondsToProduce" low-value="0.0001" show-input-field="true" direction="Horizontal" />
     <ui:VisualElement style="flex-grow: 1;">
         <ui:VisualElement class="input-items-container">
             <ui:Label text="Recipe Inputs" display-tooltip-when-elided="true" class="center-title" />

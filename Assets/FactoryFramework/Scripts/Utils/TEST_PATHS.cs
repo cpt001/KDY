@@ -5,16 +5,16 @@ using UnityEngine;
 namespace FactoryFramework {
     public class TEST_PATHS : MonoBehaviour
     {
-        public SmartPath smartPath;
-        public SmartPathStruct smartPathStruct;
+        //public SmartPath smartPath;
+        //public SmartPathStruct smartPathStruct;
 
-        public SegmentPath segmentPath;
-        public SegmentPathStruct segmentPathStruct;
+        //public SegmentPath segmentPath;
+        //public SegmentPathStruct segmentPathStruct;
 
-        public ArcPath arcPath;
-        public ArcPathStruct arcPathStruct;
+        //public ArcPath arcPath;
+        //public ArcPathStruct arcPathStruct;
 
-        public CubicBezierPath cbPath;
-        public CubicBezierPathStruct cbPathStruct;
+        //public CubicBezierPath cbPath;
+        //public CubicBezierPathStruct cbPathStruct;
     } 
 }

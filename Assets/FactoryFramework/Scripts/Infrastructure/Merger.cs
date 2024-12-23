@@ -1,122 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FactoryFramework
 {
-    public class Merger : Building, IOutput, IInput
+    public class Merger : LogisticComponent
     {
         [SerializeField] private int inputIndex = 0; // modulo this number by inputSockets.Length
 
-        IInput GetOutputConnection(int outIdx = 0)
-        {
-            IInput iin = outputSockets[outIdx].inputConnection?._logisticComponent as IInput;
-            return iin ?? null;
-        }
+        private Item _internalItem;
+        public override Item OutputItem => _internalItem;
 
-        IOutput GetInputConnection(int inIdx)
+        public override void TransferItems()
         {
-            IOutput iout = inputSockets[inIdx].outputConnection?._logisticComponent as IOutput;
-            return iout ?? null;
-        }
+            // early bail if bad setup
+            if (Inputs.All(o => o == null)) return;
+            if (Outputs.All(o => o == null)) return;
 
-        /// <summary>
-        /// Check if input and output streams are ready to go
-        /// </summary>
-        /// <param name="filter">Not Implemented</param>
-        /// <returns>If any input stream can produce output right now</returns>
-        public bool CanGiveOutput(Item filter = null)
-        {
-            // check if the connected output is ready to accept more input
-            if (!CanTakeInput(filter)) return false;
-            // Not Implemented
-            if (filter != null) Debug.LogWarning("Merger does not Implement Item Filter Output");
-            // return true if any input can give
-            for (int i =0; i < inputSockets.Length; i++)
+            // handle outgoing item
+            if (OutputItem != null)
             {
-                IOutput iout = GetInputConnection(i);
-                if (iout == null) continue;
-                if (iout.CanGiveOutput())
-                    return true;
+                if (Outputs.Length != 1) throw new System.Exception("Merger can only have one output");
+                if (Outputs[0].CanRecieveItem(OutputItem))
+                {
+                    Item item = OutputItem;
+                    TransferItem(Outputs[0]);
+                    Outputs[0].RecieveItem(item);
+                }
             }
-            return false;
-        }
-        // output type doesn't really matter
-        public Item OutputType() {
-            IOutput iout = GetInputConnection(inputIndex);
-            return iout?.OutputType() ?? null;
-        }
-
-        /// <summary>
-        /// Take the output from the next available input and give to the output stream.
-        /// </summary>
-        /// <param name="filter">Not Implemented</param>
-        /// <returns></returns>
-        public Item GiveOutput(Item filter = null)
-        {
-            throw new System.NotImplementedException("Splitters and Mergers have Special Handling");
-        }
-
-        /// <summary>
-        /// Find which next input stream ready to give output
-        /// </summary>
-        void GoToNextAvilable()
-        {
-            for (int a = 0; a < inputSockets.Length; a++)
+            
+            // now try to accept incoming if output was successful
+            if (OutputItem != null) return;
+            for (int i = 0; i < Inputs.Length; i++)
             {
-                // loop through until we find the inputSockets ready for output
-                inputIndex = (inputIndex + 1) % inputSockets.Length;
-
-                IOutput iout = GetInputConnection(inputIndex);
-                if (iout == null) continue;
-                // if this iout is ready to give output then we are done
-                if (iout.CanGiveOutput())
+                var input = Inputs[(i + inputIndex) % Inputs.Length];
+                if (input == null) continue;
+                if (input.OutputItem == null) continue;
+                if (CanRecieveItem(input.OutputItem))
+                {
+                    Item incoming = input.OutputItem;
+                    RecieveItem(incoming);
+                    input.TransferItem(this);
+                    inputIndex = (inputIndex + i + 1) % Inputs.Length;
                     return;
+                }
             }
         }
 
-        
-
-        public override void ProcessLoop()
+        public override bool TransferItem(LogisticComponent output)
         {
-            base.ProcessLoop();
-
-            // only continue if we're ready to take input from one of the outputs and the output is ready to recieve
-            if (!CanTakeInput(null) || !CanGiveOutput(null)) return;
-
-            GoToNextAvilable();
-
-            IOutput iout = GetInputConnection(inputIndex);
-            IInput iin = GetOutputConnection(0);
-
-            iin.TakeInput(iout.GiveOutput());
+            _internalItem = null;
+            return true;
         }
-
-        public void TakeInput(Item item)
+        public override bool CanRecieveItem(Item item)
         {
-            throw new System.NotImplementedException("Splitters and Mergers have Special Handling");
+            return _internalItem == null;
         }
-
-        public bool CanTakeInput(Item item)
+        public override bool RecieveItem(Item item)
         {
-            IInput iin = GetOutputConnection(0);
-            if (iin == null) return false;
-            return iin.CanTakeInput(item);
-        }
-
-        private void OnDrawGizmos()
-        {
-            // doesnt matter item type
-            if (CanGiveOutput())
-            {
-                Gizmos.color = Color.green;
-            }
-            else
-            {
-                Gizmos.color = Color.red;
-            }
-            Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawWireCube(Vector3.zero, Vector3.one * 1f);
+            _internalItem = item;
+            return true;
         }
     }
 }

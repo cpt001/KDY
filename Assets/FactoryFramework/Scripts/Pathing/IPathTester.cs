@@ -28,8 +28,8 @@ namespace FactoryFramework
 
         public void GenerateMesh()
         {
-            frameFilter.mesh = BeltMeshGenerator.Generate(p, frameBM, ConveyorLogisticsUtils.settings.BELT_SEGMENTS_PER_UNIT * p.GetTotalLength(), 0.251f);
-            beltFilter.mesh = BeltMeshGenerator.Generate(p, beltBM, ConveyorLogisticsUtils.settings.BELT_SEGMENTS_PER_UNIT * p.GetTotalLength(), 0.25f, 1f, true);
+            frameFilter.mesh = BeltMeshGenerator.Generate(p, frameBM, ConveyorLogisticsUtils.settings.BELT_SEGMENTS_PER_UNIT * p.TotalLength, 0.251f);
+            beltFilter.mesh = BeltMeshGenerator.Generate(p, beltBM, ConveyorLogisticsUtils.settings.BELT_SEGMENTS_PER_UNIT * p.TotalLength, 0.25f, 1f, true);
         }
     }
 }

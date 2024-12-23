@@ -1,3 +1,15 @@
+V2.0.1 InputSystem Hotfix
+* Removed demo scene useage of InputSystem since it caused poor user experience when first importing the project
+
+V2.0.0 Major 2024 Updates
+* New Path systems for Conveyor Belts
+* Paths now take multiple control points
+* New Conveyor Belt System
+* Better Jobs support
+* New logistic component Graph-based connections
+* New Building System
+* Slimmed-down PowerGrid objects
+* Better discord visibility
 
 V1.4.8 Vertical Arc Fixes
 * Fixed some issues affecting smartpath when the start and end were in line but had a vertical offset

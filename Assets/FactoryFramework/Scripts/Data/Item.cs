@@ -103,6 +103,16 @@ namespace FactoryFramework
         /// <summary>Boolean check if the current amount is greater or equal to the max amount</summary>
         /// <returns>Boolean is there room to add items to the stack</returns>
         public bool IsFull { get { return item != null && amount >= item.itemData.maxStack; } }
+
+        public void Remove(int amount)
+        {
+            this.amount -= amount;
+            if (this.amount <= 0)
+            {
+                this.amount = 0;
+                this.item = null;
+            }
+        }
     }
 
     [System.Serializable]
@@ -132,11 +142,16 @@ namespace FactoryFramework
         /// </summary>
         public Transform model;
         /// <summary>
-        /// Calculate the space that should be taken up by this item using the 
-        /// global BELT_SPACING setting.
+        /// reverse-index of items on a belt. queuIndex 0 is the first item ready to be picked up.
         /// </summary>
-        public float EndPos { get { return position - ConveyorLogisticsUtils.settings.BELT_SPACING; } }
+        public int queueIndex;
     }
-
+    [System.Serializable]
+    public class SerializedItemOnBelt
+    {
+        public string itemResourcePath;
+        public float position;
+        public int queueIndex;
+    }
 
 }

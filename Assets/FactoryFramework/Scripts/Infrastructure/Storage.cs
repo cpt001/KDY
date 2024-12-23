@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FactoryFramework
 {
-    public class Storage : Building, IInput, IOutput
+    public class Storage : LogisticComponent
     {
         [Min(1)]
         public int capacity;
@@ -15,7 +15,9 @@ namespace FactoryFramework
             storage = new ItemStack[capacity];
         }
 
-        public bool CanTakeInput(Item item)
+
+
+        public override bool CanRecieveItem(Item item)
         {
             if (item == null) return false;
             foreach (ItemStack stack in storage)
@@ -25,7 +27,7 @@ namespace FactoryFramework
             }
             return false;
         }
-        public void TakeInput(Item item)
+        public override bool RecieveItem(Item item)
         {
             for (int s = 0; s < storage.Length; s++)
             {
@@ -34,49 +36,42 @@ namespace FactoryFramework
                 {
                     stack.amount += 1;
                     storage[s] = stack;
-                    return;
+                    return true;
                 }
                 if (stack.item == null || stack.amount == 0)
                 {
                     stack.item = item;
                     stack.amount = 1;
                     storage[s] = stack;
-                    return;
+                    return true;
                 }
-            }
-        }
-
-        public bool CanGiveOutput(Item filter = null)
-        {
-            foreach (ItemStack stack in storage)
-            {
-                if ((filter != null && stack.item == filter || stack.item != null) && stack.amount > 0) return true;
             }
             return false;
         }
-        public Item OutputType()
-        {
-            foreach (ItemStack stack in storage)
-            {
-                if (stack.item == null && stack.amount > 0) return stack.item;
-            }
-            return null;
+        public override Item OutputItem {
+            get{
+                foreach (ItemStack stack in storage)
+                {
+                    if (stack.item != null && stack.amount > 0) return stack.item;
+                }
+                return null;
+            } 
         }
-        public Item GiveOutput(Item filter = null)
+        
+        public override bool TransferItem(LogisticComponent output)
         {
             for (int s = 0; s < storage.Length; s++)
             {
                 ItemStack stack = storage[s];
                 if (stack.item == null) continue;
-                if ((filter != null && stack.item == filter || stack.item != null) && stack.amount > 0)
+                if ( stack.amount > 0)
                 {
-                    stack.amount -= 1;
-                    Item item = stack.item;
+                    stack.Remove(1);
                     storage[s] = stack;
-                    return item;
+                    return true;
                 }
             }
-            return null;
+            return false;
         }
     }
 }

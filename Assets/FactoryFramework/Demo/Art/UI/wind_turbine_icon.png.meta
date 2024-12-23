@@ -121,3 +121,10 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218051
+  packageName: Factory Framework
+  packageVersion: 2.0.1
+  assetPath: Assets/FactoryFramework/Demo/Art/UI/wind_turbine_icon.png
+  uploadId: 690700

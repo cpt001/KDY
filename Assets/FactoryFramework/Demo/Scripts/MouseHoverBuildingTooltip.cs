@@ -35,8 +35,8 @@ public class MouseHoverBuildingTooltip : MouseHoverTooltip
 
         if (TryGetComponent(out Producer producer))
         {
-            if (producer.resource.itemStack.item == null) return "";
-            return $"{gameObject.name} producing {producer.resource.itemStack.amount} {producer.resource.itemStack.item.name}";
+            if (producer.internalStorage.itemStack.item == null) return "";
+            return $"{gameObject.name} producing {producer.internalStorage.itemStack.amount} {producer.internalStorage.itemStack.item.name}";
         }
         if (TryGetComponent(out Processor proc))
         {

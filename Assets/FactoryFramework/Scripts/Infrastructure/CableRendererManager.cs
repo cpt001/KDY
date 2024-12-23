@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace FactoryFramework
@@ -84,6 +85,18 @@ namespace FactoryFramework
                 _cables.Remove((A, B));
             }
             
+        }
+
+        public void RemoveCablesWith(PowerGridComponent obj)
+        {
+            foreach (var Key in _cables.Keys.ToArray())
+            {
+                if (Key.Item1 == obj || Key.Item2 == obj)
+                {
+                    Destroy(_cables[Key].gameObject);
+                    _cables.Remove(Key);
+                }
+            }
         }
 
         /// <summary>

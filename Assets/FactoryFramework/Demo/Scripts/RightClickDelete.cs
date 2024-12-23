@@ -5,9 +5,20 @@ using UnityEngine;
 
 public class RightClickDelete : MonoBehaviour
 {
+    private BuildingPlacement buildingPlacement;
+    private ConveyorPlacement conveyorPlacement;
+
+    private void Awake()
+    {
+        buildingPlacement = FindObjectOfType<BuildingPlacement>();
+        conveyorPlacement = FindObjectOfType<ConveyorPlacement>();
+    }
+
     // Update is called once per frame
     void Update()
-    {       
+    {
+        if (buildingPlacement.IsPlacing || conveyorPlacement.IsCreatingPath)
+            return;
         // right click to delete
         if (Input.GetMouseButtonDown(1))
         {
@@ -15,21 +26,10 @@ public class RightClickDelete : MonoBehaviour
             foreach (RaycastHit hit in Physics.RaycastAll(ray, 100f))
             {
                 // after we delete something just return so we dont delete multiple
-                if (hit.collider.transform.root.TryGetComponent<Conveyor>(out Conveyor conveyor))
+                if (hit.collider.transform.root.TryGetComponent(out LogisticComponent lc))
                 {
-                    conveyor.Disconnect();
-                    Destroy(conveyor.gameObject);
-                    return;
-                }
-
-                if (hit.collider.gameObject.TryGetComponent<Building>(out Building building))
-                {
-                    foreach (Socket socket in building.gameObject.GetComponentsInChildren<Socket>())
-                    {
-                        //remove this from sockets
-                        socket.Disconnect();
-                    }
-                    Destroy(building.gameObject);
+                    lc.DisconnectAll();
+                    Destroy(lc.gameObject);
                     return;
                 }
 

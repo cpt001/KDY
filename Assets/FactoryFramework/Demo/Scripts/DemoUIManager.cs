@@ -19,13 +19,13 @@ public class DemoUIManager : MonoBehaviour
     [SerializeField] private VisualTreeAsset resourceTreeAsset;
 
     private BuildingPlacement _buildingPlacement;
-    private GridConveyor _conveyorPlacement;
+    private ConveyorPlacement _conveyorPlacement;
     private CableManagement _cablePlacement;
 
     private void Start()
     {
         _buildingPlacement = FindObjectOfType<BuildingPlacement>();
-        _conveyorPlacement = FindObjectOfType<GridConveyor>();
+        _conveyorPlacement = FindObjectOfType<ConveyorPlacement>(true);
         _cablePlacement = FindObjectOfType<CableManagement>();
 
         _doc = GetComponent<UIDocument>();
@@ -57,9 +57,9 @@ public class DemoUIManager : MonoBehaviour
                     // the only null in our demo scene is the cable
                     _cablePlacement.BeginConnectionProcess();
                 }
-                else if (def.prefab.TryGetComponent(out Conveyor _))
+                else if (def.prefab.TryGetComponent(out ConveyorBelt _))
                 {
-                    _conveyorPlacement.StartPlacingConveyor();
+                    _conveyorPlacement.enabled = true;
                 } 
                 else if (def.prefab.TryGetComponent(out Producer _))
                 {

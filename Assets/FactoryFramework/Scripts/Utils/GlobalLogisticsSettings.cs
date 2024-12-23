@@ -14,8 +14,6 @@ namespace FactoryFramework
     // new type of settings object
     public class GlobalLogisticsSettings : ScriptableObject
     {
-        public const string conveyorLogisticsSetttingsPath = "Assets/FactoryFramework/Resources/Settings/ConveyorLogisticsSettings.asset";
-
         //Scale of the belt mesh
         public float BELT_SCALE = 0.35f;
         //Spacing between items on belts
@@ -33,7 +31,7 @@ namespace FactoryFramework
         public bool SHOW_DEBUG_LOGS = false;
 
         //Solver types
-        public enum PathSolveType {SMART, SPLINE, SEGMENT };
+        public enum PathSolveType {SMART, SPLINE };
         //Current solver type
         public PathSolveType PATHTYPE = PathSolveType.SMART;
 
@@ -44,12 +42,18 @@ namespace FactoryFramework
         public float CABLE_DROOP = 0.25f;
         public float CABLE_THICKNESS = 0.15f;
 
+        // default MeshSOs
+        public BeltMeshSO BELT_MESH_SO;
+        public BeltMeshSO FRAME_MESH_SO;
+
         public static GlobalLogisticsSettings instance;
         internal static GlobalLogisticsSettings GetOrCreateSettings()
         {
 #if UNITY_EDITOR
-            string path = FileUtil.GetProjectRelativePath(conveyorLogisticsSetttingsPath);
-            GlobalLogisticsSettings settings = AssetDatabase.LoadAssetAtPath<GlobalLogisticsSettings>(conveyorLogisticsSetttingsPath);
+            GlobalLogisticsSettings settings = AssetDatabase.FindAssets("t:GlobalLogisticsSettings")
+                .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
+                .Select(path => AssetDatabase.LoadAssetAtPath<GlobalLogisticsSettings>(path))
+                .FirstOrDefault();
             if (settings == null)
             {
                 settings = ScriptableObject.CreateInstance<GlobalLogisticsSettings>();
@@ -60,8 +64,8 @@ namespace FactoryFramework
                 settings.BELT_VERTICAL_TOLERANCE = 0.1f;
                 settings.PATHTYPE = PathSolveType.SMART;
                 settings.SHOW_DEBUG_LOGS = false;
-                Directory.CreateDirectory(Path.GetDirectoryName(conveyorLogisticsSetttingsPath));
-                AssetDatabase.CreateAsset(settings, conveyorLogisticsSetttingsPath);
+                Directory.CreateDirectory(Application.dataPath + "/FactoryFramework/Resources");
+                AssetDatabase.CreateAsset(settings, "/FactoryFramework/Resources");
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
@@ -121,8 +125,26 @@ namespace FactoryFramework
                     properties.Add(new PropertyField(settings.FindProperty("BELT_TURN_RADIUS"), "Turn radius for belts"));
                     properties.Add(new PropertyField(settings.FindProperty("BELT_RAMP_RADIUS"), "Vertical turn radius for SmartPath belts"));
                     properties.Add(new PropertyField(settings.FindProperty("BELT_VERTICAL_TOLERANCE"), "SmartPath vertical tolerance"));
-                    properties.Add(new PropertyField(settings.FindProperty("PATHTYPE"), "Solver type for paths"));
                     properties.Add(new PropertyField(settings.FindProperty("SHOW_DEBUG_LOGS"), "Show Extra Debug Logs"));
+                    properties.Add(new PropertyField(settings.FindProperty("PATHTYPE"), "Solver type for paths"));
+                    properties.Add(new PropertyField(settings.FindProperty("DRAW_CABLES_FOR_AOE"), "Draw cables for AOE"));
+                    properties.Add(new PropertyField(settings.FindProperty("CABLE_MATERIAL"), "Cable Material"));
+                    properties.Add(new PropertyField(settings.FindProperty("CABLE_RESOLUTION"), "Cable Resolution"));
+                    properties.Add(new PropertyField(settings.FindProperty("CABLE_DROOP"), "Cable Droop"));
+                    properties.Add(new PropertyField(settings.FindProperty("CABLE_THICKNESS"), "Cable Thickness"));
+                    properties.Add(new PropertyField(settings.FindProperty("BELT_MESH_SO"), "Default Belt MeshSO"));
+                    properties.Add(new PropertyField(settings.FindProperty("FRAME_MESH_SO"), "Default Frame MeshSO"));
+
+                    var DISCORD_LINK = "https://discord.gg/9tnKg9XPpV";
+                    var button = new Button(() => Application.OpenURL(DISCORD_LINK))
+                    {
+                        text = "FactoryFramework Discord"
+                    };
+                    // new hex color #5865F2
+                    button.style.marginTop = 10;
+                    button.style.fontSize = 14;
+                    button.style.backgroundColor = new Color(0.345f, 0.396f, 0.949f);
+                    properties.Add(button);
 
                     rootElement.Bind(settings);
                 },

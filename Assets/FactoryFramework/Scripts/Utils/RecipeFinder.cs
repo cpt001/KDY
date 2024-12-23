@@ -10,6 +10,7 @@ namespace FactoryFramework {
         {
             get
             {
+                // if Addressables is installed try to load recipes from there
                 if (_recipes == null)
                 {
                     _recipes = Resources.LoadAll<Recipe>("");
@@ -29,17 +30,15 @@ namespace FactoryFramework {
 
             // find recipes that match the given inputs and outputs
             Recipe[] recipes = Recipes.Where(r => r.InputItems.All(i=>inputs.Contains(i)) && (numOutputs == -1 || r.OutputItems.Length == numOutputs)).ToArray();
-
             // filter recipes
-            if (whitelist != null)
+            if (whitelist != null && whitelist.Length>0)
             {
                 recipes = recipes.Where(r => whitelist.Contains(r)).ToArray();
             }
-            if (blacklist != null)
+            if (blacklist != null && blacklist.Length>0)
             {
                 recipes = recipes.Where(r => !blacklist.Contains(r)).ToArray();
             }
-
             return recipes;
         }
 

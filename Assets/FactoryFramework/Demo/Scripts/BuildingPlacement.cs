@@ -11,7 +11,7 @@ public class BuildingPlacement : MonoBehaviour
     public VoidEventChannel_SO finishPlacementEvent;
     public VoidEventChannel_SO cancelPlacementEvent;
     
-    [Header("Building Prefabs")]
+    [Header("LogisticComponent Prefabs")]
     public GameObject Miner;
     public GameObject Processor;
     public GameObject Factory;
@@ -21,7 +21,7 @@ public class BuildingPlacement : MonoBehaviour
     public GameObject Assembler;
     private GameObject current;
 
-    [Header("Visual Feedback Building Materials")]
+    [Header("Visual Feedback LogisticComponent Materials")]
     public Material originalMaterial;
     public Material greenPlacementMaterial;
     public Material redPlacementMaterial;
@@ -39,11 +39,12 @@ public class BuildingPlacement : MonoBehaviour
     private enum State
     {
         None,
-        PlaceBuilding,
-        RotateBuilding
+        PlaceLogisticComponent,
+        RotateLogisticComponent
     }
     private State state;
     private bool RequiresResourceDepoist = false;
+    public bool IsPlacing => state != State.None;
 
     // building placement variables to track
     private Vector3 mouseDownPos;
@@ -87,13 +88,13 @@ public class BuildingPlacement : MonoBehaviour
         cancelPlacementEvent?.Raise();
         RequiresResourceDepoist = requireDeposit;
         // spawn a prefab and start placement
-        if (!TryChangeState(State.PlaceBuilding))
+        if (!TryChangeState(State.PlaceLogisticComponent))
             return;
         
         current = Instantiate(prefab);
         current.name = prefab.name;
         // don't let building "work" until placement is finished
-        if (current.TryGetComponent(out Building b))
+        if (current.TryGetComponent(out LogisticComponent b))
         {
             b.enabled = false;
         }
@@ -122,8 +123,9 @@ public class BuildingPlacement : MonoBehaviour
         
         return;
     }
-    private void HandlePlaceBuildingState()
+    private void HandlePlaceLogisticComponentState()
     {
+        if (current == null) return;
         // move building with mouse pos
         Vector3 groundPos = transform.position;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -144,12 +146,12 @@ public class BuildingPlacement : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && valid)
         {
             // try to change state to rotate the building
-            if (TryChangeState(State.RotateBuilding))
+            if (TryChangeState(State.RotateLogisticComponent))
                 mouseDownPos = groundPos;
         }
 
     }
-    private void HandleRotateBuildingState()
+    private void HandleRotateLogisticComponentState()
     {
         // wait for mouse to be held for X seconds until building rotation is allowed
         // this prevents quick clicks resulting in seemingly random building rotations
@@ -185,7 +187,7 @@ public class BuildingPlacement : MonoBehaviour
             bool onResourceDeposit = false;
             foreach (Collider c in Physics.OverlapBox(col.transform.TransformPoint(col.center), col.size/2f, col.transform.rotation))
             {
-                if (c.tag == "Building" && c.gameObject != current.gameObject)
+                if (c.TryGetComponent(out LogisticComponent lc) && c.gameObject != current.gameObject)
                 {
                     // colliding something!
                     if (ConveyorLogisticsUtils.settings.SHOW_DEBUG_LOGS)
@@ -194,22 +196,20 @@ public class BuildingPlacement : MonoBehaviour
                     return false;
                 }
                 // check for resources
-                if (c.tag == "Resources")
+                if (c.TryGetComponent(out Resource r))
                 {
                     onResourceDeposit = true;
-
-                    if (c.TryGetComponent(out Resource r))
+                    
+                    if (current.TryGetComponent(out Producer p))
                     {
-                        if (current.TryGetComponent(out Producer p))
-                        {
-                            if (p.validItems.Count() > 0 && !p.validItems.Contains(r.item)){
-                                if (ConveyorLogisticsUtils.settings.SHOW_DEBUG_LOGS)
-                                    Debug.LogWarning($"Invalid placement: {current.gameObject.name} is not allowed to mine {r.item.name}");
-                                ChangeMatrerial(redPlacementMaterial);
-                                return false;
-                            }
+                        if (p.validItems.Count() > 0 && !p.validItems.Contains(r.item)){
+                            if (ConveyorLogisticsUtils.settings.SHOW_DEBUG_LOGS)
+                                Debug.LogWarning($"Invalid placement: {current.gameObject.name} is not allowed to mine {r.item.name}");
+                            ChangeMatrerial(redPlacementMaterial);
+                            return false;
                         }
                     }
+                    
                 }
             }
             if (RequiresResourceDepoist)
@@ -239,7 +239,7 @@ public class BuildingPlacement : MonoBehaviour
 
     private bool TryChangeState(State desiredState)
     {
-        if (desiredState == State.PlaceBuilding)
+        if (desiredState == State.PlaceLogisticComponent)
         {
             if (state != State.None || current != null)
             {
@@ -254,7 +254,7 @@ public class BuildingPlacement : MonoBehaviour
             startPlacementEvent?.Raise();
             return true;
         }
-        if (desiredState == State.RotateBuilding)
+        if (desiredState == State.RotateLogisticComponent)
         {
             this.state = desiredState;
             return true;
@@ -274,7 +274,7 @@ public class BuildingPlacement : MonoBehaviour
                 // finish placing building and enable it
                 this.state = desiredState;
                 ChangeMatrerial(originalMaterial);
-                if (current.TryGetComponent(out Building b))
+                if (current.TryGetComponent(out LogisticComponent b))
                 {
                     b.enabled = true;
                 }
@@ -291,6 +291,19 @@ public class BuildingPlacement : MonoBehaviour
                     foreach (var aoe in aoePowerConnections)
                         aoe.Connect();
                 }
+
+                // add Resource for miner
+                if (current.TryGetComponent(out Producer p))
+                {
+                    foreach (Collider c in Physics.OverlapBox(current.GetComponent<BoxCollider>().transform.TransformPoint(current.GetComponent<BoxCollider>().center), current.GetComponent<BoxCollider>().size/2f, current.GetComponent<BoxCollider>().transform.rotation))
+                    {
+                        if (c.TryGetComponent(out Resource r))
+                        {
+                            p.SetResource(r.item);
+                        }
+                    }
+                }
+
                 current = null;
                 // trigger event
                 finishPlacementEvent?.Raise();
@@ -298,7 +311,8 @@ public class BuildingPlacement : MonoBehaviour
             }
             else
             {
-                this.state = State.PlaceBuilding;
+                Debug.Log("invalid");
+                this.state = State.PlaceLogisticComponent;
                 mouseHeldTime = 0f;
                 return false;
             }
@@ -317,18 +331,19 @@ public class BuildingPlacement : MonoBehaviour
             }
             current = null;
             state = State.None;
+            return;
         }
 
         switch (state)
         {
-            case State.RotateBuilding:
-                HandleRotateBuildingState();
+            case State.RotateLogisticComponent:
+                HandleRotateLogisticComponentState();
                 break;
             case State.None:
                 HandleIdleState();
                 break;
-            case State.PlaceBuilding:
-                HandlePlaceBuildingState();
+            case State.PlaceLogisticComponent:
+                HandlePlaceLogisticComponentState();
                 break;
         }
 

@@ -5,23 +5,80 @@ using UnityEngine;
 
 namespace FactoryFramework
 {
-    public class Processor : Building, IInput, IOutput
+    public class Processor : LogisticComponent
     {
         [Tooltip("Active Recipe")]
         public Recipe recipe;
-
-        [Tooltip("How many different ingredients go into this machine")]
-        public int numInputs;
-        [Tooltip("How many different products come out of this machine")]
-        public int numOutputs;
+        public float RecipeStartTime { get; private set; }
 
         public Recipe[] validRecipes;
         public Recipe[] invalidRecipes;
 
-        private Dictionary<Item, int> _inputs = new Dictionary<Item, int>();
-        private Dictionary<Item, int> _outputs = new Dictionary<Item, int>();
+        public LocalStorage[] inputItems;
+        public LocalStorage[] outputItems;
 
-        private IEnumerator _currentRoutine;
+        private Coroutine _currRoutine;
+
+        #region Overrides
+        public override Item OutputItem
+        {
+            get
+            {
+                var output = outputItems.Where(o => o.ItemType != null).FirstOrDefault();
+                if (output != null)
+                    return output.ItemType;
+                return null;
+            }
+        }
+        public override bool CanRecieveItem(Item item)
+        {
+            // check if this is a valid item to recieve            
+            if (recipe != null)
+            {
+                var validItems = inputItems.Select(x => x.ItemType).Union(recipe?.InputItems);
+                if (!validItems.Contains(item))
+                {
+                    Debug.LogWarning($"Invalid item type for this processor with this recipe {recipe.name}");
+                    return false;
+                }
+            }
+            // find a stack with this item and make sure it isnt full
+            var matchingStack = inputItems.Where(i => i.ItemType == item).FirstOrDefault();
+            if (matchingStack != null)
+            {
+                if (matchingStack.IsFull)
+                    return false;
+                return true;
+            }
+            // check for empty stacks
+            return inputItems.Any(i => (i.ItemType == null));
+        }
+        public override bool RecieveItem(Item item)
+        {
+            var matchingStack = inputItems.Where(i => i.ItemType == item && !i.IsFull).FirstOrDefault();
+            if (matchingStack != null)
+            {
+                matchingStack.Add(item);
+                return true;
+            }
+            var emptyStack = inputItems.Where(i => i.ItemType == null).FirstOrDefault();
+            if (emptyStack != null)
+            {
+                emptyStack.Add(item);
+                return true;
+            }
+            return false;
+        }
+        public override bool TransferItem(LogisticComponent output)
+        {
+            var matchingOutput = outputItems.Where(o => o.ItemType != null && o.itemStack.amount>0).FirstOrDefault();
+            if (matchingOutput != null)
+            {
+                matchingOutput.Remove();
+            }
+            return false;
+        }
+        #endregion
 
         #region Lifecycle
         private void OnEnable()
@@ -31,52 +88,135 @@ namespace FactoryFramework
         }
         private void OnDisable()
         {
-            CancelWork();
-        }
-        private void CancelWork()
-        {
-            if (_currentRoutine != null) StopCoroutine(_currentRoutine);
+            IsWorking = false;
+            StopAllCoroutines();
+            _currRoutine = null;
         }
         #endregion
 
         #region Workload
-        public override void ProcessLoop()
+        private bool MissingIngredients()
         {
-            
-            if (CanStartProduction())
+            var inputItemTypes = inputItems.Select(i => i.ItemType);
+            // if the recipe input items are not all present in the inputItems
+            if (recipe.InputItems.Intersect(inputItemTypes).Count() != recipe.InputItems.Count())
             {
-                _currentRoutine = Process();
-                StartCoroutine(_currentRoutine);
+                return true;
+            }
+            return false;
+        }
+        private int CalculateMaxProduction()
+        {
+            int maxProduced = int.MaxValue;
+            foreach (var ingredient in recipe.inputs)
+            {
+                var matchingInput = inputItems.Where(i => i.ItemType == ingredient.item).FirstOrDefault();
+                if (matchingInput != null)
+                {
+                    maxProduced = Mathf.Min(maxProduced, matchingInput.itemStack.amount / ingredient.amount);
+                } else return 0;
+            }
+            // check max output capacity
+            foreach (var output in recipe.OutputItems)
+            {
+                var matchingOutput = outputItems.Where(o => o.ItemType == output).FirstOrDefault();
+                if (matchingOutput != null)
+                {
+                    if (matchingOutput.IsFull) return 0;
+                    if (matchingOutput.overrideMaxStack)
+                        maxProduced = Mathf.Min(maxProduced, matchingOutput.overrideMaxStackNum - matchingOutput.itemStack.amount);
+                    else
+                        maxProduced = Mathf.Min(maxProduced, output.itemData.maxStack - matchingOutput.itemStack.amount);
+                } else if (outputItems.Where(o => o.ItemType == null).Count() == 0) return 0;
+            }
+
+            return maxProduced;
+        }
+        private void ConsumeInputsForNProduction(int n)
+        {
+            foreach (var ingredient in recipe.inputs)
+            {
+                var matchingInput = inputItems.Where(i => i.ItemType == ingredient.item).FirstOrDefault();
+                if (matchingInput != null)
+                {
+                    matchingInput.Remove(ingredient.amount * n);
+                } else throw new System.Exception("Missing input item when consuming");
             }
         }
-
-        IEnumerator Process()
+        private void AddNProduction(int n)
+        {
+            foreach (var output in recipe.OutputItems)
+            {
+                var matchingOutput = outputItems.Where(o => o.ItemType == output).FirstOrDefault();
+                if (matchingOutput != null)
+                {
+                    matchingOutput.Add(output, n);
+                }
+                else
+                {
+                    var empty = outputItems.Where(o => o.ItemType == null).FirstOrDefault();
+                    if (empty != null)
+                    {
+                        empty.Add(output, n);
+                    } else throw new System.Exception("No empty output slots to add production");
+                }
+            }
+        }
+        private IEnumerator CreateOutput(float startTime)
         {
             IsWorking = true;
-            ConsumeInputIngredients();
-            float _t = 0f;
-            while (_t < recipe.tickCost)
+            // FIXME use start startTime so we can pick up where we left off
+            float t = 0f; // recipe.secondsToProduce - startTime;
+            while (t < recipe.secondsToProduce)
             {
-                //FIXME custom tick?
-                _t += Time.deltaTime * this.PowerEfficiency;
+                t += Time.deltaTime;
+                RecipeStartTime = -t;
                 yield return null;
             }
-            CreateOutputProducts();
-            // do we need to un-assign the current recipe? Check if we can make any more
-            bool needsReset = !recipe.InputItems.All(i => _inputs.ContainsKey(i));
-            if (needsReset)
+            var amountToProduce = Mathf.RoundToInt(this.PowerEfficiency * (t / recipe.secondsToProduce));
+            if (amountToProduce > 0)
             {
-                AssignRecipe(null, false);
+                int maxProduction = Mathf.Min(amountToProduce, CalculateMaxProduction());
+
+                ConsumeInputsForNProduction(maxProduction);
+                AddNProduction(maxProduction);
+
+                RecipeStartTime = Time.time;
             }
-            _currentRoutine = null;
-            IsWorking = false;
+            _currRoutine = null;
+
+        }
+        public override void ProcessLoop()
+        {
+            if (_currRoutine != null) return;
+
+            if (recipe == null)
+            {
+                IsWorking = false;
+                NoRecipe();
+                return;
+            }
+
+            if (MissingIngredients())
+            {
+                IsWorking = false;
+                return;
+            }
+
+            if (outputItems.Length>0 && outputItems.All(o => o.IsFull))
+            {
+                IsWorking = false;
+                return;
+            }
+            _currRoutine = StartCoroutine(CreateOutput(RecipeStartTime));
         }
         #endregion
 
         #region Input and Recipes
         public void ClearInternalStorage()
         {
-            _inputs = new Dictionary<Item, int>();
+            inputItems = new LocalStorage[inputItems.Length];
+            outputItems = new LocalStorage[outputItems.Length];
         }
         public bool AssignRecipe(Recipe recipe, bool clearStorage =false)
         {
@@ -89,12 +229,11 @@ namespace FactoryFramework
         {
             found = null;
             // no matching recipes if we have no production input
-            if (_inputs.Keys.Count == 0) return false;
+            if (inputItems.All(x=>x.ItemType==null)) return false;
             // find recipe based on what inputs are currently available
             Recipe[] matchedRecipes = RecipeFinder.FilterRecipes(
-                _inputs.Keys.ToArray(), numOutputs, validRecipes, invalidRecipes);
+                inputItems.Select(i=>i.ItemType).ToArray(), Outputs.Length, validRecipes, invalidRecipes);
             if (matchedRecipes.Count() == 0) return false;
-
             found = matchedRecipes[0];
             return true;
         }
@@ -117,181 +256,31 @@ namespace FactoryFramework
             }
             return false;
         }
-
-        protected bool AnyOutputsFull()
-        {
-            foreach (Item item in recipe.OutputItems)
-            {
-                _outputs.TryGetValue(item, out int amount);
-                if (amount >= item.itemData.maxStack)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        protected bool MissingIngredients()
-        {
-            foreach (ItemStack itemsRequired in recipe.inputs)
-            {
-                if (_inputs.TryGetValue(itemsRequired.item, out int amount))
-                {
-                    if (amount < itemsRequired.amount)
-                        return true;
-                } else
-                    return true;
-            }
-            return false;
-        }
-
-        protected bool CanStartProduction()
-        {
-            // cannot start a new production cycle while one is running
-            if (IsWorking) return false;
-            // need a recipe to make!
-            if (NoRecipe()) return false;
-            //check for outputs being full
-            if (AnyOutputsFull()) return false;
-            // check that we have enough input ingredients. Reset recipe to find another
-            if (MissingIngredients()) { recipe = null; return false; }
-            return true;
-        }
-        public bool CanStartProductionTest { get { return CanStartProduction(); } }
 #endregion
 
         #region Input_Output_Helpers
-        private void ConsumeInputIngredients()
-        {
-            for (int i = 0; i < recipe.inputs.Length; i++)
-            {
-                ItemStack ingredient = recipe.inputs[i];
-                _inputs[ingredient.item] -= ingredient.amount;
-                // remove key if empty and reset recipe to be re-matched
-                if (_inputs[ingredient.item] == 0)
-                {
-                    _inputs.Remove(ingredient.item);
-                }
-            }
-        }
-        private void CreateOutputProducts()
-        {
-            for (int i = 0; i < recipe.outputs.Length; i++)
-            {
-                Item item = recipe.OutputItems[i];
-                if (_outputs.ContainsKey(item))
-                {
-                    _outputs[item] = Mathf.Min(_outputs[item] + recipe.outputs[i].amount, item.itemData.maxStack);
-                } else
-                {
-                    _outputs.Add(item, 1);
-                }
-            }
-        }
-
-        public bool CanGiveOutput(Item filter = null)
-        {
-            if (filter != null)
-            {
-                _outputs.TryGetValue(filter, out int amount);
-                if (amount > 0) return true;
-            } else
-            {
-                foreach (KeyValuePair<Item, int> availableOutput in _outputs)
-                {
-                    if (availableOutput.Value > 0) return true;
-                }
-
-            }
-            return false;
-        }
-        public Item OutputType() {
-            foreach (KeyValuePair<Item, int> availableOutput in _outputs)
-            {
-                if (availableOutput.Value > 0) return availableOutput.Key;
-            }
-            return null;
-        }
-        public Item GiveOutput(Item filter = null)
-        {
-            Item result = null;
-            if (filter != null)
-            {
-                _outputs.TryGetValue(filter, out int amount);
-                if (amount > 0)
-                {
-                    _outputs[filter] -= 1;
-                    result = filter;
-
-                    // remove key
-                    if (_outputs[filter] == 0)
-                        _outputs.Remove(filter);
-                }
-            }
-            else
-            {
-                foreach (KeyValuePair<Item, int> availableOutput in _outputs.ToList())
-                {
-                    if (availableOutput.Value > 0)
-                    {
-                        _outputs[availableOutput.Key] -= 1;
-                        result = availableOutput.Key;
-
-                        //remove key
-                        if (_outputs[availableOutput.Key] == 0)
-                            _outputs.Remove(availableOutput.Key);
-                    }
-                }
-
-            }
-            return result;
-        }
-
-        public void TakeInput(Item item)
-        {
-            if (_inputs.ContainsKey(item))
-                _inputs[item] += 1;
-            else
-                _inputs.Add(item, 1);
-        }
-        public bool CanTakeInput(Item item)
-        {
-            if (item == null) return false;
-            
-            if (_inputs.ContainsKey(item))
-            {
-                return _inputs[item] < item.itemData.maxStack;
-            } else
-            {
-                return _inputs.Keys.Count < numInputs;
-            }
-        }
+        
         #endregion  
 
         #region SERIALIZATION_HELPERS
-        private List<SerializedItemStack> SerializeField(Dictionary<Item, int> dict)
+        private List<SerializedItemStack> SerializeField(LocalStorage[] localStorage)
         {
-            List<SerializedItemStack> items = new List<SerializedItemStack>();
-            foreach(KeyValuePair<Item, int> obj in dict)
-            {
-                items.Add(new SerializedItemStack(){ itemResourcePath = obj.Key.resourcesPath, amount = obj.Value});
-            }
-            return items;
+            return localStorage.Select(x => new SerializedItemStack { itemResourcePath = x.ItemType.resourcesPath, amount=x.itemStack.amount }).ToList();
         }
-        public SerializedItemStack[] SerializeInputs() => SerializeField(_inputs).ToArray();
-        public SerializedItemStack[] SerializeOutputs() => SerializeField(_outputs).ToArray();
+        public SerializedItemStack[] SerializeInputs() => SerializeField(inputItems).ToArray();
+        public SerializedItemStack[] SerializeOutputs() => SerializeField(outputItems).ToArray();
 
-        private Dictionary<Item, int> DeserializeField(List<SerializedItemStack> items)
+        private LocalStorage[] DeserializeField(SerializedItemStack[] items)
         {
-            Dictionary<Item, int> dict = new Dictionary<Item, int>();
-            foreach(var iStack in items)
-            {
-                dict.Add(Resources.Load<Item>(iStack.itemResourcePath), iStack.amount);
-            }
-            return dict;
+            return items.Select(x => new LocalStorage { 
+                itemStack = new ItemStack
+                {
+                    item = Resources.Load<Item>(x.itemResourcePath),
+                    amount = x.amount
+                }}).ToArray();
         }
-        public void DeserializeInputs(SerializedItemStack[] inputs) => _inputs = DeserializeField(inputs.ToList());
-        public void DeserializeOutputs(SerializedItemStack[] inputs) => _outputs = DeserializeField(inputs.ToList());
+        public void DeserializeInputs(SerializedItemStack[] inputs) => inputItems = DeserializeField(inputs);
+        public void DeserializeOutputs(SerializedItemStack[] outputs) => outputItems = DeserializeField(outputs);
         #endregion
 
     }

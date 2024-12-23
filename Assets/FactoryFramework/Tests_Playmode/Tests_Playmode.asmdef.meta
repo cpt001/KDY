@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8f1226e0efa2e274c9490b73178f880d
+AssemblyDefinitionImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218051
+  packageName: Factory Framework
+  packageVersion: 2.0.1
+  assetPath: Assets/FactoryFramework/Tests_Playmode/Tests_Playmode.asmdef
+  uploadId: 690700

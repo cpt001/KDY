@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 3b4057c141121094e82d2504c0476570
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218051
+  packageName: Factory Framework
+  packageVersion: 2.0.1
+  assetPath: Assets/FactoryFramework/Tests_Playmode/StressTest.cs
+  uploadId: 690700

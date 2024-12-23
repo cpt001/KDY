@@ -8,7 +8,7 @@ namespace FactoryFramework
 {
     [System.Serializable]
     [CreateAssetMenu(fileName = "BeltMesh", menuName = "Factory Framework/BeltMesh")]
-    public class BeltMeshSO : ScriptableObject
+    public class BeltMeshSO : SerializeableScriptableObject
     {
         public Mesh basemesh;
         [SerializeField, HideInInspector]

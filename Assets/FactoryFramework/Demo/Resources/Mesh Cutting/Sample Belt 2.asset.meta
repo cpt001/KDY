@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5e032462561e1104da380390d52909ae
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 218051
+  packageName: Factory Framework
+  packageVersion: 2.0.1
+  assetPath: Assets/FactoryFramework/Demo/Resources/Mesh Cutting/Sample Belt 2.asset
+  uploadId: 690700

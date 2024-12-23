@@ -8,13 +8,13 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine.Splines;
 
 namespace FactoryFramework
 {
     public class SerializeManager : MonoBehaviour
     {
         [SerializeField] private bool _debugInfo;
-        public FactorySaveData data;
 
         // Event is triggered when loading completes
         // Boolean value is returned depending on success
@@ -43,6 +43,7 @@ namespace FactoryFramework
         public void Load() => Load("save.json");
         public async void Load(string path)
         {
+            var settings = ConveyorLogisticsUtils.settings;
             string filePath = Path.Combine(saveFilePath, path);
 
             if (!File.Exists(filePath))
@@ -52,132 +53,152 @@ namespace FactoryFramework
             }
             try
             {
-                string saveString = File.ReadAllText(filePath);
 
                 // Deserialize data into a FactorySaveData object
-                data = JsonUtility.FromJson<FactorySaveData>(saveString);
+                string saveString = File.ReadAllText(filePath);
+                var data = JsonUtility.FromJson<FactorySaveData>(saveString);
 
                 // remove all existing buildings and cables
                 CableRendererManager.instance?.Clear();
                 foreach (SerializationReference obj in GameObject.FindObjectsOfType<SerializationReference>()) Destroy(obj.gameObject);
 
-                // deserialize polymorphic list from string to json to type
-                List<BaseSaveData> loadedObjs = new List<BaseSaveData>();
-                for (int i =0; i < data.saveData.Length; i++)
-                {
-                    Type type = Type.GetType(data.saveDataTypes[i]);
-                    loadedObjs.Add((BaseSaveData)JsonUtility.FromJson(data.saveData[i], type));
-                    //Debug.Log($"loading type of {type.ToString()} with {loadedObjs[i].GetType().Name}"); // debug
-                }
-
-                // list of power grids
-                // each grid is an adjacency dict node: node's connections
-                List<Dictionary<Guid, HashSet<Guid>>> powerGrids = new List<Dictionary<Guid, HashSet<Guid>>>();
-                foreach(var strGrid in data.powerGrids)
-                {
-                    var dict = new Dictionary<Guid, HashSet<Guid>>();
-                    foreach(var line in strGrid.Split('\n'))
-                    {
-                        // line by line grab the nodeKey:connectionValues
-                        string[] splt = line.Split(':');
-                        var root = new Guid(splt[0]);
-                        HashSet<Guid> connections = new HashSet<Guid>();
-                        
-                        foreach (var s in splt.Last().Split(','))
-                        {
-                            // don't add root to itself as a connection!
-                            if (s == splt[0] || s.Equals(string.Empty)) continue;
-
-                            connections.Add(new Guid(s));
-                        }
-                        dict.Add(root, connections);
-                    }
-                    powerGrids.Add(dict);
-                }
+                var powerGridNodes = data.powerGridNodes;
+                var powerGridEdges = data.powerGridEdges;
 
                 /// steps to recreate objects in level
                 // 1. Spawn all objects
-                // 2. Connect conveyors to right GUID-identified LogisticComponents
+                // 2. Connect logisticComponents to right GUID-identified LogisticComponents
                 // 3. connect cables between GUID_identified PowerGridcomponents
                 ///
 
-                // build a lookup of Guid -> SerializationReference
+                // build a lookup of Guid -> LogisticComponent
                 // this is used to re-link the conveyor belts to buildings
                 Dictionary<Guid, SerializationReference> lookup = new Dictionary<Guid, SerializationReference>();
-                // keep conveyors for a seoncd pass once all buildings are setup
-                Dictionary<SerializationReference, ConveyorSaveData> conveyors = new Dictionary<SerializationReference, ConveyorSaveData>();
+               
 
-                foreach (BaseSaveData obj in loadedObjs)
+                foreach (SerializedLogisticComponent obj in data.components)
                 {
                     // spawn the prefab
                     SerializationReference sRef = InstantiateBuildingData(obj);
                     lookup.Add(sRef.GUID, sRef);
 
-                    if (obj is ConveyorSaveData)
+                    if (sRef.TryGetComponent(out LogisticComponent lc))
                     {
-                        conveyors.Add(sRef, obj as ConveyorSaveData);
-                        continue;
-                    }
-
-                    //set appropriate data
-                    obj.Deserialize(sRef);
+                        switch (lc)
+                        {
+                            case Producer producer:
+                                producer.SetResource(Resources.Load<Item>(obj.resourceReference));
+                                producer.internalStorage.itemStack = new ItemStack()
+                                {
+                                    item = Resources.Load<Item>(obj.internalOutput[0].itemResourcePath),
+                                    amount = obj.internalOutput[0].amount
+                                };
+                                //producer.SecondsSinceLastResource = obj.timeSinceLastJob;
+                                break;
+                            case Processor processor:
+                                processor.recipe = Resources.Load<Recipe>(obj.recipeReference);
+                                processor.inputItems = obj.internalInput.Select(i => new LocalStorage()
+                                {
+                                    itemStack = new ItemStack()
+                                    {
+                                        item = Resources.Load<Item>(i.itemResourcePath),
+                                        amount = i.amount
+                                    }
+                                }).ToArray();
+                                processor.outputItems = obj.internalOutput.Select(i => new LocalStorage()
+                                {
+                                    itemStack = new ItemStack()
+                                    {
+                                        item = Resources.Load<Item>(i.itemResourcePath),
+                                        amount = i.amount
+                                    }
+                                }).ToArray();
+                                //processor.RecipeStartTime = obj.timeSinceLastJob;
+                                break;
+                            case Storage storage:
+                                storage.storage = obj.internalOutput.Select(i => new ItemStack()
+                                {
+                                    item = Resources.Load<Item>(i.itemResourcePath),
+                                    amount = i.amount
+                                }).ToArray();
+                                break;
+                            case ConveyorBelt conveyor:
+                                conveyor.speed = obj.speed;
+                                if (settings.PATHTYPE == GlobalLogisticsSettings.PathSolveType.SMART)
+                                    conveyor.AssignPath<RoundedPolygon>(obj.pathPoints);
+                                else if (settings.PATHTYPE == GlobalLogisticsSettings.PathSolveType.SPLINE) 
+                                    conveyor.AssignPath<PointSplinePath>(obj.pathPoints);
+                                conveyor.UpdateMesh(settings.BELT_MESH_SO, settings.FRAME_MESH_SO); //FIXME beltmesh and frame mesh from somewhere. Settings perhaps
+                                conveyor.DeserializeItems(obj.iobs);
+                                break;
+                        }
+                    }   
                 }
-                // second pass to connect all conveyors now
-                foreach (KeyValuePair<SerializationReference, ConveyorSaveData> pair in conveyors)
+                //wait one frame to allow all objects to run their Start() calls
+                await Task.Yield(); // FIXME if you want to use webgl
+                // second pass to connect all logistic components now
+                foreach (SerializedLogisticComponent slc in data.components)
                 {
-                    pair.Value.Deserialize(pair.Key);
+                    SerializationReference sRef = lookup[new Guid(slc.guid)];
 
-                    Conveyor conveyor = pair.Key.GetComponent<Conveyor>();
-                    ConveyorSaveData sData = pair.Value;
-
-                    ///
-                    // This part may look confusing. Input sockets only connect to output sockets and vice versa.
-                    // if inputSocketGUID exists, it is pointing to a building or other conveyor's output socket
-                    ///
-
-                    if (sData.inputSocketGUID != null && !sData.inputSocketGUID.Equals(""))
+                    if (sRef.TryGetComponent(out LogisticComponent self))
                     {
-                        var inputConnection = lookup[new Guid(sData.inputSocketGUID)];
-                        if (inputConnection.TryGetComponent(out Building building))
+                        for (int i = 0; i < slc.InputReferences.Length; i++)
                         {
-                            OutputSocket osocket = building.GetOutputSocketByIndex(sData.outputSocketIndex);
-                            osocket.Connect(conveyor.inputSocket);
+                            var guid = slc.InputReferences[i];
+                            if (string.IsNullOrEmpty(guid)) continue;
+                            if (lookup.TryGetValue(new Guid(guid), out SerializationReference input))
+                            {
+                                if (self as Merger != null)
+                                {
+                                    self.ConnectInput(input.GetComponent<LogisticComponent>(), i);
+                                }
+                                else
+                                    self.ConnectInput(input.GetComponent<LogisticComponent>());
+                            }
                         }
-                        else if (inputConnection.TryGetComponent(out Conveyor conv))
+                            
+                        
+                        for (int i = 0; i < slc.OutputReferences.Length; i++)
                         {
-                            conv.outputSocket.Connect(conveyor.inputSocket);
-                        }
-                    }
-                    if (sData.outputSocketGUID != null && !sData.outputSocketGUID.Equals(""))
-                    {
-                        var outputConnection = lookup[new Guid(sData.outputSocketGUID)];
-                        if (outputConnection.TryGetComponent(out Building building))
-                        {
-                            InputSocket isocket = building.GetInputSocketByIndex(sData.inputSocketIndex);
-                            isocket.Connect(conveyor.outputSocket);
-                        }
-                        else if (outputConnection.TryGetComponent(out Conveyor conv))
-                        {
-                            conveyor.outputSocket.Connect(conv.inputSocket);
+                            var guid = slc.OutputReferences[i];
+                            if (string.IsNullOrEmpty(guid)) continue;
+                            if (lookup.TryGetValue(new Guid(guid), out SerializationReference output))
+                            {
+                                if (self as Splitter != null)
+                                {
+                                    self.ConnectOutput(output.GetComponent<LogisticComponent>(), i);
+                                }
+                                else
+                                    self.ConnectOutput(output.GetComponent<LogisticComponent>());
+                            }
                         }
                     }
                 }
-                // wait one frame to allow all objects to run their Start() calls
+
+                //wait one frame to allow all objects to run their Start() calls
                 await Task.Yield(); // FIXME if you want to use webgl
 
-                // finally connect the power grid back together
-                foreach(Dictionary<Guid, HashSet<Guid>> pGrid in powerGrids)
+                // zip powergrid nodes and edges together
+                var powerGrids = powerGridNodes.Zip(powerGridEdges, (nodes, edges) => (nodes, edges));
+                for (int i = 0; i < powerGrids.Count(); i++)
                 {
-                    foreach(KeyValuePair<Guid, HashSet<Guid>> adj in pGrid)
+                    var (nodesStr, edgesStr) = powerGrids.ElementAt(i);
+                    var nodes = nodesStr.Split('\n');
+                    var edges = string.IsNullOrEmpty(edgesStr) ? new (string, string)[0] : edgesStr.Split('\n').Select(e => e.Split(',')).Select(
+                        e => (e[0].Substring(1), e[1].Substring(0, e[1].Length-1))).Where(e=>lookup.ContainsKey(new Guid(e.Item1)) && lookup.ContainsKey(new Guid(e.Item2))).ToArray();
+                    PowerGrid grid = new PowerGrid();
+                    PowerGridComponent[] pgcs = nodes.Where(n=>lookup.ContainsKey(new Guid(n))).Select(n => lookup[new Guid(n)].GetComponent<PowerGridComponent>()).ToArray();
+                    foreach (var pgc in pgcs)
                     {
-                        PowerGridComponent a = lookup[adj.Key].GetComponent<PowerGridComponent>();
-                        if (a == null) continue;
-                        foreach (Guid connection in adj.Value)
-                        {
-                            if (lookup.TryGetValue(connection, out SerializationReference b))
-                                a.Connect(b.GetComponent<PowerGridComponent>());
-                        }
-                        
+                        pgc.grid = grid;
+                        grid.AddNode(pgc);
+                    }
+                    foreach (var edge in edges)
+                    {
+                        var a = lookup[new Guid(edge.Item1)].GetComponent<PowerGridComponent>();
+                        var b = lookup[new Guid(edge.Item2)].GetComponent<PowerGridComponent>();
+                        a.Connect(b);
                     }
                 }
 
@@ -193,107 +214,93 @@ namespace FactoryFramework
         public void Save() => Save("save.json");
         public void Save(string path)
         {
+            List<SerializedLogisticComponent> serializedComponents = new List<SerializedLogisticComponent>();
             string filePath = Path.Combine(saveFilePath, path);
 
             // collect and sort buildings
-            var serializables = FindObjectsOfType<SerializationReference>();
-            List<BaseSaveData> saveData = new List<BaseSaveData>();
-            List<string> saveDataTypes = new List<string>();
+            var objects = FindObjectsOfType<SerializationReference>();
+            
 
-            // serialize extra data for different types of LogisticComponent objects
-            foreach (var obj in serializables)
+            foreach (var obj in objects)
             {
-                if (obj.TryGetComponent(out Producer producer))
+                var saveData = new SerializedLogisticComponent()
                 {
-                    saveData.Add(new ProducerSaveData()
-                    {
-                        position = obj.transform.position,
-                        rotation = obj.transform.rotation,
-                        guid = obj.GUID.ToString(),
-                        resourcesPath = obj.resourcesPath,
-                        itemStack = new SerializedItemStack() { itemResourcePath = producer.resource.itemStack.item.resourcesPath, amount = producer.resource.itemStack.amount},
-                        overrideMaxStack = producer.resource.overrideMaxStack,
-                        overrideMaxStackNum = producer.resource.overrideMaxStackNum
-                    });
-                    saveDataTypes.Add(typeof(ProducerSaveData).ToString());
-                }
-                else if (obj.TryGetComponent(out Processor processor))
+                    type = obj.GetType().Name,
+                    position = obj.transform.position,
+                    rotation = obj.transform.rotation,
+                    guid = obj.GUID.ToString(),
+                    resourcesPath = obj.resourcesPath,
+                };
+                if (obj.TryGetComponent(out LogisticComponent lc))
                 {
-                    saveData.Add(new ProcessorSaveData()
+
+                    saveData.InputReferences = lc.Inputs.Select(i => i?.GUID.ToString() ?? null).ToArray();
+                    saveData.OutputReferences = lc.Outputs.Select(i => i?.GUID.ToString() ?? null).ToArray();
+
+                    switch (lc)
                     {
-                        position = obj.transform.position,
-                        rotation = obj.transform.rotation,
-                        guid = obj.GUID.ToString(),
-                        resourcesPath = obj.resourcesPath,
-                        recipeResourcePath = processor.recipe?.resourcesPath ?? null,
-                        currentInputs = processor.SerializeInputs(),
-                        currentOutputs = processor.SerializeOutputs()
-                    });
-                    saveDataTypes.Add(typeof(ProcessorSaveData).ToString());
+                        case Producer producer:
+                            saveData.resourceReference = producer.resource?.resourcesPath ?? null;
+                            saveData.internalOutput = new SerializedItemStack[1]{new SerializedItemStack()
+                            {
+                                itemResourcePath = producer.internalStorage.itemStack.item?.resourcesPath ?? null,
+                                amount = producer.internalStorage.itemStack.amount
+                            } };
+                            saveData.timeSinceLastJob = producer.SecondsSinceLastResource;
+                            break;
+                        case Processor processor:
+                            saveData.recipeReference = processor.recipe?.resourcesPath ?? null;
+                            saveData.internalInput = processor.inputItems.Select(i => new SerializedItemStack()
+                            {
+                                itemResourcePath = i.ItemType?.resourcesPath ?? null,
+                                amount = i.itemStack.amount
+                            }).ToArray();
+                            saveData.internalOutput = processor.outputItems.Select(i => new SerializedItemStack()
+                            {
+                                itemResourcePath = i.ItemType?.resourcesPath ?? null,
+                                amount = i.itemStack.amount
+                            }).ToArray();
+                            saveData.timeSinceLastJob = processor.RecipeStartTime;
+                            break;
+                        case Storage storage:
+                            saveData.internalOutput = storage.storage.Select(i => new SerializedItemStack()
+                            {
+                                itemResourcePath = i.item?.resourcesPath ?? null,
+                                amount = i.amount
+                            }).ToArray();
+                            break;
+                        case ConveyorBelt conveyor:
+                            saveData.speed = conveyor.speed;
+                            saveData.pathPoints = conveyor.Path.OriginalPoints;
+                            saveData.iobs = conveyor.Items.Select(i => new SerializedItemOnBelt()
+                            {
+                                itemResourcePath = i.item.resourcesPath,
+                                position = i.position,
+                                queueIndex = i.queueIndex
+                            }).ToArray();
+                            break;
+                    }
                 }
-                else if (obj.TryGetComponent(out Storage storage))
-                {
-                    saveData.Add(new StorageSaveData()
-                    {
-                        position = obj.transform.position,
-                        rotation = obj.transform.rotation,
-                        guid = obj.GUID.ToString(),
-                        resourcesPath = obj.resourcesPath,
-                        storage = storage.storage.Select(istack => new SerializedItemStack() {itemResourcePath = istack.item?.resourcesPath ?? null, amount = istack.amount }).ToArray(),
-                        capacity = storage.capacity
-                    });
-                    saveDataTypes.Add(typeof(StorageSaveData).ToString());
-                }
-                else if (obj.TryGetComponent(out Conveyor conveyor))
-                {
-                    saveData.Add(new ConveyorSaveData()
-                    {
-                        position = obj.transform.position,
-                        rotation = obj.transform.rotation,
-                        guid = obj.GUID.ToString(),
-                        resourcesPath = obj.resourcesPath,
-                        startPos = conveyor.data.start,
-                        startDir = conveyor.data.startDir,
-                        endPos = conveyor.data.end,
-                        endDir = conveyor.data.endDir,
-                        speed = conveyor.data.speed,
-                        inputSocketGUID = conveyor.InputSocketGuid,
-                        inputSocketIndex = conveyor.data.inputSocketIndex,
-                        outputSocketGUID = conveyor.OutputSocketGuid,
-                        outputSocketIndex = conveyor.data.outputSocketIndex,
-                        items = conveyor.items.Select(i => new ConveyorSaveData.SerializedItem()
-                        {
-                            resourcesPath = i.item.resourcesPath, position = i.position
-                        }).ToArray()
-                    });
-                    saveDataTypes.Add(typeof(ConveyorSaveData).ToString());
-                }
-                else
-                {
-                    saveData.Add(new BaseSaveData()
-                    {
-                        position = obj.transform.position,
-                        rotation = obj.transform.rotation,
-                        guid = obj.GUID.ToString(),
-                        resourcesPath = obj.resourcesPath
-                    });
-                    saveDataTypes.Add(typeof(BaseSaveData).ToString());
-                }
+                serializedComponents.Add(saveData);
             }
 
             // Serialize PowerGrid data
-            List<string> powerGrids = new List<string>();
-            foreach (var grid in FindObjectsOfType<PowerGrid>()){
-                powerGrids.Add(grid.ToString());
+            HashSet<List<string>> powerGridNodes = new HashSet<List<string>>(new ListComparer());
+            HashSet<List<(string, string)>> powerGridEdges = new HashSet<List<(string, string)>>(new TupleListComparer());
+            
+            foreach(var pgc in FindObjectsOfType<PowerGridComponent>())
+            {
+                var (nodes, edges) = pgc.grid.ToDOT();
+                powerGridNodes.Add(nodes.ToList());
+                powerGridEdges.Add(edges.ToList());
             }
 
-
-            data = new FactorySaveData()
+            var data = new FactorySaveData()
             {
                 // cannot serializae polymorphic list, must convert all to string representation
-                saveData = saveData.Select(x => JsonUtility.ToJson(x)).ToArray(),
-                saveDataTypes = saveDataTypes.ToArray(),
-                powerGrids = powerGrids.ToArray()
+                components = serializedComponents.ToArray(),
+                powerGridNodes = powerGridNodes.Select(l => string.Join('\n', l)).ToArray(),
+                powerGridEdges = powerGridEdges.Select(l => string.Join('\n', l)).ToArray()
             };
 
             var jsonString = JsonUtility.ToJson(data, true);
@@ -304,7 +311,7 @@ namespace FactoryFramework
             OnSaveComplete.Invoke(true);
         }
 
-        public SerializationReference InstantiateBuildingData(BaseSaveData obj)
+        public SerializationReference InstantiateBuildingData(SerializedLogisticComponent obj)
         {
             GameObject prefab = Resources.Load<GameObject>(obj.resourcesPath);
             GameObject instantiated = Instantiate(prefab, obj.position, obj.rotation);
@@ -316,14 +323,6 @@ namespace FactoryFramework
             return sRef;
         }
 
-        //public void Clear()
-        //{
-        //    var prefabs = FindObjectsOfType<SerializablePrefab>(true);
-        //    foreach (SerializablePrefab p in prefabs)
-        //    {
-        //        Destroy(p.gameObject);
-        //    }
-        //}
 
         private void OnGUI()
         {
@@ -342,148 +341,80 @@ namespace FactoryFramework
         }
 
         #region SAVE_DATA_TYPES
-        [Serializable]
-        public class BaseSaveData
-        {
-            // transsform data for positioning
-            public Vector3 position;
-            public Quaternion rotation;
-            //public Vector3 scale;   // unnecessary?
-            // reference data
-            public string guid;
-            public string resourcesPath;
-
-            public virtual void Serialize(SerializationReference sRef)
-            {
-
-            }
-
-            public virtual void Deserialize(SerializationReference sRef)
-            {
-                return;
-            }
-        }
-        [Serializable]
-        public class ProducerSaveData : BaseSaveData
-        {
-            public SerializedItemStack itemStack;
-            public bool overrideMaxStack = false;
-            [Min(1)]
-            public int overrideMaxStackNum = 1;
-
-            public override void Deserialize(SerializationReference sRef)
-            {
-                if (sRef.TryGetComponent(out Producer producer))
-                {
-                    producer.resource.itemStack = new ItemStack() {
-                        item = Resources.Load<Item>(itemStack.itemResourcePath),
-                        amount = itemStack.amount,
-                    };
-                    producer.resource.overrideMaxStackNum = overrideMaxStackNum;
-                    producer.resource.overrideMaxStack = overrideMaxStack;
-                }
-            }
-        }
-        [Serializable]
-        public class ProcessorSaveData : BaseSaveData
-        {
-            public string recipeResourcePath;
-
-            public SerializedItemStack[] currentInputs;
-            public SerializedItemStack[] currentOutputs;
-
-            public override void Deserialize(SerializationReference sRef)
-            {
-                if (sRef.TryGetComponent(out Processor processor))
-                {
-                    processor.recipe = (recipeResourcePath != null && !recipeResourcePath.Equals(string.Empty)) ?  Resources.Load<Recipe>(recipeResourcePath) : null;
-                    processor.DeserializeInputs(currentInputs);
-                    processor.DeserializeOutputs(currentOutputs);
-                }
-            }
-        }
-        [Serializable]
-        public class StorageSaveData : BaseSaveData
-        {
-            public SerializedItemStack[] storage;
-            public int capacity;
-            public override void Deserialize(SerializationReference sRef)
-            {
-                if (sRef.TryGetComponent(out Storage storageBuilding))
-                {
-                    storageBuilding.storage = new ItemStack[storage.Length];
-                    for (int i =0; i < storage.Length; i++)
-                    {
-                        SerializedItemStack s = storage[i];
-                        storageBuilding.storage[i] = new ItemStack() { 
-                            item = (s.itemResourcePath!=null && !s.itemResourcePath.Equals(string.Empty)) ? Resources.Load<Item>(s.itemResourcePath) : null,
-                            amount = s.amount };
-                    }
-                    storageBuilding.capacity = this.capacity;
-                }
-            }
-        }
-        [Serializable]
-        public class ConveyorSaveData : BaseSaveData
-        {
-            public Vector3 startPos;
-            public Vector3 startDir;
-            public Vector3 endPos;
-            public Vector3 endDir;
-            public float speed;
-            public int capacity;
-
-            // Building that inputs to the conveyor
-            public string inputSocketGUID;
-            public int inputSocketIndex;
-
-            // Building the conveyor outputs to
-            public string outputSocketGUID;
-            public int outputSocketIndex;
-
-            [Serializable]
-            public class SerializedItem
-            {
-                public string resourcesPath;
-                public float position;
-            }
-
-            public SerializedItem[] items;
-
-            public override void Deserialize(SerializationReference sRef)
-            {
-                if (sRef.TryGetComponent(out Conveyor conveyor))
-                {
-                    conveyor.data.start = startPos;
-                    conveyor.data.startDir = startDir;
-                    conveyor.data.end = endPos;
-                    conveyor.data.endDir = endDir;
-                    conveyor.data.speed = speed;                    
-                    conveyor.inputSocket = conveyor.GetComponentInChildren<InputSocket>();
-                    conveyor.outputSocket = conveyor.GetComponentInChildren<OutputSocket>();
-                    conveyor.data.inputSocketIndex = inputSocketIndex;
-                    conveyor.data.outputSocketIndex = outputSocketIndex;
-                    // draw
-                    conveyor.UpdateMesh(true);
-                    conveyor.AddCollider();
-                    // handle items
-                    foreach (SerializedItem i in items)
-                    {
-                        conveyor.SetItemOnBelt(i.resourcesPath, i.position);
-                    }
-                }
-            }
-        }
 
         [Serializable]
         public class FactorySaveData
         {
-            // Cannot serialize polymorphic list of BaseSaveData[] so we're saving a bunch of strings
-            public string[] saveData;
-            public string[] saveDataTypes;
-
-            public string[] powerGrids;
+            public SerializedLogisticComponent[] components;
+            public string[] powerGridNodes;
+            public string[] powerGridEdges;
         }
+
+        public class ListComparer : IEqualityComparer<List<string>>
+        {
+            public bool Equals(List<string> x, List<string> y)
+            {
+                if (x == null || y == null)
+                    return false;
+
+                if (x.Count != y.Count)
+                    return false;
+
+                for (int i = 0; i < x.Count; i++)
+                {
+                    if (x[i] != y[i])
+                        return false;
+                }
+
+                return true;
+            }
+
+            public int GetHashCode(List<string> obj)
+            {
+                int hash = 17;
+
+                foreach (string s in obj)
+                {
+                    hash = hash * 31 + (s?.GetHashCode() ?? 0);
+                }
+
+                return hash;
+            }
+        }
+
+        public class TupleListComparer : IEqualityComparer<List<(string, string)>>
+        {
+            public bool Equals(List<(string, string)> x, List<(string, string)> y)
+            {
+                if (x == null || y == null)
+                    return false;
+
+                if (x.Count != y.Count)
+                    return false;
+
+                for (int i = 0; i < x.Count; i++)
+                {
+                    if (x[i] != y[i])
+                        return false;
+                }
+
+                return true;
+            }
+
+            public int GetHashCode(List<(string, string)> obj)
+            {
+                int hash = 17;
+
+                foreach ((string,string) s in obj)
+                {
+                    hash = hash * 31 + (s.Item1?.GetHashCode() ?? 0) + (s.Item2?.GetHashCode() ?? 0);
+                }
+
+                return hash;
+            }
+        }
+
+
         #endregion
     }
 }

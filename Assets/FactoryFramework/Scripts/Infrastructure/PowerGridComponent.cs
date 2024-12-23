@@ -11,6 +11,7 @@ namespace FactoryFramework
     {
         protected GlobalLogisticsSettings settings { get { return ConveyorLogisticsUtils.settings; } }
         protected SerializationReference _sRef;
+        public string Guid=> _sRef.GUID.ToString();
 
         /// <summary>
         /// Power grid we are connected to
@@ -38,10 +39,6 @@ namespace FactoryFramework
         /// </summary>
         public Transform radiusVisual;
         /// <summary>
-        /// Adjacency List. Connections in the graph
-        /// </summary>
-        public HashSet<PowerGridComponent> Connections;// { get; internal set; }
-        /// <summary>
         /// Event to fire when this is disconnected from a grid (destroyed)
         /// </summary>
         public UnityEvent OnDisconnect;
@@ -52,21 +49,10 @@ namespace FactoryFramework
 
         private void ConnectGrid(PowerGridComponent other)
         {
-            //    if (other == null) return;
-            this.Connections.Add(other);
-            other.Connections.Add(this);
-            if (this.grid == null) this.grid = other.grid;
-            if (other.grid == null) other.grid = this.grid;
             grid.AddNode(other);
-            other.grid.AddNode(this);
+            grid.AddEdge(this, other);
 
             OnAddConnection?.Invoke(other);
-
-            // union if possible
-            if (PowerGrid.UnionGraphs(this.grid, other.grid))
-            {
-                //Debug.Log("Graphs Consolidated");
-            }
 
             // add line render cable
             CableRendererManager.instance?.AddCable(this, other);
@@ -112,7 +98,8 @@ namespace FactoryFramework
 
         public void Disconnect(PowerGridComponent other)
         {
-            this.Connections.Remove(other);
+            throw new System.NotImplementedException();
+
             OnRemoveConnection?.Invoke(other);
             // remove line render
             CableRendererManager.instance?.RemoveCable(this, other);
@@ -120,44 +107,10 @@ namespace FactoryFramework
 
         public void RemoveFromGrid()
         {
-            if (grid == null || grid.nodes == null || Connections == null) return;
-            // remove self from grid, split grids if necessary
-            grid.nodes.Remove(this);
-            foreach (var node in grid.nodes)
-            {
-                node.grid = null;
-                node.Disconnect(this);
-            }
-            Destroy(grid.gameObject);
+            grid.RemoveNode(this);
 
-            // brute force, maybe a better way to do it
-            // foreach connection, make a new power grid
-            // connect those grids to available nodes
-            // then union those grids
-
-            // create subgrids for each connection now that this is removed
-            List<PowerGrid> subgrids = new List<PowerGrid>();
-            HashSet<PowerGridComponent> visited = new HashSet<PowerGridComponent>();
-            int i = 0;
-            foreach (var pgc in Connections)
-            {
-                // can be null if it was just destroyed
-                if (pgc == null) continue;
-                // remove line render
-                CableRendererManager.instance?.RemoveCable(this, pgc);
-
-                if (visited.Contains(pgc))
-                {
-                    //Debug.Log($"Skipping {pgc.gameObject.name}");
-                } else
-                {
-                    PowerGrid nGrid = PowerGrid.NewGrid(pgc);
-                    subgrids.Add(nGrid);
-                    foreach (var node in nGrid.nodes)
-                        visited.Add(node);
-                }
-                i++;
-            }
+            CableRendererManager.instance?.RemoveCablesWith(this);
+            
 
             OnDisconnect?.Invoke();
         }
@@ -166,18 +119,18 @@ namespace FactoryFramework
 
         private void Awake()
         {
+            Init();
+        }
+
+        protected virtual void Init()
+        {
             _sRef ??= GetComponent<SerializationReference>();
 
             _powerDraw = basePowerDraw;
-            Connections = new HashSet<PowerGridComponent>();
 
             _logisticComponent ??= GetComponent<LogisticComponent>();
 
-            // create our own power grid until we connect to something
-            GameObject pGrid = new GameObject("Power Grid");
-            pGrid.transform.SetPositionAndRotation(transform.position, transform.rotation);
-
-            grid = pGrid.AddComponent<PowerGrid>();
+            grid = new PowerGrid();
             grid.AddNode(this);
 
             // set the visual size
@@ -211,7 +164,7 @@ namespace FactoryFramework
             System.Text.StringBuilder s = new System.Text.StringBuilder();
 
             s.Append($"{this._sRef.GUID}:");
-            s.AppendJoin(',', this.Connections.Select(n => n._sRef.GUID));
+            //s.AppendJoin(',', this.Connections.Select(n => n._sRef.GUID));
             return s.ToString();
         }
 
@@ -232,6 +185,28 @@ namespace FactoryFramework
 #endif
         }
 
+        #if UNITY_EDITOR
+        private void OnGUI()
+        {
+            if (UnityEditor.Selection.activeGameObject != this.gameObject) return;
+            GUILayout.BeginVertical();
+            GUILayout.Label($"PowerDraw: {basePowerDraw} Total Power in Grid: {grid.Production}");
+            // show each connection in the grid
+            GUILayout.Label($"Nodes: {grid.edges.Count}");
+            for (int i = 0; i < grid.nodes.Count; i++)
+            {
+                GUILayout.Label($"{grid.nodes.ElementAt(i)._sRef.GUID}");
+            }
+
+            GUILayout.Label($"Connections: {grid.edges.Count}");
+            for (int i = 0; i < grid.edges.Count; i++)
+            {
+                GUILayout.Label($"{grid.edges.ElementAt(i).Item1._sRef.GUID} -> {grid.edges.ElementAt(i).Item2._sRef.GUID}");
+            }
+            GUILayout.EndVertical();
+            
+        }
+        #endif
         #region RADIUS_VISUAL
         private float _activeAlpha = 0.35f;
         public void ShowRadiusVisual()

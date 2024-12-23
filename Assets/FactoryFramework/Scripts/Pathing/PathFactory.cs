@@ -20,15 +20,11 @@ namespace FactoryFramework
 
             if (pt == GlobalLogisticsSettings.PathSolveType.SMART)
             {
-                return new SmartPath(start, startDir, end, endDir, settings.BELT_TURN_RADIUS, settings.BELT_VERTICAL_TOLERANCE, settings.BELT_RAMP_RADIUS);
+                //return new SmartPath(start, startDir, end, endDir, settings.BELT_TURN_RADIUS, settings.BELT_VERTICAL_TOLERANCE, settings.BELT_RAMP_RADIUS);
             }
             else if (pt == GlobalLogisticsSettings.PathSolveType.SPLINE)
             {
-                return new CubicBezierPath(start, end, startDir, endDir, settings.BELT_TURN_RADIUS);
-            }
-            else if (pt == GlobalLogisticsSettings.PathSolveType.SEGMENT)
-            {
-                return new SegmentPath(start, startDir, end, endDir);
+                //return new CubicBezierPath(start, end, startDir, endDir, settings.BELT_TURN_RADIUS);
             }
             return null;
         }
@@ -37,11 +33,11 @@ namespace FactoryFramework
         {
             var settings = ConveyorLogisticsUtils.settings;
             int maxColliders = 1;
-            int checks = Mathf.Max(0, Mathf.FloorToInt(p.GetTotalLength() / resolution));
+            int checks = Mathf.Max(0, Mathf.FloorToInt(p.TotalLength / resolution));
             for (int i = Mathf.Min(startskip, checks); i < Mathf.Max(0, checks - endskip); i++)
             {
                 float pathPos = ((float)i + 0.5f) / checks;
-                Vector3 pos = p.GetWorldPointFromPathSpace(pathPos);
+                Vector3 pos = p.GetPositionAtPoint(pathPos);
                 Collider[] hitColliders = new Collider[maxColliders];
                 Physics.OverlapSphereNonAlloc(pos + Vector3.up * (radius/0.75f), radius, hitColliders, layermask);
                 foreach (Collider collider in hitColliders)
@@ -50,7 +46,7 @@ namespace FactoryFramework
                     if (ignored != null && !ignored.Contains(collider))
                     {
                         if (settings.SHOW_DEBUG_LOGS)
-                            Debug.Log("colliding with " + collider + " from " + collider.gameObject + " at position " + collider.gameObject.transform.position);
+                            Debug.Log("colliding with " + collider + " at position " + collider.gameObject.transform.position);
                         return true;
                     }
                     else if (ignored == null)

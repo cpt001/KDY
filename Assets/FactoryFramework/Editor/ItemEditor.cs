@@ -72,6 +72,8 @@ namespace FactoryFramework.Editor
             });
 
             var descriptionField = _visualElement.Query<TextField>(name: "item-description").First();
+            var maxStackField = _visualElement.Query<IntegerField>(name: "max-stack").First();
+            maxStackField.value = _item.itemData.maxStack;
 
             TextField guidText = _visualElement.Q<TextField>("guid");
             guidText.value = _item.Guid?.ToString();

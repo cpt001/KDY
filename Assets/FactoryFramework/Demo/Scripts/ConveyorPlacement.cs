@@ -3,25 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using FactoryFramework;
+using System.Linq;
+using System;
+using UnityEngine.Splines;
+using Unity.VisualScripting;
+
 public class ConveyorPlacement : MonoBehaviour
 {
+    [SerializeField] LayerMask terrainLayer;
+    public float snapRadius = 1f;
+    public float heightOffset = 0.25f;
+
     [Header("Placement Events")]
     public VoidEventChannel_SO startPlacementEvent;
     public VoidEventChannel_SO finishPlacementEvent;
     public VoidEventChannel_SO cancelPlacementEvent;
 
     [Header("Conveyor Setup")]
-    public Conveyor conveyorPrefab;
-    private Conveyor current;
+    public ConveyorBelt conveyorPrefab;
+    public BeltMeshSO frameBM;
+    public BeltMeshSO beltBM;
+    private ConveyorBelt _current;
+    public bool IsCreatingPath => _current != null;
+    private GlobalLogisticsSettings _settings;
+    private ConveyorBelt _dummyVisual;
 
-    private Vector3 startPos;
     private float startHeight;
-    private Vector3 endPos;
-    private Vector3 flatEndPos;
-    private Vector2 shiftMousePos;
-
-    private Socket startSocket;
-    private Socket endSocket;
+    private List<Vector3> Points;
+    private LogisticComponent _from;
+    private LogisticComponent _to;
+    private int _fromIndex;
+    private int _toIndex;
 
     [Header("Visual Feedback Materials")]
     public Material originalFrameMat;
@@ -29,346 +41,406 @@ public class ConveyorPlacement : MonoBehaviour
     public Material greenGhostMat;
     public Material redGhostMat;
 
-    [Header("Controls")]
-    public KeyCode cancelKey = KeyCode.Escape;
+    // Controls
+    private const float LONG_PRESS_DURATION = 0.5f;
+    private bool wasPointerDown;
+    private bool isLongPressTriggered;
+    private float pointerDownTime;
+    private Vector2 pointerPosition;
 
-    private enum State
+    public event Action<Vector2> OnTap;
+    public event Action<Vector2> OnLongPress;
+    public event Action<Vector2> OnRelease;
+
+    [Header("Custom Functions")]
+    [SerializeField] private GridCheck gridCheck;
+
+    private void Awake()
     {
-        None,
-        Start,
-        End
+        _settings = ConveyorLogisticsUtils.settings;
     }
-    [SerializeField] private State state;
+
+    bool IsPointerDown()
+    {
+        return Input.GetMouseButton(0) || (
+            Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began);
+    }
+    bool isPointerReleased()
+    {
+       return Input.GetMouseButtonUp(0) || (
+            Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended);
+    }
+    Vector2 GetPointerPosition()
+    {
+        if (Input.touchCount > 0)
+        {
+            return Input.GetTouch(0).position;
+        } else
+        {
+            return Input.mousePosition;
+        }
+    }
+    void TapDetected(Vector2 pos)
+    {
+        OnTap?.Invoke(pos);
+        HandlePress(pos);
+    }
+    void LongPressDetected(Vector2 pos)
+    {
+        OnLongPress?.Invoke(pos);
+    }
+    void ReleaseDetected(Vector2 pos)
+    {
+        OnRelease?.Invoke(pos);
+        HandleRelease();
+    }
+
+    private void Update()
+    {
+        // detect touches
+        if (IsPointerDown())
+        {
+            if (!wasPointerDown)  // Pointer just pressed
+            {
+                wasPointerDown = true;
+                pointerDownTime = Time.time;
+                isLongPressTriggered = false;
+
+                // Get pointer position (for both mouse and touch)
+                pointerPosition = GetPointerPosition();
+                TapDetected(pointerPosition);
+            }
+
+            // Check if long press condition is met
+            if (Time.time - pointerDownTime > LONG_PRESS_DURATION && !isLongPressTriggered)
+            {
+                isLongPressTriggered = true;
+                LongPressDetected(pointerPosition);
+            }
+        }
+        else if (wasPointerDown && !IsPointerDown())  // Pointer released
+        {
+            ReleaseDetected(pointerPosition);
+            wasPointerDown = false;
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            HandleCancel();
+        }
+    }
+
+    private void HandleCancel()
+    {
+        StopPlacingConveyor();
+    }
+
+    private void HandleRelease()
+    {
+    }
+
+    private void HandleHold()
+    {
+    }
+
+    private void HandlePress(Vector2 screenPos)
+    {
+        // get the world point of the press
+        //Vector3 worldPoint = GetMouseWorldPoint(screenPos);
+        Vector3 worldPoint = gridCheck.gridPoint;
+        if (IsCreatingPath)
+        {
+            // check for termination point in an input hook
+            (LogisticComponent lc, int nearestInput) = GetNearestInputHook(worldPoint);
+            if (nearestInput != -1)
+            {
+                // terminate the thing
+                _to = lc;
+                _toIndex = nearestInput;
+                Transform inputHook = lc.InputHooks[nearestInput];
+                Vector3 dir = inputHook.transform.forward;
+                Points.AddRange(new Vector3[] { inputHook.position + dir*_settings.BELT_TURN_RADIUS, inputHook.position });
+                StopPlacingConveyor();
+            } else
+            {
+                Points.Add(worldPoint);
+                AssignPath(Points);
+
+                _current.UpdateMesh(beltBM, frameBM);
+
+            }
+
+        } else
+        {
+            // create new conveyor
+            StartPlacingConveyor();
+
+            //sphere cast to check for LogisticComponent
+            (LogisticComponent lc, int nearestOutput) = GetNearestOutputHook(worldPoint);
+            if (nearestOutput != -1)
+            {
+                _from = lc;
+                _fromIndex = nearestOutput;
+                // add 2 starter points to allow for natural connections and rounded edges
+                Transform outputHook = lc.OutputHooks[nearestOutput];
+                Vector3 dir = outputHook.forward;
+                Points = new List<Vector3> { outputHook.position, outputHook.position + dir*_settings.BELT_TURN_RADIUS};
+            }
+            else
+            {
+                Points = new List<Vector3> { worldPoint };
+            }
+        }
+    }
 
     private void OnEnable()
     {
         // listen to the cancel event to force cancel placement from elsewhere in the code
         cancelPlacementEvent.OnEvent += ForceCancel;
+
+        // create dummy visual
+        _dummyVisual = Instantiate(conveyorPrefab);
+        _dummyVisual.gameObject.name = "DummyVisual";
+        _dummyVisual.AssignPath<RoundedPolygon>(new Vector3[] { Vector3.zero, Vector3.forward });
+        _dummyVisual.UpdateMesh(beltBM, frameBM);
+        _dummyVisual.GetComponent<ConveyorBelt>().enabled = false;
     }
     private void OnDisable()
     {
+        if (_dummyVisual != null)
+            _dummyVisual.transform.position = new Vector3(0, -10f, 0f);
+         
         // stop listening
         cancelPlacementEvent.OnEvent -= ForceCancel;
+
+        if (_dummyVisual != null)
+            Destroy(_dummyVisual.gameObject);
+    }
+
+    private void LateUpdate()
+    {
+        if (!IsCreatingPath)
+        {
+            //var worldPos = GetMouseWorldPoint(GetPointerPosition());
+            var worldPos = gridCheck.gridPoint;
+            //check for starting port
+            (LogisticComponent lc, int nearestOutput) = GetNearestOutputHook(worldPos);
+            if (nearestOutput != -1)
+            {
+                _dummyVisual.transform.position = lc.OutputHooks[nearestOutput].position;
+                _dummyVisual.transform.forward = lc.OutputHooks[nearestOutput].forward;
+                return;
+            }
+
+            if (!this)
+            {
+                _dummyVisual.transform.position = worldPos;
+            }
+            return;
+        }
+        _dummyVisual.transform.position = new Vector3(0,-10f,0f);
+        if (Points.Count>0)
+        {
+            var tempPoints = Points.ToList();
+            //var worldPoint = GetMouseWorldPoint(GetPointerPosition());
+            var worldPoint = gridCheck.gridPoint;
+
+            // check for teminus
+            (LogisticComponent lc, int nearestInput) = GetNearestInputHook(worldPoint);
+            if (nearestInput != -1)
+            {
+                // add 2 starter points to allow for natural connections and rounded edges
+                Transform hook = lc.InputHooks[nearestInput];
+                Vector3 dir = hook.forward;
+                tempPoints.AddRange(new List<Vector3> { hook.position + dir * _settings.BELT_TURN_RADIUS, hook.position });
+            }
+            else
+            {
+                var newPoint = worldPoint;
+                if (Vector3.Distance(newPoint, Points.Last()) < 1f)
+                {
+                    if (newPoint == Points.Last())
+                        newPoint = Points.Last() + Vector3.right;
+                }
+                tempPoints.Add(newPoint);
+            }
+
+            AssignPath(tempPoints);
+            _current.UpdateMesh(beltBM, frameBM);
+        } else if (Points.Count == 0)
+        {
+            var tempPoints = Points.ToList();
+            //var newPoint = GetMouseWorldPoint(GetPointerPosition());
+            var newPoint = gridCheck.gridPoint;
+            tempPoints.Add(newPoint);
+            tempPoints.Add(newPoint + Vector3.right);
+            AssignPath(tempPoints);
+            _current.UpdateMesh(beltBM, frameBM);
+        }
+
+        if (_current.Path.IsValid)
+        {
+            _current.AssignBeltMaterial(greenGhostMat);
+            _current.AssignFrameMaterial(greenGhostMat);
+        } else
+        {
+            _current.AssignBeltMaterial(redGhostMat);
+            _current.AssignFrameMaterial(redGhostMat);
+        }
     }
 
     private void ForceCancel()
     {
-        if (current != null)
+        if (_current != null)
         {
-            Destroy(current.gameObject);
+            Destroy(_current.gameObject);
         }
-        current = null;
-        this.state = State.None;
-    }
-
-    private bool TryChangeState(State desiredState)
-    {
-        state = desiredState;
-        return true;
+        _current = null;
+        _from = null;
+        _to = null;
+        _fromIndex = -1;
+        _toIndex = -1;
     }
 
     public void StartPlacingConveyor() {
-        //cancel any placement currently happening
+        //cancel any placement _currently happening
         cancelPlacementEvent?.Raise();
         // instantiate a belt to place
-        current = Instantiate(conveyorPrefab);
-        if (TryChangeState(State.Start))
-        {
-            startSocket = null;
-            endSocket = null;
-        }
+        _current = Instantiate(conveyorPrefab);
+        
         // trigger event
         startPlacementEvent?.Raise();
     }
-
-    private bool ValidLocation()
+    void StopPlacingConveyor()
     {
-        if (current == null) return false;
-        
-            foreach (Collider c in Physics.OverlapSphere(startPos, 1f))
-            {
-                if (c.tag == "Building" && c.gameObject != current.gameObject)
-                {
-                    // colliding something!
-                    if (ConveyorLogisticsUtils.settings.SHOW_DEBUG_LOGS)
-                        Debug.LogWarning($"Invalid placement: {current.gameObject.name} collides with {c.gameObject.name} at the start");
-                    //ChangeMatrerial(redPlacementMaterial);
-                    return false;
-                }
-            }
-            foreach (Collider c in Physics.OverlapSphere(endPos, 1f))
-            {
-                if (c.tag == "Building" && c.gameObject != current.gameObject)
-                {
-                    // colliding something!
-                    if (ConveyorLogisticsUtils.settings.SHOW_DEBUG_LOGS)
-                        Debug.LogWarning($"Invalid placement: {current.gameObject.name} collides with {c.gameObject.name} at the end");
-                    //ChangeMatrerial(redPlacementMaterial);
-                    return false;
-                }
-            }
+        if (Points.Count < 2)
+        {
+            finishPlacementEvent?.Raise();
+            if (_current != null) Destroy(_current.gameObject);
+            _current = null;
 
-        //ChangeMatrerial(greenPlacementMaterial);
-        return true;
+            this.enabled = false;
+            return;
+        }
+        AssignPath(Points);
+        if (!_current.Path.IsValid)
+        {
+            finishPlacementEvent?.Raise();
+            Destroy(_current.gameObject);
+            _current = null;
+
+            this.enabled = false;
+            return;
+        }
+
+        _current.UpdateMesh(beltBM, frameBM);
+
+        _current.AssignBeltMaterial(originalBeltMat);
+        _current.AssignFrameMaterial(originalFrameMat);
+
+        if (_from != null)
+        {
+            _from.ConnectOutput(_current, _fromIndex);
+            _current.ConnectInput(_from);
+        }
+        if (_to != null)
+        {
+            _to.ConnectInput(_current, _toIndex);
+            _current.ConnectOutput(_to);
+        }
+        
+        finishPlacementEvent?.Raise();
+        _current = null;
+        _from = null;
+        _to = null;
+        _fromIndex = -1;
+        _toIndex = -1;
+
+        this.enabled = false;
     }
 
-    //I think this can be simplified in a significant fashion. 
-    //Gridcheck already handles placement validity, so all this needs to do is handle the midpoint collision data, and socketing
-    //Alternatively, take the markers from this script, and move them into another script?
-    void HandleStartState()
+    private bool ValidLocation(Vector3 pos)
     {
-        Debug.Assert(current != null, "Not currently placing a conveyor.");
-        startSocket = null;
-        Vector3 worldPos = Vector3.zero;
-        Vector3 worldDir = Vector3.forward;
-        Ray mousedownRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        foreach (RaycastHit hit in Physics.RaycastAll(mousedownRay, 100f))
-        {
-            // skip objects/colliders in the conveyor we're currently placing
-            if (hit.transform.root == current.transform) continue;
-            // try to find an open socket
-            if (hit.collider.gameObject.TryGetComponent(out Socket socket))
-            {
-                if (!socket.IsOpen())
-                {
-                    // Socket already Occupied
-                    continue;
-                }
-                
-                startSocket = socket;
-                break;
-            }
-            
-            if (hit.collider.gameObject.TryGetComponent(out Terrain t))
-            {
-                
-                worldPos = hit.point;
-                Vector3 camForward = Camera.main.transform.forward;
-                camForward.y = 0f;
-                camForward.Normalize();
-                worldDir = camForward;
-            }
-        }
-        // override placement if we found a valid socket
-        if (startSocket)
-        {
-            worldPos = startSocket.transform.position;
-            worldDir = startSocket.transform.forward;
-        }
+        return _current.Path.IsValid;
+    }
 
-        startPos = worldPos;
-        // setup the start and end vectors to solve for path building
-        current.data.start = worldPos;
-        current.data.startDir = worldDir;
-        current.data.end = worldPos + worldDir;
-        current.data.endDir = worldDir;
-        // get the relative height
-        if (startSocket == null)
+    Vector3 GetMouseWorldPoint(Vector2 screenPos)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        var raycasts = Physics.RaycastAll(ray, Mathf.Infinity, terrainLayer).OrderBy(rc=>rc.distance).Reverse();
+        foreach (RaycastHit hit in raycasts)
         {
-            startHeight = 0f; // Terrain.activeTerrain.SampleHeight(worldPos);
+            if (hit.collider.TryGetComponent(out Terrain _))
+            {
+                return hit.point + Vector3.up * heightOffset;
+            }
         }
-        else
+        // raycast onto the y=0 XZ plane
+        //Debug.Log("Did not find terrain");
+        return ray.origin + ray.direction * (ray.origin.y / -ray.direction.y);
+    }
+    LogisticComponent[] FindNearby(Vector3 worldPos)
+    {
+        // spherecast world point to find nearby logisticcomponent objects. Order by distance
+        var hits = Physics.SphereCastAll(worldPos, snapRadius, Vector3.up, snapRadius).OrderBy(h => h.distance);
+        var components = new List<LogisticComponent>();
+        foreach (var hit in hits)
         {
-            startHeight = startSocket.transform.position.y - Terrain.activeTerrain.SampleHeight(worldPos);
+            if (hit.collider.TryGetComponent(out LogisticComponent component))
+            {
+                if (_current!=null && hit.collider.transform.root == _current.transform) continue;
+                if (_dummyVisual == component) continue;
+                components.Add(component);
+            }
         }
-        
-        //ignore colliders from start and end points
-        List<Collider> collidersToIgnore = new List<Collider>();
-        // add colliders associated with the connected start socket
-        if (startSocket != null)
+        return components.ToArray();
+    }
+    (LogisticComponent, int) GetNearestOutputHook(Vector3 worldPos)
+    {
+        var outputs = FindNearby(worldPos);
+        if (outputs.Length == 0) { return (null, -1); }
+        foreach (var output in outputs)
         {
-            collidersToIgnore.AddRange(startSocket.transform.root.GetComponentsInChildren<Collider>());
-            collidersToIgnore.Remove(startSocket.transform.root.GetComponent<Collider>());
+            var curr = output.GetNearestOutput(worldPos);
+            if (curr != -1)
+                return (output, curr);
+        }
+        return (null,-1);
+    }
+    (LogisticComponent, int) GetNearestInputHook(Vector3 worldPos)
+    {
+        var inputs = FindNearby(worldPos);
+        if (inputs.Length == 0) return (null,-1);
+        foreach (var input in inputs)
+        {
+            var curr = input.GetNearestInput(worldPos);
+            if (curr != -1)
+                return (input, curr);
+        }
+        return (null,-1);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!this.enabled) return;
+        //Vector3 pos = GetMouseWorldPoint(GetPointerPosition());
+        Vector3 pos = gridCheck.gridPoint;
+
+        Gizmos.DrawWireSphere(pos, snapRadius);
+    }
+
+    void AssignPath(List<Vector3> pathPoints)
+    {
+        if (_settings.PATHTYPE == GlobalLogisticsSettings.PathSolveType.SMART)
+        {
+            _current.AssignPath<RoundedPolygon>(pathPoints.ToArray());
+        }
+        else if (_settings.PATHTYPE == GlobalLogisticsSettings.PathSolveType.SPLINE)
+        {
+            _current.AssignPath<PointSplinePath>(pathPoints.ToArray());
         } else
         {
-            collidersToIgnore.Add(Terrain.activeTerrain.GetComponent<TerrainCollider>());
-        }
-        
-        //if (collidersToIgnore.Count > 0)
-        current.UpdateMesh(ignored: collidersToIgnore.ToArray(), startskip:1, endskip: 1);
-        //else
-        //    current.UpdateMesh();
-
-        // startSocket != null prevents belt from starting disconnected
-        if (current.ValidMesh) // && startSocket != null
-        {
-            current.SetMaterials(greenGhostMat, greenGhostMat);
-            if (Input.GetMouseButtonDown(0))
-            {
-                TryChangeState(State.End);
-            }
-        }
-        else 
-            current.SetMaterials(redGhostMat, redGhostMat);
-
-        
-    }
-
-    void HandleEndState()
-    {
-        Debug.Assert(current != null, "Not currently placing a conveyor.");
-        Vector3 worldPos = Vector3.zero;
-        Vector3 worldDir = Vector3.forward;
-        Ray mousedownRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        foreach (RaycastHit hit in Physics.RaycastAll(mousedownRay, 100f))
-        {
-            if (hit.collider.transform.root == current.transform) continue;
-            // want to specifically connect to a conveyor socket, not a belt bridge
-            if (hit.collider.gameObject.TryGetComponent<InputSocket>(out InputSocket socket))
-            {
-                if (!socket.IsOpen())
-                {
-                    // Socket already Occupied
-                    break;
-                }
-                worldPos = hit.collider.transform.position;
-                worldDir = hit.collider.transform.forward;
-                endSocket = socket;
-
-                break;
-            }
-            if (hit.collider.gameObject.TryGetComponent<Terrain>(out Terrain t))
-            {
-                // handle height offset when holding shift
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    // find the intersection of the camera mouse ray plane and the endPos->Vector.Up line
-                    Vector3 planeNormal = Camera.main.transform.up;
-
-                    Vector3 lineStart = flatEndPos;
-                    Vector3 lineVector = Vector3.up;
-
-                    float dotNumerator = Vector3.Dot((hit.point - lineStart), planeNormal);
-                    float dotDenominator = Vector3.Dot(lineVector, planeNormal);
-
-                    if (dotDenominator != 0.0f)
-                    {
-                        var length = dotNumerator / dotDenominator;
-                        Vector3 vec = Vector3.up * length;
-                        worldPos = lineStart + vec;
-;                    } else
-                    {
-                        worldPos = flatEndPos;
-                    }
-
-                    worldPos.y = Mathf.Max(Terrain.activeTerrain.SampleHeight(worldPos), worldPos.y);
-                } else
-                {
-                    worldPos = hit.point;
-                    // stay same level if this is the terrain
-
-                    worldPos.y = Terrain.activeTerrain.SampleHeight(worldPos) + startHeight;
-                    
-                }
-
-                Vector3 camForward = Camera.main.transform.forward;
-                camForward.y = 0f;
-                camForward.Normalize();
-                worldDir = camForward;
-                // reset socket
-                endSocket = null;
-
-            }
-            
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            flatEndPos = endPos;
-            shiftMousePos = Input.mousePosition;
-        }
-        endPos = worldPos;
-        current.data.end = worldPos;
-        current.data.endDir = worldDir;
-        List<Collider> collidersToIgnore = new List<Collider>();
-        //add colliders associated with the connected start and end sockets
-        //THIS IS NOT A GREAT WAY TO DO THIS - CONSIDER USING LAYERMASKS
-        //if (startSocket == null)
-        //    collidersToIgnore.AddRange(FindObjectsOfType<TerrainCollider>());
-        if (startSocket != null)
-            collidersToIgnore.AddRange(startSocket.GetComponentsInChildren<Collider>());
-        if (endSocket != null)
-            collidersToIgnore.AddRange(endSocket.GetComponentsInChildren<Collider>());
-        // add self
-        OutputSocket outputSocket = current.GetComponentInChildren<OutputSocket>();
-        if (outputSocket != null)
-            collidersToIgnore.Add(outputSocket.GetComponent<Collider>());
-        InputSocket inputSocket = current.GetComponentInChildren<InputSocket>();
-        if (inputSocket != null)
-            collidersToIgnore.Add(inputSocket.GetComponent<Collider>());
-        // add connected sockets
-        if (startSocket)
-            collidersToIgnore.Add(startSocket.GetComponent<Collider>());
-        if (endSocket)
-            collidersToIgnore.Add(endSocket.GetComponent<Collider>());
-
-        current.UpdateMesh(
-            startskip: 1, //startSocket != null ? 1 : 0, 
-            endskip: 1,
-            ignored: collidersToIgnore.Count > 0 ? collidersToIgnore.ToArray() : null
-        );
-
-        if (current.ValidMesh)
-            current.SetMaterials(greenGhostMat, greenGhostMat);
-        else
-            current.SetMaterials(redGhostMat, redGhostMat);
-
-        if (Input.GetMouseButtonDown(0) && current.ValidMesh)
-        {
-
-            // change the sockets!
-            if (startSocket != null)
-            {
-                //startSocket.Connect(current);
-                current.ConnectToOutput(startSocket as OutputSocket);
-            }
-            if (endSocket != null)
-            {
-                //endSocket.Connect(current);
-                current.ConnectToInput(endSocket as InputSocket);
-            }
-            // finalize the conveyor
-            current.UpdateMesh(true);
-            current.SetMaterials(originalFrameMat, originalBeltMat);
-            current.AddCollider();
-
-            // stop placing conveyor
-            current = null;
-            startSocket = null;
-            endSocket = null;
-
-            TryChangeState(State.None);
-            finishPlacementEvent?.Raise();
+            Debug.LogError("Path type not supported");
         }
     }
-
-    void HandleNoneState()
-    {
-        return;
-    }
-
-    public void Update()
-    {
-        if (Input.GetKeyDown(cancelKey))
-        {
-            if (current != null)
-                Destroy(current.gameObject);
-            current = null;
-            startSocket = null;
-            endSocket = null;
-            state = State.None;
-        }
-        switch (state)
-        {
-            case State.None:
-                HandleNoneState();
-                break;
-            case State.Start:
-                HandleStartState();
-                break;
-            case State.End:
-                HandleEndState();
-                break;
-        }
-    }
-
 }

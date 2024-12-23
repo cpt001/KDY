@@ -24,4 +24,4 @@ MonoBehaviour:
   - _item: {fileID: 11400000, guid: d6d61a2531e55cb49abbb961c11a5ffb, type: 2}
     itemGUID: d6d61a2531e55cb49abbb961c11a5ffb
     amount: 1
-  tickCost: 1
+  secondsToProduce: 1

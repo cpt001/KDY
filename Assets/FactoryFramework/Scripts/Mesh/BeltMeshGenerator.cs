@@ -6,11 +6,119 @@ using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Jobs;
 using UnityEngine;
+using Unity.Mathematics;
 
 namespace FactoryFramework
 {
     public static class BeltMeshGenerator
     {
+        public static Mesh GenerateFlatProcedural(IPath path, float width)
+        {
+            float halfWidth = width / 2f;
+            Mesh mesh = new Mesh();
+
+            List<Vector3> vertices = new List<Vector3>();
+            List<Vector2> uvs = new List<Vector2>();
+            List<int> triangles = new List<int>();
+            List<Vector3> normals = new List<Vector3>();
+
+            // for each point in path, generate a quad with width centered on the points
+            var pathPoints = path.PathPoints;
+            float cumulativeLength = 0f;
+            for (int i = 0; i < pathPoints.Length; i++)
+            {
+                if (i > 0) cumulativeLength += math.distance(pathPoints[i], pathPoints[i - 1]);
+
+                var p = (Vector3)pathPoints[i];
+                var rot = path.PathRotations[i];
+                var right = (Vector3)math.mul(rot, math.right());
+                var up = (Vector3)math.mul(rot, math.up());
+
+                // generate points for edge
+                vertices.Add(p - right * halfWidth);
+                vertices.Add(p + right * halfWidth);
+
+                normals.Add(up);
+                normals.Add(up);
+
+                uvs.Add(new Vector2(cumulativeLength,0));
+                uvs.Add(new Vector2(cumulativeLength,1));
+
+                if (i > 0) { 
+                    //0,1,2, 1,2,3
+                    var vCount = vertices.Count;
+                    // add quad (2 triangles)
+                    triangles.Add(vCount - 2);
+                    triangles.Add(vCount - 3);
+                    triangles.Add(vCount - 4);
+                    triangles.Add(vCount - 3);
+                    triangles.Add(vCount - 2);
+                    triangles.Add(vCount - 1);
+                }
+            }
+            
+            mesh.vertices = vertices.ToArray();
+            mesh.triangles = triangles.ToArray();
+            mesh.normals = normals.ToArray();
+            mesh.uv = uvs.ToArray();
+
+            return mesh;
+        }
+
+        public static Mesh GenerateFlatProcedural(IPath path, float width, BeltMeshSO meshConfig)
+        {
+            float halfWidth = width / 2f;
+            Mesh mesh = new Mesh();
+
+            List<Vector3> vertices = new List<Vector3>();
+            List<Vector2> uvs = new List<Vector2>();
+            List<int> triangles = new List<int>();
+            List<Vector3> normals = new List<Vector3>();
+
+            // for each point in path, generate a quad with width centered on the points
+            var pathPoints = path.PathPoints;
+            float cumulativeLength = 0f;
+            for (int i = 0; i < pathPoints.Length; i++)
+            {
+                if (i > 0) cumulativeLength += math.distance(pathPoints[i], pathPoints[i - 1]);
+
+                var p = (Vector3)pathPoints[i];
+                var rot = path.PathRotations[i];
+                var right = (Vector3)math.mul(rot, math.right());
+                var up = (Vector3)math.mul(rot, math.up());
+
+                // generate points for edge
+                vertices.Add(p - right * halfWidth);
+                vertices.Add(p + right * halfWidth);
+
+                normals.Add(up);
+                normals.Add(up);
+
+                uvs.Add(new Vector2(cumulativeLength, 0));
+                uvs.Add(new Vector2(cumulativeLength, 1));
+
+                if (i > 0)
+                {
+                    //0,1,2, 1,2,3
+                    var vCount = vertices.Count;
+                    // add quad (2 triangles)
+                    triangles.Add(vCount - 2);
+                    triangles.Add(vCount - 3);
+                    triangles.Add(vCount - 4);
+                    triangles.Add(vCount - 3);
+                    triangles.Add(vCount - 2);
+                    triangles.Add(vCount - 1);
+                }
+            }
+
+            mesh.vertices = vertices.ToArray();
+            mesh.triangles = triangles.ToArray();
+            mesh.normals = normals.ToArray();
+            mesh.uv = uvs.ToArray();
+
+            return mesh;
+        }
+
         public static Mesh Generate(IPath path, BeltMeshSO model, float segments, float scaleFactor, float uvScaleFactor = 1f, bool generateBeltUVS = false)
         {
             if (segments < 3)
@@ -18,7 +126,7 @@ namespace FactoryFramework
                 segments = 3;
             }
 
-            if(path.GetStart() == path.GetEnd())
+            if((Vector3)path.GetStart() == (Vector3)path.GetEnd())
             {
                 Debug.LogWarning("Warning: start and end of path are same location!");
                 return new Mesh();
@@ -40,7 +148,7 @@ namespace FactoryFramework
             List<Vector3> normals = new List<Vector3>();
             List<Vector2> uvs = new List<Vector2>();
             List<int> tris = new List<int>();
-            float len = path.GetTotalLength();
+            float len = path.TotalLength;
             float perSegment = 1f / segments;
             SerializableMesh current = model.startCap;
 
@@ -68,7 +176,7 @@ namespace FactoryFramework
                 foreach (Vector3 v in current.GetMesh().vertices)
                 {
                     float pathSpaceZ = Remap(v.z, meshStart, meshEnd, segStart, segEnd);
-                    Vector3 offsetPos = path.GetWorldPointFromPathSpace(pathSpaceZ);
+                    Vector3 offsetPos = path.GetPositionAtPoint(pathSpaceZ);
                     Quaternion rot = path.GetRotationAtPoint(pathSpaceZ);
                     Vector3 rotatedMeshPos = rot * new Vector3(v.x * scaleFactor, v.y * scaleFactor, 0);
                     verts.Add(offsetPos + rotatedMeshPos);
@@ -98,9 +206,9 @@ namespace FactoryFramework
         {
             MeshGenParams settings = new MeshGenParams()
             {
-                len = path.GetTotalLength(),
+                len = path.TotalLength,
                 perSegment = 1f / segments,
-                uvperpath = path.GetTotalLength() / uvScaleFactor,
+                uvperpath =  uvScaleFactor, // path.TotalLength /
                 segments = segments,
                 scaleFactor = scaleFactor,
                 beltUvs = generateBeltUVS,
@@ -163,8 +271,8 @@ namespace FactoryFramework
                 public void Execute(int segIndex)
                 {
                     // Start and end points in pathspace (0-1) for this segment
-                    float segStart = segIndex * settings.perSegment;
-                    float segEnd = (segIndex + 1) * settings.perSegment;
+                    float segStart = segIndex * settings.perSegment * pStruct.TotalLength;
+                    float segEnd = (segIndex + 1) * settings.perSegment * pStruct.TotalLength;
 
                     // Holder for our current mesh (start, mid, end)
                     ref NativeMesh curMesh = ref inputMesh.mid;
@@ -194,7 +302,7 @@ namespace FactoryFramework
                     foreach (Vector3 v in curMesh.verts)
                     {
                         float pathSpaceZ = Remap(v.z, curMesh.zMin, curMesh.zMax, segStart, segEnd);
-                        Vector3 offsetPos = pStruct.GetWorldPointFromPathSpace(pathSpaceZ);
+                        Vector3 offsetPos = pStruct.GetPositionAtPoint(pathSpaceZ);
                         Quaternion rot = pStruct.GetRotationAtPoint(pathSpaceZ);
                         Vector3 rotatedMeshPos = rot * new Vector3(v.x * settings.scaleFactor, v.y * settings.scaleFactor, 0);
                         outputMesh.verts[offset + index] = (offsetPos + rotatedMeshPos);
@@ -308,8 +416,6 @@ namespace FactoryFramework
             public int segments;        // Number of segments to use when generating 
             public bool beltUvs;        // Remap uvs for belts
         }
-
-
 
         public static float Remap(float value, float from1, float to1, float from2, float to2)
         {

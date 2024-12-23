@@ -5,118 +5,98 @@ using UnityEngine;
 
 namespace FactoryFramework
 {
-    public class Producer : Building, IOutput
+    public class Producer : LogisticComponent
     {
         #region fields
-        [Tooltip("Resource being Produce")]
-        public LocalStorage resource;
+        [SerializeField] public Item resource;
+
+        public LocalStorage internalStorage;
 
         [Tooltip("Only allow certain types of items. Leave Blank for Any")]
         public Item[] validItems;
 
-        [SerializeField] private float _resourcesPerSecond = 1f;
-        private float secondsPerResource { get { return 1f / _resourcesPerSecond; } }
-
-        private IEnumerator _currentRoutine;
+        public float resourcesPerSecond = 1f;
+        private float secondsPerResource { get { return 1f / resourcesPerSecond; } }
+        public float  SecondsSinceLastResource { get; private set; }
         #endregion
 
-        public void SetOutputResource(Item item)
+        public void SetResource(Item item)
         {
-            if (item == resource.itemStack.item) return;
-            if (resource.itemStack.amount > 0)
-                Debug.LogWarning($"Producer {gameObject.name} is dropping {resource.itemStack.amount} {resource.itemStack.item.name}(s) into the void");
-            resource.itemStack.amount = 0;
-            resource.itemStack.item = item;
-            CancelWork();
+            if (item == resource) return;
+            resource = item;
         }
 
         #region Lifecycle
         private void OnEnable()
         {
-            // use mesh to calculate bounds
-            Mesh m = GetComponent<MeshFilter>()?.mesh;
-            Vector3 center = (m != null) ? m.bounds.center : transform.position;
-            Vector3 size = (m != null) ? m.bounds.extents : Vector3.one;
-            foreach (Collider c in Physics.OverlapBox(transform.TransformPoint(center), size*1.125f))
-            {
-                if (c.TryGetComponent(out Resource r)){
-                    if (validItems.Count() == 0 || validItems.Contains(r.item))
-                    {
-                        this.SetOutputResource(r.item);
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Resource {r.item.name} is not a valid resource for this building to mine");
-                    }
-                    
-                    break;
-                }
-            }
+            SecondsSinceLastResource = Time.time;
             IsWorking = false;
         }
         private void OnDisable()
         {
-            CancelWork();
-        }
-        private void CancelWork()
-        {
-            if (_currentRoutine != null) StopCoroutine(_currentRoutine);
-        }
-        #endregion
-
-        #region Workload
-        private bool CanStartWork()
-        {
-            if (IsWorking) return false;
-            if (resource.itemStack.item == null) return false;
-            // is full?
-            if (resource.itemStack.amount == resource.itemStack.item.itemData.maxStack) return false;
-            return true;
-        }
-        public override void ProcessLoop()
-        {
-            if (CanStartWork())
-            {
-                _currentRoutine = ProduceResource();
-                StartCoroutine(_currentRoutine);
-            }
-        }
-        private IEnumerator ProduceResource()
-        {
-            IsWorking = true;
-            float _t = 0f;
-            while (_t < secondsPerResource)
-            {
-                _t += Time.deltaTime * PowerEfficiency;
-                yield return null;
-            }
-            resource.itemStack.amount += 1;
-            _currentRoutine = null;
             IsWorking = false;
         }
         #endregion
 
-        #region IOutput
-        public bool CanGiveOutput(Item filter = null)
+        #region Workload
+        public override void ProcessLoop()
         {
-            if (filter != null) Debug.LogWarning("Producer Does not Implement Item Filter Output");
-            return resource.itemStack.item != null && resource.itemStack.amount > 0;
+            if (resource == null)
+            {
+                IsWorking = false;
+                return;
+            }
+            IsWorking = true;
+            if (internalStorage.IsFull)
+            {
+                IsWorking = false;
+                return;
+            }
+            var elapsedTime= Time.time - SecondsSinceLastResource;
+            var resourceAmount = Mathf.FloorToInt(this.PowerEfficiency * elapsedTime / secondsPerResource);
+            if (resourceAmount > 0)
+            {
+                SecondsSinceLastResource = Time.time;
+
+                if (internalStorage.ItemType == null || internalStorage.ItemType == resource)
+                {
+                    internalStorage.Add(resource, resourceAmount);
+                }
+            }
         }
-        public Item OutputType() { return resource.itemStack.item; }
-        public Item GiveOutput(Item filter = null)
-        {
-            if (filter != null) Debug.LogWarning("Producer Does not Implement Item Filter Output");
-            if (resource.itemStack.item == null || resource.itemStack.amount == 0) return null;
-            resource.itemStack.amount -= 1;
-            return resource.itemStack.item;
-        }
+        
         #endregion
 
-        public void OnDrawGizmos()
+        #region Overrides
+        public override bool RecieveItem(Item item)
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawWireSphere(Vector3.zero, 1f);
+            return false;
         }
+        public override bool CanRecieveItem(Item item)
+        {
+            return false;
+        }
+        public override bool TransferItem(LogisticComponent output)
+        {
+            if (internalStorage.ItemType == null) return false;
+            if (output.CanRecieveItem(internalStorage.ItemType))
+            {
+                Item item = internalStorage.Remove();
+                return true;
+            }
+            
+            return false;
+        }
+        public override Item OutputItem { 
+            get
+            {
+                if (internalStorage.ItemType != null)
+                {
+                    return internalStorage.ItemType;
+                }
+                return null;
+            }
+        }
+        #endregion
     }
 }

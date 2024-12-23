@@ -5,47 +5,52 @@ using UnityEngine;
 namespace FactoryFramework
 {
     [System.Serializable]
-    public class LocalStorage : IInput, IOutput
+    public class LocalStorage
     {
         public ItemStack itemStack;
         public bool overrideMaxStack = false;
         [Min(1)]
         public int overrideMaxStackNum = 1;
 
-        public bool CanGiveOutput(Item filter = null) { return itemStack.item != null && itemStack.amount > 0; }
-        public bool CanTakeInput(Item item)
+        public bool IsFull
         {
-            // conditions to overwrite stack with new one
-            if (itemStack.item == null) return true;
-            if (itemStack.amount == 0) return true;
-
-            // conditions where item cannot be added to stack
-            if (itemStack.item != item && item != null) return false; // type mismatch
-            int maxStack = (overrideMaxStack) ? overrideMaxStackNum : itemStack.item.itemData.maxStack;
-            if (itemStack.amount >= maxStack) return false; // no room in stack
-
-            return true;
-        }
-        public void TakeInput(Item item)
-        {
-            Debug.Assert(CanTakeInput(item), "No room for input");
-            if (itemStack.item == null || itemStack.amount == 0)
+            get
             {
-                // new stack!
+                if (itemStack.item == null) return false;
+                if (overrideMaxStack) return itemStack.amount >= overrideMaxStackNum;
+                return itemStack.amount >= itemStack.item.itemData.maxStack;
+            }
+        }
+        public Item ItemType => (itemStack.item == null) ? null : itemStack.item;
+
+        public void Add(Item item, int amount = 1)
+        {
+            if (item == null) return;
+            if (itemStack.item == null)
+            {
                 itemStack.item = item;
-                itemStack.amount = 1;
+                itemStack.amount = amount;
+            }
+            else if (itemStack.item == item)
+            {
+                itemStack.amount += amount;
             }
             else
             {
-                itemStack.amount += 1;
+                throw new System.Exception("Not enough room to take a new type of item");
             }
+            itemStack.amount = (overrideMaxStack) ? Mathf.Min(itemStack.amount, overrideMaxStackNum) : Mathf.Min(itemStack.amount, item.itemData.maxStack);
         }
-        public Item OutputType() { return itemStack.item; }
-        public Item GiveOutput(Item filter = null)
+        public Item Remove(int amount=1)
         {
-            Debug.Assert(CanGiveOutput(), "No Output Available");
-
-            itemStack.amount -= 1;
+            if (amount > itemStack.amount) Debug.LogError($"Cannot give {amount} items. LocalStorage contains {itemStack.amount} items");
+            itemStack.amount-=amount;
+            if (itemStack.amount <= 0)
+            {
+                var item = itemStack.item;
+                itemStack.item = null;
+                return item;
+            }
             return itemStack.item;
         }
     }

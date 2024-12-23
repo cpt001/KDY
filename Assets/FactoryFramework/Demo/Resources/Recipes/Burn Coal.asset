@@ -21,4 +21,4 @@ MonoBehaviour:
     itemGUID: 82fe31b6851384948af78917006b0997
     amount: 1
   outputs: []
-  tickCost: 2
+  secondsToProduce: 1.5

@@ -14,7 +14,7 @@ using UnityEngine;
 public class Structures : MonoBehaviour
 {
     private GridCheck gridCheck => Camera.main.GetComponent<GridCheck>();
-    [SerializeField] private GridConveyor gridConveyor;
+    [SerializeField] private ConveyorPlacement gridConveyor;
 
     #region Conveyance
     [Header("Conveyance Prefabs")]

@@ -3,11 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Terrain
-  - Building
-  - Resources
-  - GridSurface
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -15,9 +11,9 @@ TagManager:
   - 
   - Water
   - UI
-  - Terrain
-  - Belt Collideable
-  - Grid
+  - 
+  - 
+  - 
   - 
   - 
   - 

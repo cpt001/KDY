@@ -18,7 +18,7 @@ namespace FactoryFramework
         public int numOutputs = 1;
         public ItemStack[] inputs;
         public ItemStack[] outputs;
-        public float tickCost = 30f;
+        public float secondsToProduce = 1f;
 
         public Item[] InputItems
         {

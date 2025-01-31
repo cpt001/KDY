@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Copper Rocky to Pure
+  m_EditorClassIdentifier: 
+  _guid: c7bc613fa3a61584485943225e754bba
+  resourcesPath: Recipes/Washer/Copper Rocky to Pure
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: ac98b10f5d1bd1542a64e02445c94c29, type: 2}
+    itemGUID: ac98b10f5d1bd1542a64e02445c94c29
+    amount: 1
+  outputs:
+  - _item: {fileID: 11400000, guid: d882dbb8d7ca5c8478fc149832aa5e4d, type: 2}
+    itemGUID: d882dbb8d7ca5c8478fc149832aa5e4d
+    amount: 2
+  secondsToProduce: 1

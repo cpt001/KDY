@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Steel Cylinder to Gun
+  m_EditorClassIdentifier: 
+  _guid: 44f54367de0c23b4d94ffea782c80a8a
+  resourcesPath: Recipes/Steel Cylinder to Gun
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: ec099495af822c449a6d466e00c45d87, type: 2}
+    itemGUID: ec099495af822c449a6d466e00c45d87
+    amount: 2
+  outputs:
+  - _item: {fileID: 11400000, guid: 96e01546de0bfc741b92ae57e1c0992b, type: 2}
+    itemGUID: 96e01546de0bfc741b92ae57e1c0992b
+    amount: 1
+  secondsToProduce: 1

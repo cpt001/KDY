@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Iron Plate to Shaped Steel
+  m_EditorClassIdentifier: 
+  _guid: 000bf536b96f30f408e3479563041684
+  resourcesPath: Recipes/Iron Plate to Shaped Steel
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: 5191296b16bbc144f81706e0079383b8, type: 2}
+    itemGUID: 5191296b16bbc144f81706e0079383b8
+    amount: 4
+  outputs:
+  - _item: {fileID: 11400000, guid: d95c99667f4d6364ea5f8b14a1c96412, type: 2}
+    itemGUID: d95c99667f4d6364ea5f8b14a1c96412
+    amount: 2
+  secondsToProduce: 1

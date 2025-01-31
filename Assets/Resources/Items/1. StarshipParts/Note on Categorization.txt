@@ -1,0 +1,3 @@
+Many parts are reused on multiple ships.
+
+When a new part is introduced, it's added to the folder of the associated ship.

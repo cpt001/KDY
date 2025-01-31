@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Steel to Steel Plate
+  m_EditorClassIdentifier: 
+  _guid: 9d8a4cc314c3126428a46183f9f5b611
+  resourcesPath: Recipes/Iron Plate to Steel 1
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: 17558d706e624ce4f86a78c7e1c62949, type: 2}
+    itemGUID: 17558d706e624ce4f86a78c7e1c62949
+    amount: 1
+  outputs:
+  - _item: {fileID: 11400000, guid: 67afcd2d22fc0784a8808dc7f4fc48f5, type: 2}
+    itemGUID: 67afcd2d22fc0784a8808dc7f4fc48f5
+    amount: 3
+  secondsToProduce: 1

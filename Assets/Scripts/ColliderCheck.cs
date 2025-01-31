@@ -5,12 +5,13 @@ using UnityEngine;
 public class ColliderCheck : MonoBehaviour
 {
     public bool placementValid;
-    private List<Collider> trackedColliders = new List<Collider>();
+    public List<Collider> trackedColliders = new List<Collider>();
     private Renderer buildingGhostRenderer => GetComponent<Renderer>();
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ConveyorBelt") || other.gameObject.CompareTag("Machine"))
         {
+            Debug.Log("Collider detected: " + other.gameObject);
             trackedColliders.Add(other);
         }
     }

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cc93331e9d78834392e6618f7c1427e, type: 3}
+  m_Name: Gun
+  m_EditorClassIdentifier: 
+  _guid: 96e01546de0bfc741b92ae57e1c0992b
+  resourcesPath: Items/1. StarshipParts/1. Fighter/Gun
+  icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
+  prefab: {fileID: 919132149155446097, guid: 7ef7fae6c5e0fd643aeef9a5898ea00a, type: 3}
+  itemData:
+    description: 
+    maxStack: 50
+  DebugColor: {r: 0.6698113, g: 0.47397137, b: 0.24959949, a: 1}

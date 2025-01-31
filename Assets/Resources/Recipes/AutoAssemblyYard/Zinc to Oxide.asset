@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Zinc to Oxide
+  m_EditorClassIdentifier: 
+  _guid: 9b66312db828f5749826f4b15d89b7e5
+  resourcesPath: Recipes/Acid Bath/Crushed Quartz to Pure 1
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: 601ccf6504fccdc4bb0d0b807fce401a, type: 2}
+    itemGUID: 601ccf6504fccdc4bb0d0b807fce401a
+    amount: 2
+  outputs:
+  - _item: {fileID: 11400000, guid: 69e01a7f0650cd14583e7619cdf42101, type: 2}
+    itemGUID: 69e01a7f0650cd14583e7619cdf42101
+    amount: 3
+  secondsToProduce: 1

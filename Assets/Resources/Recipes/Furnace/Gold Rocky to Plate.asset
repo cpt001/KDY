@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Gold Rocky to Plate
+  m_EditorClassIdentifier: 
+  _guid: c6ee5761e6bdb4446b6a669db9ef454d
+  resourcesPath: Recipes/Furnace/Gold Rocky to Plate
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: ab9188c129b188f4384cdb82b7773cdb, type: 2}
+    itemGUID: ab9188c129b188f4384cdb82b7773cdb
+    amount: 1
+  outputs:
+  - _item: {fileID: 11400000, guid: d48a56ad03c001c4eb8c72f662af2fe9, type: 2}
+    itemGUID: d48a56ad03c001c4eb8c72f662af2fe9
+    amount: 1
+  secondsToProduce: 1

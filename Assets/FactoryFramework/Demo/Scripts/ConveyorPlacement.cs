@@ -146,8 +146,7 @@ public class ConveyorPlacement : MonoBehaviour
     private void HandlePress(Vector2 screenPos)
     {
         // get the world point of the press
-        //Vector3 worldPoint = GetMouseWorldPoint(screenPos);
-        Vector3 worldPoint = gridCheck.gridPoint;
+        Vector3 worldPoint = GetMouseWorldPoint(screenPos); //No, breaks things
         if (IsCreatingPath)
         {
             // check for termination point in an input hook
@@ -221,8 +220,8 @@ public class ConveyorPlacement : MonoBehaviour
     {
         if (!IsCreatingPath)
         {
-            //var worldPos = GetMouseWorldPoint(GetPointerPosition());
-            var worldPos = gridCheck.gridPoint;
+            var worldPos = gridCheck.gridPoint;//GetMouseWorldPoint(GetPointerPosition());    //No, breaks things
+
             //check for starting port
             (LogisticComponent lc, int nearestOutput) = GetNearestOutputHook(worldPos);
             if (nearestOutput != -1)
@@ -232,19 +231,15 @@ public class ConveyorPlacement : MonoBehaviour
                 return;
             }
 
-            if (!this)
-            {
-                _dummyVisual.transform.position = worldPos;
-            }
+            _dummyVisual.transform.position = worldPos;
             return;
         }
         _dummyVisual.transform.position = new Vector3(0,-10f,0f);
         if (Points.Count>0)
         {
             var tempPoints = Points.ToList();
-            //var worldPoint = GetMouseWorldPoint(GetPointerPosition());
-            var worldPoint = gridCheck.gridPoint;
-
+            var worldPoint = /*gridCheck.gridPoint;/*/GetMouseWorldPoint(GetPointerPosition());  //No, breaks things
+            
             // check for teminus
             (LogisticComponent lc, int nearestInput) = GetNearestInputHook(worldPoint);
             if (nearestInput != -1)
@@ -270,8 +265,7 @@ public class ConveyorPlacement : MonoBehaviour
         } else if (Points.Count == 0)
         {
             var tempPoints = Points.ToList();
-            //var newPoint = GetMouseWorldPoint(GetPointerPosition());
-            var newPoint = gridCheck.gridPoint;
+            var newPoint = /*gridCheck.gridPoint;/*/GetMouseWorldPoint(GetPointerPosition());
             tempPoints.Add(newPoint);
             tempPoints.Add(newPoint + Vector3.right);
             AssignPath(tempPoints);
@@ -374,10 +368,15 @@ public class ConveyorPlacement : MonoBehaviour
             {
                 return hit.point + Vector3.up * heightOffset;
             }
+            else
+            {
+                Debug.Log("Raycast hits: " + hit.collider.name);
+            }
         }
         // raycast onto the y=0 XZ plane
-        //Debug.Log("Did not find terrain");
+        Debug.Log("Did not find terrain");
         return ray.origin + ray.direction * (ray.origin.y / -ray.direction.y);
+        //return screenPos = gridCheck.gridPoint;   //Worth a try...
     }
     LogisticComponent[] FindNearby(Vector3 worldPos)
     {
@@ -425,7 +424,6 @@ public class ConveyorPlacement : MonoBehaviour
         if (!this.enabled) return;
         //Vector3 pos = GetMouseWorldPoint(GetPointerPosition());
         Vector3 pos = gridCheck.gridPoint;
-
         Gizmos.DrawWireSphere(pos, snapRadius);
     }
 

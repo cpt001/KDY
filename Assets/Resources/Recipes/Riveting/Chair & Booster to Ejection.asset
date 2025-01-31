@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Chair & Booster to Ejection
+  m_EditorClassIdentifier: 
+  _guid: cafe5cfb73b7a2441b4910474992ca29
+  resourcesPath: Recipes/Riveting/Chair & Booster to Ejection
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: f0b7a5718ee69fc45ae5cfaff8bb21e3, type: 2}
+    itemGUID: f0b7a5718ee69fc45ae5cfaff8bb21e3
+    amount: 1
+  - _item: {fileID: 11400000, guid: 1fa3d019fad1eaf4698e1757fa1ac352, type: 2}
+    itemGUID: 1fa3d019fad1eaf4698e1757fa1ac352
+    amount: 2
+  outputs:
+  - _item: {fileID: 11400000, guid: e3a433ad965fc5a4fb6ed3ffb8550f9d, type: 2}
+    itemGUID: e3a433ad965fc5a4fb6ed3ffb8550f9d
+    amount: 1
+  secondsToProduce: 1

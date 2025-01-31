@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: Refined Fiber to Sheet
+  m_EditorClassIdentifier: 
+  _guid: 65ceb52f813806343b716c8b3bba51f8
+  resourcesPath: Recipes/Industrial Sewing Machine/Wire to Electrics
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: ee95339d64ff6064088ce47df61528a4, type: 2}
+    itemGUID: ee95339d64ff6064088ce47df61528a4
+    amount: 2
+  outputs:
+  - _item: {fileID: 11400000, guid: 4973fce75eb8c3142a99dd8430f546c3, type: 2}
+    itemGUID: 4973fce75eb8c3142a99dd8430f546c3
+    amount: 1
+  secondsToProduce: 1

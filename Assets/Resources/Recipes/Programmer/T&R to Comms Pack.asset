@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aff95871025114e8b9f838e626cf73, type: 3}
+  m_Name: T&R to Comms Pack
+  m_EditorClassIdentifier: 
+  _guid: af95ef285426f4c49a6841bdc8e81fa1
+  resourcesPath: Recipes/Programmer/T&R to Comms Pack
+  numInputs: 0
+  numOutputs: 0
+  inputs:
+  - _item: {fileID: 11400000, guid: a7543fd9eadc3eb42b4ee68b0125688d, type: 2}
+    itemGUID: a7543fd9eadc3eb42b4ee68b0125688d
+    amount: 1
+  - _item: {fileID: 11400000, guid: f1a236c75e7421d4280ea98e7c50447d, type: 2}
+    itemGUID: f1a236c75e7421d4280ea98e7c50447d
+    amount: 1
+  outputs:
+  - _item: {fileID: 11400000, guid: 1cd12a2fed5aada44b0e8a2e6fa5665b, type: 2}
+    itemGUID: 1cd12a2fed5aada44b0e8a2e6fa5665b
+    amount: 1
+  secondsToProduce: 1

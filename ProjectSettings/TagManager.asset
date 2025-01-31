@@ -3,12 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - GridSurface
+  - Building
+  - Machine
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Grid Layer
   - Water
   - UI
   - 

@@ -45,7 +45,7 @@ public class Structures : MonoBehaviour
     [SerializeField] private GameObject stationPreview;
     [SerializeField] private GameObject massDriverPreview;
     [SerializeField] private GameObject receiverPreview;
-    public void Co_SetConveyor() { gridConveyor.enabled = true;}
+    public void Co_SetConveyor() { gridConveyor.enabled = true; }
     public void Co_SetSplitter() { SetGhost(splitterPreview, splitter);}
     public void Co_SetInserter() { SetGhost(inserterPreview, inserter);}
     public void Co_SetCraneTrack() { SetGhost(craneTrackPreview, craneTrack);}
@@ -189,20 +189,21 @@ public class Structures : MonoBehaviour
     #endregion
 
     #region Structural
-    private MachineryPooling girderLattice;
-    private MachineryPooling pressurizedStructure;
-    private MachineryPooling smFreightDock;
-    private MachineryPooling mdFreightDock;
-    private MachineryPooling lgFreightDock;
-    private MachineryPooling xlFreightDock;
-    private MachineryPooling containerZone;
-    private GameObject girderLatticePreview;
-    private GameObject pressurizedStructurePreview;
-    private GameObject smFreightDockPreview;
-    private GameObject mdFreightDockPreview;
-    private GameObject lgFreightDockPreview;
-    private GameObject xlFreightDockPreview;
-    private GameObject containerZonePreview;
+    [Header("Structural Prefabs")]
+    [SerializeField] private MachineryPooling girderLattice;
+    [SerializeField] private MachineryPooling pressurizedStructure;
+    [SerializeField] private MachineryPooling smFreightDock;
+    [SerializeField] private MachineryPooling mdFreightDock;
+    [SerializeField] private MachineryPooling lgFreightDock;
+    [SerializeField] private MachineryPooling xlFreightDock;
+    [SerializeField] private MachineryPooling containerZone;
+    [SerializeField] private GameObject girderLatticePreview;
+    [SerializeField] private GameObject pressurizedStructurePreview;
+    [SerializeField] private GameObject smFreightDockPreview;
+    [SerializeField] private GameObject mdFreightDockPreview;
+    [SerializeField] private GameObject lgFreightDockPreview;
+    [SerializeField] private GameObject xlFreightDockPreview;
+    [SerializeField] private GameObject containerZonePreview;
     public void S_SetGirderLattice() {SetGhost(girderLatticePreview, girderLattice);}
     public void S_SetPressurizedStructure() {SetGhost(pressurizedStructurePreview, pressurizedStructure);}
     public void S_SmallFreightDock() {SetGhost(smFreightDockPreview, smFreightDock);}

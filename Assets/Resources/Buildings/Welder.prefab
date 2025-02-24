@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2998864592347072918}
   - component: {fileID: 103240406928508110}
   - component: {fileID: 4389952620412568596}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 617138562340064222}
   - component: {fileID: 6677764673628974}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,14 +149,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3530835227287265761}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -0.987, y: 0, z: -1.961}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8342580698766136124}
   m_Father: {fileID: 5236288770619817452}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &6677764673628974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 4124070669840246212}
   - component: {fileID: 7491872347668055367}
   - component: {fileID: 373594008495935969}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,13 +206,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3710361373606645960}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.00000017881393, z: -0.5}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: -0.00000017881393, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 617138562340064222}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!33 &1012235192873471570
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -312,7 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5830484963210054283}
   - component: {fileID: 1965092912224972745}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,6 +364,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9190959195755711839, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -44.36
@@ -409,8 +413,16 @@ PrefabInstance:
       value: Welder
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}
       propertyPath: m_TagString
       value: Machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5519565031882350248, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -449,14 +461,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf13b7d6d5f4694aa8e9f80fdbab1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inputs: []
-  Outputs: []
-  InputHookVisuals: []
-  OutputHookVisuals: []
-  InputHooks: []
-  OutputHooks: []
+  Inputs:
+  - {fileID: 0}
+  Outputs:
+  - {fileID: 0}
+  InputHookVisuals:
+  - {fileID: 3530835227287265761}
+  OutputHookVisuals:
+  - {fileID: 5913416374567596644}
+  InputHooks:
+  - {fileID: 617138562340064222}
+  OutputHooks:
+  - {fileID: 5830484963210054283}
   recipe: {fileID: 0}
-  validRecipes: []
+  validRecipes:
+  - {fileID: 11400000, guid: 71b5c7e0cf4c46d40bba1683be2cbaab, type: 2}
   invalidRecipes: []
   inputItems: []
   outputItems: []

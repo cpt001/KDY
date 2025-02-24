@@ -225,6 +225,12 @@ namespace FactoryFramework
                 ClearInternalStorage();
             return true;
         }
+
+        public void TestCall()
+        {
+            Debug.Log("Button should have recipe assigned!");
+        }
+
         public bool MatchFirstRecipe(out Recipe found)
         {
             found = null;

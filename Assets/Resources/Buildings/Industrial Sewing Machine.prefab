@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7539304739843128475}
   - component: {fileID: 8343796331748444184}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1383997053508090493}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.458, z: 1.585}
+  m_LocalPosition: {x: 0, y: -0.458, z: 1.093}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 8283613023795167445}
   - component: {fileID: 7169689050255045107}
   - component: {fileID: 479967731979764467}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 2369893777112231733}
   - component: {fileID: 5417007432913934773}
   - component: {fileID: 8380627478450402993}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,13 +206,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2283552511165110753}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.00000017881393, z: -0.5}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: -0.00000017881393, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7539304739843128475}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!33 &2957976686158176590
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -312,7 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1545964258467020332}
   - component: {fileID: 2342724220559900743}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,14 +327,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2628743909955627107}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.45800018, z: -1.5312996}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: -0.45800018, z: -1.091}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8994514263107876788}
   m_Father: {fileID: 7094489692100010298}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!65 &2342724220559900743
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -404,9 +404,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4562266686271685020, guid: f947f08582c011f439adf9135a337f30, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f947f08582c011f439adf9135a337f30, type: 3}
       propertyPath: m_Name
       value: Industrial Sewing Machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f947f08582c011f439adf9135a337f30, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f947f08582c011f439adf9135a337f30, type: 3}
       propertyPath: m_TagString
@@ -454,14 +462,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf13b7d6d5f4694aa8e9f80fdbab1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inputs: []
-  Outputs: []
-  InputHookVisuals: []
-  OutputHookVisuals: []
-  InputHooks: []
-  OutputHooks: []
+  Inputs:
+  - {fileID: 0}
+  Outputs:
+  - {fileID: 0}
+  InputHookVisuals:
+  - {fileID: 1383997053508090493}
+  OutputHookVisuals:
+  - {fileID: 2628743909955627107}
+  InputHooks:
+  - {fileID: 7539304739843128475}
+  OutputHooks:
+  - {fileID: 1545964258467020332}
   recipe: {fileID: 0}
-  validRecipes: []
+  validRecipes:
+  - {fileID: 11400000, guid: 65ceb52f813806343b716c8b3bba51f8, type: 2}
   invalidRecipes: []
   inputItems: []
   outputItems: []

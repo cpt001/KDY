@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Gold Ore
   m_EditorClassIdentifier: 
   _guid: 55b3437f493746c46bae6a8918a5fb3b
-  resourcesPath: FactoryItems/Gold Ore
+  resourcesPath: Items/Gold/Gold Ore
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
   prefab: {fileID: 919132149155446097, guid: 4e332d0ebf7fa01409ab6e3f2ff7b190, type: 3}
   itemData:

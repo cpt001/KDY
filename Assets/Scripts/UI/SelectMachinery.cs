@@ -230,14 +230,11 @@ public class SelectMachinery : MonoBehaviour
 
     public void SetStructureSelection()
     {
-        if (!uiDropped)
-        {
-            return;
-        }
-        else
+        if (uiDropped)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))   //Player presses 1
             {
+                Debug.Log("1 pressed with UI condition met");
                 switch (modifyingSelectionNumber)
                 {   
                     //Switch case depending on what UI is active

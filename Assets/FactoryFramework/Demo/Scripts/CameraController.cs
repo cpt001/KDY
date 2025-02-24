@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public KeyCode fwd = KeyCode.W;
-    public KeyCode back = KeyCode.S;
-    public KeyCode left = KeyCode.A;
-    public KeyCode right = KeyCode.D;
-    public KeyCode CW = KeyCode.E;
-    public KeyCode CCW = KeyCode.Q;
+    [SerializeField] private KeyCode fwd = KeyCode.W;
+    [SerializeField] private KeyCode back = KeyCode.S;
+    [SerializeField] private KeyCode left = KeyCode.A;
+    [SerializeField] private KeyCode right = KeyCode.D;
+    [SerializeField] private KeyCode CW = KeyCode.E;
+    [SerializeField] private KeyCode CCW = KeyCode.Q;
 
     public float moveSpeed = 15f;
     public float rotateSpeed = 90f;

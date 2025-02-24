@@ -374,7 +374,7 @@ public class ConveyorPlacement : MonoBehaviour
             }
         }
         // raycast onto the y=0 XZ plane
-        Debug.Log("Did not find terrain");
+        //Debug.Log("Did not find terrain");
         return ray.origin + ray.direction * (ray.origin.y / -ray.direction.y);
         //return screenPos = gridCheck.gridPoint;   //Worth a try...
     }

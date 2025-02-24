@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5644434503539670528}
   - component: {fileID: 2663930490645916441}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,14 +25,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 514749206666075248}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.294, y: 0.55499935, z: -0.311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5362079834806748548}
   m_Father: {fileID: 8338558836311575720}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2663930490645916441
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6147503640247660579}
   - component: {fileID: 2782634124259693732}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 5061904582455107328}
   - component: {fileID: 5730902270517954638}
   - component: {fileID: 7010495970581547847}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,13 +136,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3423054889494845703}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.00000017881393, z: -0.5}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: -0.00000017881393, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5644434503539670528}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!33 &7225169053628371031
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 667657884370396733}
   - component: {fileID: 3719380639809206461}
   - component: {fileID: 5396937387355181466}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,6 +409,10 @@ PrefabInstance:
       value: Furnace
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 567dfcd128ef91441b1f84a0011b934f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 567dfcd128ef91441b1f84a0011b934f, type: 3}
       propertyPath: m_TagString
       value: Machine
       objectReference: {fileID: 0}
@@ -454,14 +458,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf13b7d6d5f4694aa8e9f80fdbab1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inputs: []
-  Outputs: []
-  InputHookVisuals: []
-  OutputHookVisuals: []
-  InputHooks: []
-  OutputHooks: []
+  Inputs:
+  - {fileID: 0}
+  Outputs:
+  - {fileID: 0}
+  InputHookVisuals:
+  - {fileID: 514749206666075248}
+  OutputHookVisuals:
+  - {fileID: 2620476494525136897}
+  InputHooks:
+  - {fileID: 5644434503539670528}
+  OutputHooks:
+  - {fileID: 6147503640247660579}
   recipe: {fileID: 0}
-  validRecipes: []
+  validRecipes:
+  - {fileID: 11400000, guid: 0ec18cae63c870940951681b9e410ce0, type: 2}
+  - {fileID: 11400000, guid: 4d69639f73f494d4f942a5c2749a5636, type: 2}
+  - {fileID: 11400000, guid: d99a4bc5228671349a3b58b8d9314671, type: 2}
+  - {fileID: 11400000, guid: 3d662b21d1ad1f945865372b3fc86ac6, type: 2}
+  - {fileID: 11400000, guid: c6ee5761e6bdb4446b6a669db9ef454d, type: 2}
+  - {fileID: 11400000, guid: 56e0edb0a6ad79c4aba5875fd74d89a0, type: 2}
+  - {fileID: 11400000, guid: 44f54367de0c23b4d94ffea782c80a8a, type: 2}
+  - {fileID: 11400000, guid: 933b25dcc6efb724eb0d6cb5d34082ae, type: 2}
   invalidRecipes: []
   inputItems: []
   outputItems: []

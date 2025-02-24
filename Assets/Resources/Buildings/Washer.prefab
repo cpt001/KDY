@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7137819861084260888}
   - component: {fileID: 6751180276178873211}
   - component: {fileID: 3950090398655996290}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480103537374661680}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.00000017881393, z: -0.5}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: -0.00000017881393, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8529921751646353798}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!33 &4810601303625692545
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8529921751646353798}
   - component: {fileID: 8991347863542335714}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,14 +149,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3765307356078629197}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.0000002706135}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.655}
   m_LocalScale: {x: 0.71428573, y: 0.71428573, z: 0.71428573}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8993596550168709014}
   m_Father: {fileID: 6108017011345302502}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8991347863542335714
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 725038255150291741}
   - component: {fileID: 7281574767197965377}
   - component: {fileID: 2909547434264848987}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5980000578597740411}
   - component: {fileID: 1054912110873476468}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 7716812844908169352}
   - component: {fileID: 5410487322482764721}
   - component: {fileID: 4960190723600335135}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Washer
   m_TagString: Machine
   m_Icon: {fileID: 0}
@@ -471,14 +471,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf13b7d6d5f4694aa8e9f80fdbab1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inputs: []
-  Outputs: []
-  InputHookVisuals: []
-  OutputHookVisuals: []
-  InputHooks: []
-  OutputHooks: []
+  Inputs:
+  - {fileID: 0}
+  Outputs:
+  - {fileID: 0}
+  InputHookVisuals:
+  - {fileID: 3765307356078629197}
+  OutputHookVisuals:
+  - {fileID: 6296964576479309391}
+  InputHooks:
+  - {fileID: 8529921751646353798}
+  OutputHooks:
+  - {fileID: 5980000578597740411}
   recipe: {fileID: 0}
-  validRecipes: []
+  validRecipes:
+  - {fileID: 11400000, guid: f3f49fb6bdab81f4196acc22d632f4ee, type: 2}
+  - {fileID: 11400000, guid: c7bc613fa3a61584485943225e754bba, type: 2}
+  - {fileID: 11400000, guid: 8894fbdd896ecec49a129494a59b161a, type: 2}
   invalidRecipes: []
   inputItems: []
   outputItems: []

@@ -11,7 +11,6 @@ public class ColliderCheck : MonoBehaviour
     {
         if (other.CompareTag("ConveyorBelt") || other.gameObject.CompareTag("Machine"))
         {
-            Debug.Log("Collider detected: " + other.gameObject);
             trackedColliders.Add(other);
         }
     }
@@ -21,7 +20,7 @@ public class ColliderCheck : MonoBehaviour
         {
             trackedColliders.Remove(other);
         }
-        if (trackedColliders.Count == 0)
+        if (trackedColliders.Count != 0)
         {
             buildingGhostRenderer.material.SetColor("_Color", Color.red);
         }

@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577521330940994605}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.00000017881393, z: -0.5}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: -0.00000017881393, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2922946113187826886}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!33 &5684570727707304072
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2922946113187826886}
   - component: {fileID: 7776752942490064016}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,14 +149,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4127146171653830354}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: -0.0000002706135}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.518, y: 0.99, z: -0.25300026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4255278711585306132}
   m_Father: {fileID: 404892113975794544}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7776752942490064016
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 253918591522930444}
   - component: {fileID: 621996284686622377}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,8 +409,24 @@ PrefabInstance:
       value: Acid Bath
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: fc73b119623f28e4ba6db0ec776e23a3, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fc73b119623f28e4ba6db0ec776e23a3, type: 3}
       propertyPath: m_TagString
       value: Machine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1500937377208012460, guid: fc73b119623f28e4ba6db0ec776e23a3, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2135781834930394075, guid: fc73b119623f28e4ba6db0ec776e23a3, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4764801310006038624, guid: fc73b119623f28e4ba6db0ec776e23a3, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -467,14 +483,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf13b7d6d5f4694aa8e9f80fdbab1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inputs: []
-  Outputs: []
-  InputHookVisuals: []
-  OutputHookVisuals: []
-  InputHooks: []
-  OutputHooks: []
+  Inputs:
+  - {fileID: 0}
+  Outputs:
+  - {fileID: 0}
+  InputHookVisuals:
+  - {fileID: 4127146171653830354}
+  OutputHookVisuals:
+  - {fileID: 5892993031597462357}
+  InputHooks:
+  - {fileID: 2922946113187826886}
+  OutputHooks:
+  - {fileID: 253918591522930444}
   recipe: {fileID: 0}
-  validRecipes: []
+  validRecipes:
+  - {fileID: 11400000, guid: 099984840b38a2b469472ec314f8dda7, type: 2}
+  - {fileID: 11400000, guid: 9b66312db828f5749826f4b15d89b7e5, type: 2}
   invalidRecipes: []
   inputItems: []
   outputItems: []

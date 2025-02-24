@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7760285522148897367}
   - component: {fileID: 175169087974737960}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,14 +25,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3234756251487525444}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.782, y: 0.418, z: -0.324}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5874386016213818533}
   m_Father: {fileID: 8888147026498754955}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &175169087974737960
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 5847330302228825518}
   - component: {fileID: 760352976276138110}
   - component: {fileID: 2314008820561929243}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 269474452153024050}
   - component: {fileID: 2935023933921722338}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 1487798196621662678}
   - component: {fileID: 1471893421865743890}
   - component: {fileID: 8418052408234757685}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,13 +260,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8863264561080461589}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0.00000017881393, z: -0.5}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: -0.00000017881393, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7760285522148897367}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 180, z: 0}
 --- !u!33 &5128929649112747366
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -409,6 +409,10 @@ PrefabInstance:
       value: Extruder
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d8d0820251e56914ab8f9de94eac60e0, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d8d0820251e56914ab8f9de94eac60e0, type: 3}
       propertyPath: m_TagString
       value: Machine
       objectReference: {fileID: 0}
@@ -449,14 +453,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcf13b7d6d5f4694aa8e9f80fdbab1ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Inputs: []
-  Outputs: []
-  InputHookVisuals: []
-  OutputHookVisuals: []
-  InputHooks: []
-  OutputHooks: []
+  Inputs:
+  - {fileID: 0}
+  Outputs:
+  - {fileID: 0}
+  InputHookVisuals:
+  - {fileID: 3234756251487525444}
+  OutputHookVisuals:
+  - {fileID: 8709573312830545383}
+  InputHooks:
+  - {fileID: 7760285522148897367}
+  OutputHooks:
+  - {fileID: 269474452153024050}
   recipe: {fileID: 0}
-  validRecipes: []
+  validRecipes:
+  - {fileID: 11400000, guid: 875e0334cf925fe4db66bdc58723864e, type: 2}
+  - {fileID: 11400000, guid: 4c3b72267f0b7dc4887b27f31ba62687, type: 2}
   invalidRecipes: []
   inputItems: []
   outputItems: []

@@ -1456,6 +1456,7 @@ GameObject:
   - component: {fileID: 90069164}
   - component: {fileID: 90069163}
   - component: {fileID: 90069162}
+  - component: {fileID: 90069165}
   m_Layer: 5
   m_Name: Recipe 2
   m_TagString: Untagged
@@ -1527,13 +1528,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 90069165}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1577,6 +1578,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90069160}
   m_CullTransparentMesh: 1
+--- !u!114 &90069165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90069160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &91482591
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,6 +1771,7 @@ GameObject:
   - component: {fileID: 103917993}
   - component: {fileID: 103917992}
   - component: {fileID: 103917991}
+  - component: {fileID: 103917994}
   m_Layer: 5
   m_Name: Recipe 8
   m_TagString: Untagged
@@ -1828,13 +1843,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 103917994}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1878,6 +1893,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 103917989}
   m_CullTransparentMesh: 1
+--- !u!114 &103917994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103917989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &104257772
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,6 +2054,7 @@ GameObject:
   - component: {fileID: 105947082}
   - component: {fileID: 105947081}
   - component: {fileID: 105947080}
+  - component: {fileID: 105947083}
   m_Layer: 5
   m_Name: Recipe 0
   m_TagString: Untagged
@@ -2097,13 +2126,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 105947083}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2147,6 +2176,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 105947078}
   m_CullTransparentMesh: 1
+--- !u!114 &105947083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105947078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &109537526
 GameObject:
   m_ObjectHideFlags: 0
@@ -2298,6 +2340,7 @@ GameObject:
   - component: {fileID: 121221282}
   - component: {fileID: 121221281}
   - component: {fileID: 121221280}
+  - component: {fileID: 121221283}
   m_Layer: 5
   m_Name: Recipe 3
   m_TagString: Untagged
@@ -2369,13 +2412,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 121221283}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2419,6 +2462,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121221278}
   m_CullTransparentMesh: 1
+--- !u!114 &121221283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121221278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &122884996
 GameObject:
   m_ObjectHideFlags: 0
@@ -10477,6 +10533,7 @@ GameObject:
   - component: {fileID: 773341444}
   - component: {fileID: 773341443}
   - component: {fileID: 773341442}
+  - component: {fileID: 773341445}
   m_Layer: 5
   m_Name: Recipe 17
   m_TagString: Untagged
@@ -10548,13 +10605,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 773341445}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10598,6 +10655,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773341440}
   m_CullTransparentMesh: 1
+--- !u!114 &773341445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773341440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &776952127
 GameObject:
   m_ObjectHideFlags: 0
@@ -13813,6 +13883,7 @@ GameObject:
   - component: {fileID: 1089596257}
   - component: {fileID: 1089596256}
   - component: {fileID: 1089596255}
+  - component: {fileID: 1089596258}
   m_Layer: 5
   m_Name: Recipe 5
   m_TagString: Untagged
@@ -13884,13 +13955,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1089596258}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -13934,6 +14005,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1089596253}
   m_CullTransparentMesh: 1
+--- !u!114 &1089596258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089596253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1094325371
 GameObject:
   m_ObjectHideFlags: 0
@@ -13946,6 +14030,7 @@ GameObject:
   - component: {fileID: 1094325375}
   - component: {fileID: 1094325374}
   - component: {fileID: 1094325373}
+  - component: {fileID: 1094325376}
   m_Layer: 5
   m_Name: Recipe 12
   m_TagString: Untagged
@@ -14017,13 +14102,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1094325376}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -14067,6 +14152,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094325371}
   m_CullTransparentMesh: 1
+--- !u!114 &1094325376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094325371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1107667563
 GameObject:
   m_ObjectHideFlags: 0
@@ -17580,7 +17678,7 @@ MonoBehaviour:
   targetedMachine: {fileID: 0}
   RecipeSelectionPanel: {fileID: 1271652911}
   RecipeOrganizer: {fileID: 86613280}
-  recipeList: []
+  recipeButtons: []
 --- !u!1 &1305781678
 GameObject:
   m_ObjectHideFlags: 0
@@ -17865,6 +17963,7 @@ GameObject:
   - component: {fileID: 1320664426}
   - component: {fileID: 1320664425}
   - component: {fileID: 1320664424}
+  - component: {fileID: 1320664427}
   m_Layer: 5
   m_Name: Recipe 10
   m_TagString: Untagged
@@ -17936,13 +18035,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1320664427}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -17986,6 +18085,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1320664422}
   m_CullTransparentMesh: 1
+--- !u!114 &1320664427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320664422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1324114726
 GameObject:
   m_ObjectHideFlags: 0
@@ -20003,6 +20115,7 @@ GameObject:
   - component: {fileID: 1427642815}
   - component: {fileID: 1427642814}
   - component: {fileID: 1427642813}
+  - component: {fileID: 1427642816}
   m_Layer: 5
   m_Name: Recipe 9
   m_TagString: Untagged
@@ -20074,13 +20187,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1427642816}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -20124,6 +20237,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1427642811}
   m_CullTransparentMesh: 1
+--- !u!114 &1427642816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1427642811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1430413160
 GameObject:
   m_ObjectHideFlags: 0
@@ -20396,6 +20522,7 @@ GameObject:
   - component: {fileID: 1430926156}
   - component: {fileID: 1430926155}
   - component: {fileID: 1430926154}
+  - component: {fileID: 1430926157}
   m_Layer: 5
   m_Name: Recipe 16
   m_TagString: Untagged
@@ -20467,13 +20594,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1430926157}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -20517,6 +20644,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430926152}
   m_CullTransparentMesh: 1
+--- !u!114 &1430926157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430926152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1430962997
 GameObject:
   m_ObjectHideFlags: 0
@@ -20529,6 +20669,7 @@ GameObject:
   - component: {fileID: 1430963001}
   - component: {fileID: 1430963000}
   - component: {fileID: 1430962999}
+  - component: {fileID: 1430963002}
   m_Layer: 5
   m_Name: Recipe 6
   m_TagString: Untagged
@@ -20600,13 +20741,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1430963002}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -20650,6 +20791,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430962997}
   m_CullTransparentMesh: 1
+--- !u!114 &1430963002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430962997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1432402206
 GameObject:
   m_ObjectHideFlags: 0
@@ -21258,6 +21412,7 @@ GameObject:
   - component: {fileID: 1486002475}
   - component: {fileID: 1486002474}
   - component: {fileID: 1486002473}
+  - component: {fileID: 1486002476}
   m_Layer: 5
   m_Name: Recipe 7
   m_TagString: Untagged
@@ -21329,13 +21484,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1486002476}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -21379,6 +21534,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486002471}
   m_CullTransparentMesh: 1
+--- !u!114 &1486002476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486002471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1496741578
 GameObject:
   m_ObjectHideFlags: 0
@@ -22328,6 +22496,7 @@ GameObject:
   - component: {fileID: 1571047988}
   - component: {fileID: 1571047987}
   - component: {fileID: 1571047986}
+  - component: {fileID: 1571047989}
   m_Layer: 5
   m_Name: Recipe 15
   m_TagString: Untagged
@@ -22399,13 +22568,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1571047989}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -22449,6 +22618,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1571047984}
   m_CullTransparentMesh: 1
+--- !u!114 &1571047989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571047984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1574255629
 GameObject:
   m_ObjectHideFlags: 0
@@ -23697,6 +23879,7 @@ GameObject:
   - component: {fileID: 1614604551}
   - component: {fileID: 1614604550}
   - component: {fileID: 1614604549}
+  - component: {fileID: 1614604552}
   m_Layer: 5
   m_Name: Recipe 13
   m_TagString: Untagged
@@ -23768,13 +23951,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1614604552}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23818,6 +24001,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614604547}
   m_CullTransparentMesh: 1
+--- !u!114 &1614604552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614604547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1642286720
 GameObject:
   m_ObjectHideFlags: 0
@@ -26459,6 +26655,7 @@ GameObject:
   - component: {fileID: 1861564378}
   - component: {fileID: 1861564377}
   - component: {fileID: 1861564376}
+  - component: {fileID: 1861564379}
   m_Layer: 5
   m_Name: Recipe 14
   m_TagString: Untagged
@@ -26530,13 +26727,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1861564379}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -26580,6 +26777,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861564374}
   m_CullTransparentMesh: 1
+--- !u!114 &1861564379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861564374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1867409248
 GameObject:
   m_ObjectHideFlags: 0
@@ -26858,6 +27068,7 @@ GameObject:
   - component: {fileID: 1876568958}
   - component: {fileID: 1876568957}
   - component: {fileID: 1876568956}
+  - component: {fileID: 1876568959}
   m_Layer: 5
   m_Name: Recipe 1
   m_TagString: Untagged
@@ -26929,13 +27140,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1876568959}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -26979,6 +27190,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876568954}
   m_CullTransparentMesh: 1
+--- !u!114 &1876568959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876568954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1878291921
 GameObject:
   m_ObjectHideFlags: 0
@@ -27130,6 +27354,7 @@ GameObject:
   - component: {fileID: 1878964113}
   - component: {fileID: 1878964112}
   - component: {fileID: 1878964111}
+  - component: {fileID: 1878964114}
   m_Layer: 5
   m_Name: Recipe 11
   m_TagString: Untagged
@@ -27201,13 +27426,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1878964114}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -27251,6 +27476,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1878964109}
   m_CullTransparentMesh: 1
+--- !u!114 &1878964114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878964109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1885910487
 GameObject:
   m_ObjectHideFlags: 0
@@ -28407,6 +28645,7 @@ GameObject:
   - component: {fileID: 1954927416}
   - component: {fileID: 1954927415}
   - component: {fileID: 1954927414}
+  - component: {fileID: 1954927417}
   m_Layer: 5
   m_Name: Recipe 4
   m_TagString: Untagged
@@ -28478,13 +28717,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1954927417}
+        m_TargetAssemblyTypeName: RecipeInterface, Assembly-CSharp
+        m_MethodName: SetRecipeToMachine
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -28528,6 +28767,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954927412}
   m_CullTransparentMesh: 1
+--- !u!114 &1954927417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954927412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e02dd4a4c6cb908499988d6d96d11524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisButtonRecipe: {fileID: 0}
 --- !u!1 &1964930797
 GameObject:
   m_ObjectHideFlags: 0

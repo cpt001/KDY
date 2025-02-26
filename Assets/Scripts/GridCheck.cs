@@ -32,8 +32,17 @@ public class GridCheck : MonoBehaviour
 
     [SerializeField] private GameObject RecipeSelectionPanel;
     [SerializeField] private GameObject RecipeOrganizer;
-    [SerializeField] private List<Recipe> recipeList = new List<Recipe>();  //Local recipe list needed for GUI
-    
+    [SerializeField] private List<RecipeInterface> recipeButtons = new List<RecipeInterface>();
+    //[SerializeField] private List<Recipe> recipeList = new List<Recipe>();  //Local recipe list needed for GUI
+
+    private void Awake()
+    {
+        foreach (Transform targetButton in RecipeOrganizer.transform)
+        {
+            recipeButtons.Add(targetButton.GetComponent<RecipeInterface>());
+        }
+    }
+
     private void Update()
     {
         MouseToWorldGrid();
@@ -75,9 +84,9 @@ public class GridCheck : MonoBehaviour
         {
             Debug.Log("Detecting machinery");
             targetedMachine = rayHit.transform.gameObject;
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && targetedMachine.GetComponent<Processor>())
             {
-                HandleRecipeSetup(targetedMachine);
+                HandleRecipeSetup(targetedMachine.GetComponent<Processor>());
             }
         }
     }
@@ -161,35 +170,28 @@ public class GridCheck : MonoBehaviour
         }
     }
 
-    void HandleRecipeSetup(GameObject targetMachine)
+    void HandleRecipeSetup(Processor targetProcessor)
     {
-        //Debug.Log("Targeting... " + targetMachine);
-        targetMachine.GetComponent<Renderer>().material.SetColor("_Color", Color.cyan);
-        //Remove old data, get new machine data
-        recipeList.Clear();
-        Processor processor = targetMachine.GetComponent<Processor>();
-        foreach (Recipe recipe in processor.validRecipes)
+        //Clear previous buttons
+        foreach (RecipeInterface rTracker in recipeButtons)
         {
-            recipeList.Add(recipe);
+            rTracker.thisButtonRecipe = null;
         }
-        //Clears each button for population
-        foreach (Transform child in RecipeOrganizer.transform)
+        //Set new data from target machine to each button
+        for (int i = 0; i < recipeButtons.Count; i++)
         {
-            child.GetComponent<Button>().onClick.RemoveAllListeners();
-            child.gameObject.SetActive(false);
-        }
-        //Populates buttons
-        for (int i = 0; i != recipeList.Count; i++)
-        {
-            //Count children to amount
-            GameObject targetSlot = RecipeOrganizer.transform.GetChild(i).gameObject;
-            targetSlot.GetComponentInChildren<TextMeshProUGUI>().text = recipeList[i].ToString();
-            Debug.Log("Adding recipe: " + recipeList[i]);
-            //Its something with assignrecipe.
-            //targetSlot.GetComponent<Button>().onClick.AddListener(delegate { processor.AssignRecipe(recipeList[i]); });
-            //targetSlot.GetComponent<Button>().onClick.AddListener(delegate { processor.TestCall(); });
-            targetSlot.GetComponent<Button>().onClick.AddListener(delegate { processor.AssignRecipe(processor.validRecipes[i]); });
-            targetSlot.SetActive(true);
+            if (i < targetProcessor.validRecipes.Length)
+            {
+                //Debug.Log("Assigning recipes to button " + recipeButtons[i].gameObject + " || Current i = " + i);
+                recipeButtons[i].processorTarget = targetProcessor;
+                recipeButtons[i].thisButtonRecipe = targetProcessor.validRecipes[i];
+                recipeButtons[i].buttonText.text = targetProcessor.validRecipes[i].ToString();
+                recipeButtons[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                recipeButtons[i].gameObject.SetActive(false);
+            }
         }
         RecipeSelectionPanel.SetActive(true);
     }

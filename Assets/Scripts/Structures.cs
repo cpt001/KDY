@@ -29,6 +29,7 @@ public class Structures : MonoBehaviour
 
     #region Conveyance
     [Header("Conveyance Prefabs")]
+    [SerializeField] private MachineryPooling merger;
     [SerializeField] private MachineryPooling splitter;
     [SerializeField] private MachineryPooling inserter;
     [SerializeField] private MachineryPooling craneTrack;
@@ -37,6 +38,7 @@ public class Structures : MonoBehaviour
     [SerializeField] private MachineryPooling station;
     [SerializeField] private MachineryPooling massDriver;
     [SerializeField] private MachineryPooling receiver;
+    [SerializeField] private GameObject mergerPreview;
     [SerializeField] private GameObject splitterPreview;
     [SerializeField] private GameObject inserterPreview;
     [SerializeField] private GameObject craneTrackPreview;
@@ -46,6 +48,7 @@ public class Structures : MonoBehaviour
     [SerializeField] private GameObject massDriverPreview;
     [SerializeField] private GameObject receiverPreview;
     public void Co_SetConveyor() { gridConveyor.enabled = true; }
+    public void Co_SetMerger() { SetGhost(mergerPreview, merger);}
     public void Co_SetSplitter() { SetGhost(splitterPreview, splitter);}
     public void Co_SetInserter() { SetGhost(inserterPreview, inserter);}
     public void Co_SetCraneTrack() { SetGhost(craneTrackPreview, craneTrack);}

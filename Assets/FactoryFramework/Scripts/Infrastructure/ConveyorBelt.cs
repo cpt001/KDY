@@ -166,7 +166,7 @@ namespace FactoryFramework
         {
             speed = newSpeed;
             if (!Application.isPlaying) return;
-            beltMeshRenderer.material.SetFloat("_Speed", speed);
+            beltMeshRenderer.sharedMaterial.SetFloat("_Speed", speed);
         }
 
         public void DeserializeItems(SerializedItemOnBelt[] itemSaveData)

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517326818123965088}
   - component: {fileID: 517326818123965094}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Socket OUT (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 517326818511382775}
   - component: {fileID: 517326818511382774}
   - component: {fileID: 517326818511382769}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,6 +114,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -186,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517326818559782263}
   - component: {fileID: 517326818559782261}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Socket OUT (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +245,7 @@ GameObject:
   - component: {fileID: 517326818669814781}
   - component: {fileID: 517326818669814780}
   - component: {fileID: 517326818669814783}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -290,6 +292,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -365,7 +369,7 @@ GameObject:
   - component: {fileID: 517326819261517039}
   - component: {fileID: 517326819261517038}
   - component: {fileID: 517326819261517033}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,6 +416,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -484,7 +490,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517326819291710727}
   - component: {fileID: 517326819291710725}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +547,7 @@ GameObject:
   - component: {fileID: 517326819822858419}
   - component: {fileID: 517326819822858418}
   - component: {fileID: 517326819822858429}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,6 +594,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -660,7 +668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517326819828226083}
   - component: {fileID: 517326819828226081}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -720,9 +728,10 @@ GameObject:
   - component: {fileID: 3446546015343885483}
   - component: {fileID: -4663245215277124185}
   - component: {fileID: 3590655024362387981}
-  m_Layer: 7
+  - component: {fileID: -7129972095257027774}
+  m_Layer: 6
   m_Name: Splitter
-  m_TagString: Building
+  m_TagString: ConveyorBelt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -771,6 +780,8 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -900,3 +911,19 @@ MonoBehaviour:
   OnAddConnection:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-7129972095257027774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2521247892914047775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f10fa7678c4b3548a3e2f7a194d412f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMaterial: {fileID: 2100000, guid: b54bfc6b387a9e7478c242add429f98a, type: 2}
+  hoverMaterial: {fileID: 2100000, guid: 4fcc2220819511644aab66ef9f65ca46, type: 2}
+  dozerMaterial: {fileID: 2100000, guid: 109048728f9ded645881bff64684a2c4, type: 2}
+  recipeMaterial: {fileID: 2100000, guid: cbf6753958869074f93c05a4da5a9dd7, type: 2}

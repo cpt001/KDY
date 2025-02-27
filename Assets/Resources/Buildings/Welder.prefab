@@ -443,6 +443,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1199512634768351374}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3564118329620485116}
   m_SourcePrefab: {fileID: 100100000, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}
 --- !u!1 &4891147000291616598 stripped
 GameObject:
@@ -513,6 +516,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9629316, y: 0.50566906, z: 1.9629318}
   m_Center: {x: -0.98742294, y: 0.25078222, z: -0.979621}
+--- !u!114 &-3564118329620485116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4891147000291616598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f10fa7678c4b3548a3e2f7a194d412f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMaterial: {fileID: 5561349426305759274, guid: fc73b119623f28e4ba6db0ec776e23a3, type: 3}
+  hoverMaterial: {fileID: 2100000, guid: cbf6753958869074f93c05a4da5a9dd7, type: 2}
+  dozerMaterial: {fileID: 2100000, guid: 109048728f9ded645881bff64684a2c4, type: 2}
+  recipeMaterial: {fileID: 2100000, guid: 4fcc2220819511644aab66ef9f65ca46, type: 2}
 --- !u!4 &5236288770619817452 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3be85051d9b8b9b479f55af17db72b9b, type: 3}

@@ -401,6 +401,7 @@ GameObject:
   - component: {fileID: 345900697914475860}
   - component: {fileID: 8950356789306853922}
   - component: {fileID: 5484794176473211340}
+  - component: {fileID: -4835126087610722427}
   m_Layer: 6
   m_Name: Crusher
   m_TagString: Machine
@@ -547,6 +548,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.8953701, y: 2.570445, z: 1.89537}
   m_Center: {x: 0, y: 1.2797263, z: 0}
+--- !u!114 &-4835126087610722427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6517624429194112326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f10fa7678c4b3548a3e2f7a194d412f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultMaterial: {fileID: 5561349426305759274, guid: fc73b119623f28e4ba6db0ec776e23a3, type: 3}
+  hoverMaterial: {fileID: 2100000, guid: cbf6753958869074f93c05a4da5a9dd7, type: 2}
+  dozerMaterial: {fileID: 2100000, guid: 109048728f9ded645881bff64684a2c4, type: 2}
+  recipeMaterial: {fileID: 2100000, guid: 4fcc2220819511644aab66ef9f65ca46, type: 2}
 --- !u!1 &6570915559798943521
 GameObject:
   m_ObjectHideFlags: 0

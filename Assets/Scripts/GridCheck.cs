@@ -33,6 +33,9 @@ public class GridCheck : MonoBehaviour
     [SerializeField] private GameObject RecipeSelectionPanel;
     [SerializeField] private GameObject RecipeOrganizer;
     [SerializeField] private List<RecipeInterface> recipeButtons = new List<RecipeInterface>();
+    [SerializeField] private Texture2D bulldozerCursor;
+    private GameObject previousTargetMachine = null;
+    private enum PlayerAction { Examine, Bulldoze, ChangeRecipe };
     //[SerializeField] private List<Recipe> recipeList = new List<Recipe>();  //Local recipe list needed for GUI
 
     private void Awake()
@@ -82,9 +85,10 @@ public class GridCheck : MonoBehaviour
         }
         if (Physics.Raycast(ray, out rayHit, Mathf.Infinity, machineLayerMask) && !bulldozerMode)
         {
-            Debug.Log("Detecting machinery");
+            //Debug.Log("Detecting machinery");
             targetedMachine = rayHit.transform.gameObject;
-            if (Input.GetMouseButtonDown(0) && targetedMachine.GetComponent<Processor>())
+            HandleMachineColors(targetedMachine, PlayerAction.ChangeRecipe);
+            if (Input.GetMouseButtonDown(0) && targetedMachine.GetComponent<Processor>() && !RecipeSelectionPanel.activeInHierarchy)
             {
                 HandleRecipeSetup(targetedMachine.GetComponent<Processor>());
             }
@@ -142,30 +146,23 @@ public class GridCheck : MonoBehaviour
         }*/
         if (bulldozerMode == true)
         {
-            Debug.Log("Bulldozer active");
-            GameObject targetMachine = null;
+            //Debug.Log("Bulldozer active");
+            //Cursor.SetCursor(bulldozerCursor, Vector2.zero, CursorMode.Auto);
+            GameObject bulldozerTarget = null;
+
             //raycast for targets
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
             RaycastHit rayHit;
             if (Physics.Raycast(ray, out rayHit, Mathf.Infinity, machineLayerMask)) 
             {
-                Debug.Log("Targeting... " + rayHit.transform.gameObject);
-                targetMachine = rayHit.transform.gameObject;
-                targetMachine.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-            }
-            else if (Physics.Raycast(ray, out rayHit, Mathf.Infinity, ~machineLayerMask)) 
-            {
-                if (targetMachine)
-                {
-                    //Resetting the color doesn't quite work. 
-                    targetMachine.GetComponent<Renderer>().material.SetColor("_Color", Color.gray);
-                    targetMachine = null;
-                }
+                //Debug.Log("Targeting... " + rayHit.transform.gameObject);
+                bulldozerTarget = rayHit.transform.gameObject;
+                HandleMachineColors(bulldozerTarget, PlayerAction.Bulldoze);
             }
 
-            if (Input.GetMouseButtonDown(0) && targetMachine)
+            if (Input.GetMouseButtonDown(0) && bulldozerTarget)
             {
-                targetMachine.SetActive(false);
+                bulldozerTarget.SetActive(false);
             }
         }
     }
@@ -194,5 +191,45 @@ public class GridCheck : MonoBehaviour
             }
         }
         RecipeSelectionPanel.SetActive(true);
+    }
+
+    void HandleMachineColors(GameObject targetMachine, PlayerAction playerAction)
+    {
+        if (previousTargetMachine != targetMachine && previousTargetMachine != null)
+        {
+            previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
+            previousTargetMachine = targetMachine;
+        }
+        else if (previousTargetMachine == null)
+        {
+            previousTargetMachine = targetMachine;
+        }
+        if (targetMachine.name != "Conveyor(Clone)")
+        {
+            switch (playerAction)
+            {
+                case PlayerAction.Examine:
+                    {
+                        targetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.HoverSelect);
+                        break;
+                    }
+                case PlayerAction.Bulldoze:
+                    {
+                        targetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.DozerSelect);
+                        break;
+                    }
+                case PlayerAction.ChangeRecipe:
+                    {
+                        targetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.RecipeSelect);
+                        break;
+                    }
+            }
+            //targetMachine.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+
+        }
+        else
+        {
+            targetMachine.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.red);
+        }
     }
 }

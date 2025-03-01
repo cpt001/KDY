@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517326818123965088}
   - component: {fileID: 517326818123965094}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket OUT (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +67,7 @@ GameObject:
   - component: {fileID: 517326818511382775}
   - component: {fileID: 517326818511382774}
   - component: {fileID: 517326818511382769}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517326818559782263}
   - component: {fileID: 517326818559782261}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket OUT (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 517326818669814781}
   - component: {fileID: 517326818669814780}
   - component: {fileID: 517326818669814783}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,7 +369,7 @@ GameObject:
   - component: {fileID: 517326819261517039}
   - component: {fileID: 517326819261517038}
   - component: {fileID: 517326819261517033}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +490,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517326819291710727}
   - component: {fileID: 517326819291710725}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -547,7 +547,7 @@ GameObject:
   - component: {fileID: 517326819822858419}
   - component: {fileID: 517326819822858418}
   - component: {fileID: 517326819822858429}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,7 +668,7 @@ GameObject:
   m_Component:
   - component: {fileID: 517326819828226083}
   - component: {fileID: 517326819828226081}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -724,14 +724,12 @@ GameObject:
   - component: {fileID: 1296982731906285429}
   - component: {fileID: 6585765507951752466}
   - component: {fileID: 2521247892914047772}
-  - component: {fileID: -177307119037591077}
   - component: {fileID: 3446546015343885483}
   - component: {fileID: -4663245215277124185}
-  - component: {fileID: 3590655024362387981}
   - component: {fileID: -7129972095257027774}
   m_Layer: 6
   m_Name: Splitter
-  m_TagString: ConveyorBelt
+  m_TagString: Machine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -838,19 +836,6 @@ MonoBehaviour:
   - {fileID: 517326818559782263}
   - {fileID: 517326818123965088}
   outputIndex: 0
---- !u!114 &-177307119037591077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2521247892914047775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89d5fee23dde1284b819fa89e835b7e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  message: Message Goes Here.
 --- !u!65 &3446546015343885483
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -866,7 +851,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -885,32 +870,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourcesPath: Buildings/Splitter
---- !u!114 &3590655024362387981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2521247892914047775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc615501dd0e548428dbda0b216b4ece, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  basePowerDraw: 0
-  connectionPoint: {x: 0, y: 1.5, z: 0}
-  useConnectionRadius: 0
-  connectionRadius: 0
-  radiusVisual: {fileID: 0}
-  OnDisconnect:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRemoveConnection:
-    m_PersistentCalls:
-      m_Calls: []
-  OnAddConnection:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &-7129972095257027774
 MonoBehaviour:
   m_ObjectHideFlags: 0

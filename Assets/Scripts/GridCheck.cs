@@ -34,7 +34,7 @@ public class GridCheck : MonoBehaviour
     [SerializeField] private GameObject RecipeOrganizer;
     [SerializeField] private List<RecipeInterface> recipeButtons = new List<RecipeInterface>();
     [SerializeField] private Texture2D bulldozerCursor;
-    private GameObject previousTargetMachine = null;
+    [SerializeField] private GameObject previousTargetMachine = null;
     private enum PlayerAction { Examine, Bulldoze, ChangeRecipe };
     //[SerializeField] private List<Recipe> recipeList = new List<Recipe>();  //Local recipe list needed for GUI
 
@@ -87,11 +87,17 @@ public class GridCheck : MonoBehaviour
         {
             //Debug.Log("Detecting machinery");
             targetedMachine = rayHit.transform.gameObject;
-            HandleMachineColors(targetedMachine, PlayerAction.ChangeRecipe);
-            if (Input.GetMouseButtonDown(0) && targetedMachine.GetComponent<Processor>() && !RecipeSelectionPanel.activeInHierarchy)
+            if (!RecipeSelectionPanel.activeInHierarchy)
             {
-                HandleRecipeSetup(targetedMachine.GetComponent<Processor>());
+                HandleMachineColors(targetedMachine, PlayerAction.Examine);
+
+                if (Input.GetMouseButtonDown(0) && targetedMachine.GetComponent<Processor>())
+                {
+                    HandleMachineColors(targetedMachine, PlayerAction.ChangeRecipe);    //This isnt working correctly
+                    HandleRecipeSetup(targetedMachine.GetComponent<Processor>());
+                }
             }
+
         }
     }
     static Vector3 SnapToGrid(Vector3 pos, float gridUnitSize)
@@ -195,15 +201,16 @@ public class GridCheck : MonoBehaviour
 
     void HandleMachineColors(GameObject targetMachine, PlayerAction playerAction)
     {
-        if (previousTargetMachine != targetMachine && previousTargetMachine != null)
+        if (previousTargetMachine == null)
+        {
+            previousTargetMachine = targetMachine;
+        }
+        else if (previousTargetMachine != targetMachine && previousTargetMachine != null)
         {
             previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
             previousTargetMachine = targetMachine;
         }
-        else if (previousTargetMachine == null)
-        {
-            previousTargetMachine = targetMachine;
-        }
+
         if (targetMachine.name != "Conveyor(Clone)")
         {
             switch (playerAction)
@@ -231,5 +238,10 @@ public class GridCheck : MonoBehaviour
         {
             targetMachine.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.red);
         }
+    }
+    public void ConfirmRecipe()
+    {
+        previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
+        RecipeSelectionPanel.SetActive(false);
     }
 }

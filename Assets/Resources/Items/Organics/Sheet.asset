@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 4973fce75eb8c3142a99dd8430f546c3
   resourcesPath: Items/Organics/Sheet
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: ecf4c15cbcb6c584dac136d76062fd81, type: 3}
+  prefab: {fileID: 7885206430732881901, guid: 12a7e0987b493204c9f7d2ba6b24d6f4, type: 3}
   itemData:
     description: 
     maxStack: 50

@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 8dcf5085fa451a64299e2cf754266b20
   resourcesPath: Items/1. StarshipParts/1. Fighter/Landing Gear
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 1afa3d92feeda354d8745438446904f0, type: 3}
+  prefab: {fileID: 8891513864086906060, guid: 3d4c172a8d434b043ac0b08c4f8f2680, type: 3}
   itemData:
     description: 
     maxStack: 50

@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 1cd12a2fed5aada44b0e8a2e6fa5665b
   resourcesPath: Items/1. StarshipParts/1. Fighter/Comms Pack
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 1d7a26286a92f67498c4fd18f99782e2, type: 3}
+  prefab: {fileID: 5292090446147040774, guid: 9ef8f7a92c4b2234884cfbdb19267190, type: 3}
   itemData:
     description: 
     maxStack: 50

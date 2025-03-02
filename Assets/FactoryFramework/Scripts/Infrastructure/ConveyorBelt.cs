@@ -138,7 +138,7 @@ namespace FactoryFramework
             }
 
             frameMeshFilter.mesh = BeltMeshGenerator.Generate(Path, frameConfig, length, ConveyorLogisticsUtils.settings.BELT_SCALE);
-            beltMeshFilter.mesh = BeltMeshGenerator.Generate(Path, beltConfig, length, ConveyorLogisticsUtils.settings.BELT_SCALE, 1f, true);
+            beltMeshFilter.mesh = BeltMeshGenerator.Generate(Path, beltConfig, length, ConveyorLogisticsUtils.settings.BELT_SCALE / 4f, 1f, true);
 
             //combing belt and frame meshes for mesh collider
             if (_meshCollider != null)

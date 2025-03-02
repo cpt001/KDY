@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: ec099495af822c449a6d466e00c45d87
   resourcesPath: Items/Steel/Steel Cylinder
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: ec4d9d53eb823ff40bc0dce08bae6817, type: 3}
+  prefab: {fileID: 3109362796562787233, guid: 1c051fa5ab818f34393432ff39588fd1, type: 3}
   itemData:
     description: 
     maxStack: 50

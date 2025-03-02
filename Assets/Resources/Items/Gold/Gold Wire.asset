@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: b8a2d214446b7f248ac400c90133f13c
   resourcesPath: Items/Gold/Gold Wire
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 8273f7ded47f38c41a8bea99f79b581f, type: 3}
+  prefab: {fileID: 682083481809852495, guid: f45c66ac5abfd91438a9f496688136f5, type: 3}
   itemData:
     description: 
     maxStack: 50

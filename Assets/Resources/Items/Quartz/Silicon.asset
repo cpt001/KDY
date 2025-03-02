@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: ffbc192e79e5d124d9672dc3e99d20d3
   resourcesPath: Items/Quartz/Silicon
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: d220955466ffd614290d18e714b166d6, type: 3}
+  prefab: {fileID: 5453286720501510714, guid: 46cd24be4e5722a4d962c961e1b49b87, type: 3}
   itemData:
     description: 
     maxStack: 50

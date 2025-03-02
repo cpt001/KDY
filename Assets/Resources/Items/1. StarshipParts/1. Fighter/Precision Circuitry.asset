@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 8ee1b24f0a580f545bf14a43d2277007
   resourcesPath: Items/1. StarshipParts/1. Fighter/Precision Circuitry
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 38bb1cfaff48f704ebf3c7ae0665e9be, type: 3}
+  prefab: {fileID: 237162699075804415, guid: 4f425714b4f34984191f391a481b553f, type: 3}
   itemData:
     description: 
     maxStack: 50

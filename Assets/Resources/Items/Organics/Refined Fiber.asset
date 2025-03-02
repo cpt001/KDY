@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: ee95339d64ff6064088ce47df61528a4
   resourcesPath: Items/Organics/Refined Fiber
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: c1b9bb113abc5894e994dc3f338e0097, type: 3}
+  prefab: {fileID: 3231454340904240487, guid: ed5c321a6196fce4ea2e5a84e20eca85, type: 3}
   itemData:
     description: 
     maxStack: 50

@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 7b7675cf3377b0a4e917f607ac6af3d4
   resourcesPath: Items/1. StarshipParts/1. Fighter/Wing
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 91ac02fd8931bc54f8a57c01b176aaf4, type: 3}
+  prefab: {fileID: 6095423514127554295, guid: a7696a56abf61d54ea4f3b9f3c79f76f, type: 3}
   itemData:
     description: 
     maxStack: 50

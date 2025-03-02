@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: d95c99667f4d6364ea5f8b14a1c96412
   resourcesPath: Items/Steel/Shaped Steel
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: ea68853a2837d154aa57be322a54817e, type: 3}
+  prefab: {fileID: 3987492891234608445, guid: b0521641c62bf8f4fb7d31e1b11e3e4c, type: 3}
   itemData:
     description: 
     maxStack: 50

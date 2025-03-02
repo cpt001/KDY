@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: d950c15c5346f324f9b490fdeed10238
   resourcesPath: Items/Copper/Copper Ore
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 4e332d0ebf7fa01409ab6e3f2ff7b190, type: 3}
+  prefab: {fileID: 295085683512865444, guid: 350380db54526dc4ea9180a24d10b48f, type: 3}
   itemData:
     description: 
     maxStack: 50

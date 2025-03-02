@@ -19,13 +19,6 @@ public class MapToDockInterface : MonoBehaviour
     private Freighter freighterInDock;
     private bool cargoReceived;
 
-    [Header("Debug Items")]
-    [SerializeField] private Item Copper;
-    [SerializeField] private Item Gold;
-    [SerializeField] private Item Iron;
-    [SerializeField] private Item PlantMatter;
-    [SerializeField] private Item Quartz;
-    [SerializeField] private Item Zinc;
 
     // Start is called before the first frame update
     void Start()
@@ -50,28 +43,5 @@ public class MapToDockInterface : MonoBehaviour
         }
         cargoReceived = true;
     }
-    public void AddDebugCopper()
-    {
-        localStorage.Add(Copper, 99999);
-    }
-    public void AddDebugGold()
-    {
-        localStorage.Add(Gold, 99999);
-    }
-    public void AddDebugIron()
-    {
-        localStorage.Add(Iron, 99999);
-    }
-    public void AddDebugPlant()
-    {
-        localStorage.Add(PlantMatter, 99999);
-    }
-    public void AddDebugQuartz()
-    {
-        localStorage.Add(Quartz, 99999);
-    }
-    public void AddDebugZinc()
-    {
-        localStorage.Add(Zinc, 99999);
-    }
+
 }

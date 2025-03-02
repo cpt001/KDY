@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: a7543fd9eadc3eb42b4ee68b0125688d
   resourcesPath: Items/1. StarshipParts/1. Fighter/Transmitter
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 83202a9d51c96d1408cfc512d02f53de, type: 3}
+  prefab: {fileID: 2706279274133621474, guid: d0252319c1f139f458398a797d17709b, type: 3}
   itemData:
     description: 
     maxStack: 50

@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 6668ec4a9d6d06646980e7f68ed815fa
   resourcesPath: Items/1. StarshipParts/1. Fighter/Missile Rack
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: da9e4f1c4406a074e9772a75cc7179fe, type: 3}
+  prefab: {fileID: 7056005625846747387, guid: 7efcd4edab10155488a668f004be628f, type: 3}
   itemData:
     description: 
     maxStack: 50

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Iron Plate
   m_EditorClassIdentifier: 
   _guid: 5191296b16bbc144f81706e0079383b8
-  resourcesPath: FactoryItems/Iron Plate
+  resourcesPath: Items/Iron/Iron Plate
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 5a038b67a2660024e977c2c3e9780eac, type: 3}
+  prefab: {fileID: 7373259088481402182, guid: e780a50080a7cd54a82ae91242042e21, type: 3}
   itemData:
     description: 
     maxStack: 50

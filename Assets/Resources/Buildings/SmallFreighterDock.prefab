@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8323269247741889583}
   - component: {fileID: 944498546683930376}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket OUT (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -69,7 +69,6 @@ GameObject:
   - component: {fileID: 4676580918144444086}
   - component: {fileID: 5439260746133088707}
   - component: {fileID: 8143553659869386088}
-  - component: {fileID: 7716976259368462996}
   - component: {fileID: 5156337899072418949}
   - component: {fileID: -1573899860615024418}
   - component: {fileID: 6675331094191575306}
@@ -230,41 +229,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resourcesPath: Buildings/SmallFreighterDock
---- !u!114 &7716976259368462996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909579884031510740}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcf13b7d6d5f4694aa8e9f80fdbab1ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Inputs: []
-  Outputs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  InputHookVisuals: []
-  OutputHookVisuals:
-  - {fileID: 5604574398259943688}
-  - {fileID: 659967822666807893}
-  - {fileID: 1480932074050555216}
-  - {fileID: 3553959312896591559}
-  InputHooks: []
-  OutputHooks:
-  - {fileID: 6488481547001660583}
-  - {fileID: 8323269247741889583}
-  - {fileID: 5668825263625809121}
-  - {fileID: 8422987929623303088}
-  recipe: {fileID: 0}
-  validRecipes: []
-  invalidRecipes: []
-  inputItems: []
-  outputItems: []
 --- !u!114 &5156337899072418949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,12 +241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9227579f8b8d51d45bd35aac0fe6d711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Copper: {fileID: 0}
-  Gold: {fileID: 0}
-  Iron: {fileID: 0}
-  PlantMatter: {fileID: 0}
-  Quartz: {fileID: 0}
-  Zinc: {fileID: 0}
 --- !u!114 &-1573899860615024418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,13 +254,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Inputs: []
-  Outputs: []
+  Outputs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   InputHookVisuals: []
-  OutputHookVisuals: []
+  OutputHookVisuals:
+  - {fileID: 5921399300891524244}
+  - {fileID: 8006713559463461303}
+  - {fileID: 3116824262313661578}
+  - {fileID: 2366589705010271093}
   InputHooks: []
-  OutputHooks: []
+  OutputHooks:
+  - {fileID: 6488481547001660583}
+  - {fileID: 8323269247741889583}
+  - {fileID: 5668825263625809121}
+  - {fileID: 8422987929623303088}
   capacity: 0
-  storage: []
+  storage:
+  - _item: {fileID: 0}
+    itemGUID: 
+    amount: 0
+  - _item: {fileID: 0}
+    itemGUID: 
+    amount: 0
+  - _item: {fileID: 0}
+    itemGUID: 
+    amount: 0
+  - _item: {fileID: 0}
+    itemGUID: 
+    amount: 0
+  - _item: {fileID: 0}
+    itemGUID: 
+    amount: 0
+  - _item: {fileID: 0}
+    itemGUID: 
+    amount: 0
 --- !u!114 &6675331094191575306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5668825263625809121}
   - component: {fileID: 1891918489796329794}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket OUT (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,7 +459,7 @@ GameObject:
   - component: {fileID: 6655262119207388071}
   - component: {fileID: 4417412818326579952}
   - component: {fileID: 8867709355052592914}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -595,7 +583,7 @@ GameObject:
   - component: {fileID: 2520552408143992778}
   - component: {fileID: 5839938393928745764}
   - component: {fileID: 6678804814255472143}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -716,7 +704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8422987929623303088}
   - component: {fileID: 356417049172624269}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket OUT (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -855,7 +843,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6488481547001660583}
   - component: {fileID: 1914866824812278648}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket OUT (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -912,7 +900,7 @@ GameObject:
   - component: {fileID: 4603043459036618042}
   - component: {fileID: 7828515806788700324}
   - component: {fileID: 1414732341947831570}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1121,7 +1109,7 @@ GameObject:
   - component: {fileID: 7350536956454345644}
   - component: {fileID: 8159757213200716706}
   - component: {fileID: 8567896573899749121}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}

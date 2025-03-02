@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 96e01546de0bfc741b92ae57e1c0992b
   resourcesPath: Items/1. StarshipParts/1. Fighter/Gun
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 7ef7fae6c5e0fd643aeef9a5898ea00a, type: 3}
+  prefab: {fileID: 2755172983273050654, guid: 3e8e120a528d95b4e817e15f3dd4adba, type: 3}
   itemData:
     description: 
     maxStack: 50

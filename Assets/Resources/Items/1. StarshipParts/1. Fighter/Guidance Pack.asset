@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 1fa7cc22d16587541890b39385013f8f
   resourcesPath: Items/1. StarshipParts/1. Fighter/Guidance Pack
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: adb78d3973fdf134a84f9352f9b789a7, type: 3}
+  prefab: {fileID: 5816728159632628338, guid: 61a80d5fa3f10634d80e46f562a36762, type: 3}
   itemData:
     description: 
     maxStack: 50

@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 9c7c765d9f3fd544a934727f550087ab
   resourcesPath: Items/Copper/Copper Plate
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: d17d593dfaa6bf7448818c34eafc5531, type: 3}
+  prefab: {fileID: 7540413011522977878, guid: 92b76c38b1211454dab31b76e86451d0, type: 3}
   itemData:
     description: 
     maxStack: 50

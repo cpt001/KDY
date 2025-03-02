@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: ed79fe8b0e0d1ec4bbb1e0e91e031a60
   resourcesPath: Items/Quartz/Quartz Pure
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: cc79bad81563437409c5142210c0faed, type: 3}
+  prefab: {fileID: 6393053601114780983, guid: 84f8f1017fd366941b457af5918b8626, type: 3}
   itemData:
     description: 
     maxStack: 50

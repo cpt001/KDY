@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: a56562c542d5f3f4180434820b85b95f
   resourcesPath: Items/Copper/Copper Wire
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 35bc8f38c627b65459754811feb4ef64, type: 3}
+  prefab: {fileID: 5865378270577861860, guid: cb957c7ec06b55c4d9cfdf1aac8c0f69, type: 3}
   itemData:
     description: 
     maxStack: 50

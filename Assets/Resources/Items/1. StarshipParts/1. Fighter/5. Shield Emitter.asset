@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: bba129f4a92f24a498fad7dd0dfdfbf5
   resourcesPath: Items/1. StarshipParts/1. Fighter/5. Shield Emitter
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 1e6ef097c6d40b346821abc274c94b73, type: 3}
+  prefab: {fileID: 5779062702666135131, guid: d0caebd24ac36d849abd0187cb78c609, type: 3}
   itemData:
     description: 
     maxStack: 50

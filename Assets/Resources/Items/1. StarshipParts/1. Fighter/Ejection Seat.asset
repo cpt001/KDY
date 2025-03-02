@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: e3a433ad965fc5a4fb6ed3ffb8550f9d
   resourcesPath: Items/1. StarshipParts/1. Fighter/Ejection Seat
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 304e0cfdbab86474084d410581533a6e, type: 3}
+  prefab: {fileID: 8895478701303654776, guid: eaf09a5efb0e2d34ea935d94f38ef9a9, type: 3}
   itemData:
     description: 
     maxStack: 50

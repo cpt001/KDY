@@ -31,8 +31,10 @@ public class GridCheck : MonoBehaviour
     [SerializeField] private GameObject targetedMachine;
 
     [SerializeField] private GameObject RecipeSelectionPanel;
+    [SerializeField] private GameObject DockDebugSelectionPanel;
     [SerializeField] private GameObject RecipeOrganizer;
     [SerializeField] private List<RecipeInterface> recipeButtons = new List<RecipeInterface>();
+    [SerializeField] private List<DockDebugInterface> dockDebugButtons = new List<DockDebugInterface>();
     [SerializeField] private Texture2D bulldozerCursor;
     [SerializeField] private GameObject previousTargetMachine = null;
     private enum PlayerAction { Examine, Bulldoze, ChangeRecipe };
@@ -91,10 +93,15 @@ public class GridCheck : MonoBehaviour
             {
                 HandleMachineColors(targetedMachine, PlayerAction.Examine);
 
-                if (Input.GetMouseButtonDown(0) && targetedMachine.GetComponent<Processor>())
+                if (Input.GetMouseButtonDown(0) && targetedMachine.GetComponent<Processor>() && targetedMachine.name != "SmallFreighterDock(Clone)")
                 {
                     HandleMachineColors(targetedMachine, PlayerAction.ChangeRecipe);    //This isnt working correctly
                     HandleRecipeSetup(targetedMachine.GetComponent<Processor>());
+                }
+                else if (Input.GetMouseButtonDown(0) && targetedMachine.name == "SmallFreighterDock(Clone)")
+                {
+                    HandleMachineColors(targetedMachine, PlayerAction.ChangeRecipe);
+                    HandleDockDebug(targetedMachine.GetComponent<Storage>());
                 }
             }
 
@@ -168,6 +175,11 @@ public class GridCheck : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0) && bulldozerTarget)
             {
+                //NYI, examine right click delete for answers
+                if (bulldozerTarget.transform.TryGetComponent(out LogisticComponent lc))
+                {
+                    lc.DisconnectAll();
+                }
                 bulldozerTarget.SetActive(false);
             }
         }
@@ -196,7 +208,18 @@ public class GridCheck : MonoBehaviour
                 recipeButtons[i].gameObject.SetActive(false);
             }
         }
+        RecipeSelectionPanel.transform.Find("Machine Name").GetComponentInChildren<TextMeshProUGUI>().text = targetProcessor.name;
         RecipeSelectionPanel.SetActive(true);
+    }
+
+    void HandleDockDebug(Storage targetStorage)
+    {
+        Debug.Log("Entered debug menu!");
+        DockDebugSelectionPanel.SetActive(true);
+        foreach (DockDebugInterface ddi in dockDebugButtons)
+        {
+            ddi.targetStorage = targetStorage;
+        }
     }
 
     void HandleMachineColors(GameObject targetMachine, PlayerAction playerAction)
@@ -205,7 +228,7 @@ public class GridCheck : MonoBehaviour
         {
             previousTargetMachine = targetMachine;
         }
-        else if (previousTargetMachine != targetMachine && previousTargetMachine != null)
+        else if (previousTargetMachine != null && previousTargetMachine != targetMachine)
         {
             previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
             previousTargetMachine = targetMachine;
@@ -243,5 +266,10 @@ public class GridCheck : MonoBehaviour
     {
         previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
         RecipeSelectionPanel.SetActive(false);
+    }
+    public void ConfirmDockDebug()
+    {
+        previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
+        DockDebugSelectionPanel.SetActive(false);
     }
 }

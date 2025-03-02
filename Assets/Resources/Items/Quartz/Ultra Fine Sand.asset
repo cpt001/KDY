@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 6fb501a241764ab4a897803541580e09
   resourcesPath: Items/Quartz/Ultra Fine Sand
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: f9292b131ed4d6348826a440ff9f3620, type: 3}
+  prefab: {fileID: 3552141318172339606, guid: af3f73cd499e3c344bbe3da33fbd2c12, type: 3}
   itemData:
     description: 
     maxStack: 50

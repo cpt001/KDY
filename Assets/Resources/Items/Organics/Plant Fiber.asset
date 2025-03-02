@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 13a2bffdeb4aec44d8adedb4f8a855b0
   resourcesPath: Items/Organics/Plant Fiber
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: db34aa4e811fb6f4883f55e89c459ca5, type: 3}
+  prefab: {fileID: 2991135435902177038, guid: f9ee9e9bb4a6a964095fe2b602cadc90, type: 3}
   itemData:
     description: 
     maxStack: 50

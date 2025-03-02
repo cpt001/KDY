@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1750575939004099659}
   - component: {fileID: 374370756144972507}
   - component: {fileID: 6630931978211770239}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9026469060511468297}
   - component: {fileID: 1614855259308797936}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket OUT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   m_Component:
   - component: {fileID: 419372657205935795}
   - component: {fileID: 3523644394219117376}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Socket IN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 663024798849047128}
   - component: {fileID: 4395291083990386780}
   - component: {fileID: 3808613969596794912}
-  m_Layer: 6
+  m_Layer: 2
   m_Name: Indicator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,8 +478,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2d8fbd3c0d38d5e4aa6f6d90a4e135fb, type: 2}
   - {fileID: 11400000, guid: cafe5cfb73b7a2441b4910474992ca29, type: 2}
   invalidRecipes: []
-  inputItems: []
-  outputItems: []
+  inputItems:
+  - {fileID: 0}
+  outputItems:
+  - {fileID: 0}
 --- !u!114 &3855766475613111662
 MonoBehaviour:
   m_ObjectHideFlags: 0

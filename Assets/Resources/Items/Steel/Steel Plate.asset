@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: 67afcd2d22fc0784a8808dc7f4fc48f5
   resourcesPath: Items/Steel/Steel Plate
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: 22dfae6ef42886d4f9d531c0253d20c0, type: 3}
+  prefab: {fileID: 6045003162906211735, guid: c2ea86d6e2230774f93d541ec89e9692, type: 3}
   itemData:
     description: 
     maxStack: 50

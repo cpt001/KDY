@@ -15,7 +15,7 @@ MonoBehaviour:
   _guid: e0d3e63bbafbde248bce8f93262c68bb
   resourcesPath: Items/1. StarshipParts/1. Fighter/Blank Chip
   icon: {fileID: 21300000, guid: fc620a60f85105a458fb4e4f13103a6b, type: 3}
-  prefab: {fileID: 919132149155446097, guid: f9ad5b21dc5f3bd4f808fd3d18cc5398, type: 3}
+  prefab: {fileID: 3316009022445357498, guid: c89e2aade08639d41ab75ba1a1e001b4, type: 3}
   itemData:
     description: 
     maxStack: 50

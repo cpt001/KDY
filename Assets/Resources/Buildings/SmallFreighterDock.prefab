@@ -271,24 +271,24 @@ MonoBehaviour:
   - {fileID: 8323269247741889583}
   - {fileID: 5668825263625809121}
   - {fileID: 8422987929623303088}
-  capacity: 0
+  capacity: 6
   storage:
-  - _item: {fileID: 0}
+  - _item: {fileID: 11400000, guid: d950c15c5346f324f9b490fdeed10238, type: 2}
     itemGUID: 
     amount: 0
-  - _item: {fileID: 0}
+  - _item: {fileID: 11400000, guid: 5010cfe2f1b169844b93847a4f3f644c, type: 2}
     itemGUID: 
     amount: 0
-  - _item: {fileID: 0}
+  - _item: {fileID: 11400000, guid: 55b3437f493746c46bae6a8918a5fb3b, type: 2}
     itemGUID: 
     amount: 0
-  - _item: {fileID: 0}
+  - _item: {fileID: 11400000, guid: 13a2bffdeb4aec44d8adedb4f8a855b0, type: 2}
     itemGUID: 
     amount: 0
-  - _item: {fileID: 0}
+  - _item: {fileID: 11400000, guid: 601ccf6504fccdc4bb0d0b807fce401a, type: 2}
     itemGUID: 
     amount: 0
-  - _item: {fileID: 0}
+  - _item: {fileID: 11400000, guid: 50a207960e3389a468743d68a57dc0be, type: 2}
     itemGUID: 
     amount: 0
 --- !u!114 &6675331094191575306

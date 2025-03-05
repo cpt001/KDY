@@ -1,3 +1,10 @@
+V2.0.3 Storage API Expansion
+* Added a new API for storage buildings to allow for more control over storage
+* Storage buildings now expose add/remove item functions for custom UIs
+
+V2.0.2 Serialization Hotfix
+* Fixed an issue with saving + loading buildings with multiple inputs
+
 V2.0.1 InputSystem Hotfix
 * Removed demo scene useage of InputSystem since it caused poor user experience when first importing the project
 

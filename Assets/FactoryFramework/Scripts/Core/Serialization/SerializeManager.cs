@@ -149,12 +149,7 @@ namespace FactoryFramework
                             if (string.IsNullOrEmpty(guid)) continue;
                             if (lookup.TryGetValue(new Guid(guid), out SerializationReference input))
                             {
-                                if (self as Merger != null)
-                                {
-                                    self.ConnectInput(input.GetComponent<LogisticComponent>(), i);
-                                }
-                                else
-                                    self.ConnectInput(input.GetComponent<LogisticComponent>());
+                                self.ConnectInput(input.GetComponent<LogisticComponent>(), i);
                             }
                         }
                             

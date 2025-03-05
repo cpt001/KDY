@@ -18,5 +18,5 @@ MonoBehaviour:
   prefab: {fileID: 295085683512865444, guid: 350380db54526dc4ea9180a24d10b48f, type: 3}
   itemData:
     description: 
-    maxStack: 50
+    maxStack: 5000
   DebugColor: {r: 0.6698113, g: 0.47397137, b: 0.24959949, a: 1}

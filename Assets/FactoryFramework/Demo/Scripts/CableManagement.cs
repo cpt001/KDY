@@ -64,10 +64,12 @@ public class CableManagement : MonoBehaviour
         // set text for hints
         if (_source == null)
         {
-            uiManager.SetText("Power Cable Connect Mode: Click two buildings to connect them");
+            if(uiManager!=null)
+                uiManager.SetText("Power Cable Connect Mode: Click two buildings to connect them");
         } else
         {
-            uiManager.SetText("Power Cable Connect Mode: Click another building to connect to the same power grid");
+            if (uiManager != null)
+                uiManager.SetText("Power Cable Connect Mode: Click another building to connect to the same power grid");
         }
         
 

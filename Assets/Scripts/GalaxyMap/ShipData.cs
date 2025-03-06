@@ -40,11 +40,9 @@ public class ShipData : MonoBehaviour
 
 public class AttackData
 {
-    int MGCount;
-    int missileCount;
     int MGturretCount;
+    int MissileRackCount;
     int MissileTurretCount;
-    int FlakTurretCount;
     int LightTurretCount;
     int MedTurretCount;
     int HeavyTurretCount;

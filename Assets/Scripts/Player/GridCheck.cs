@@ -214,7 +214,7 @@ public class GridCheck : MonoBehaviour
 
     void HandleDockDebug(Storage targetStorage)
     {
-        Debug.Log("Entered debug menu!");
+        //Debug.Log("Entered debug menu!");
         DockDebugSelectionPanel.SetActive(true);
         foreach (DockDebugInterface ddi in dockDebugButtons)
         {

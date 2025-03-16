@@ -200,7 +200,7 @@ public class GridCheck : MonoBehaviour
                 //Debug.Log("Assigning recipes to button " + recipeButtons[i].gameObject + " || Current i = " + i);
                 recipeButtons[i].processorTarget = targetProcessor;
                 recipeButtons[i].thisButtonRecipe = targetProcessor.validRecipes[i];
-                recipeButtons[i].buttonText.text = targetProcessor.validRecipes[i].ToString();
+                recipeButtons[i].buttonText.text = targetProcessor.validRecipes[i].name;
                 recipeButtons[i].gameObject.SetActive(true);
             }
             else

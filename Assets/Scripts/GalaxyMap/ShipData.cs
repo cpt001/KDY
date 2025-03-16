@@ -336,10 +336,29 @@ public class ShipData : MonoBehaviour
                         {
                             if (attackTimer != attackFrequency)
                             {
-                                //Check num turrets targeting list condition
-                                //Set hit chance
-                                //Set crit chance (double damage)
-                                //Apply attack if there's a hit
+                                //Set hit chance and Check num turrets targeting list condition
+                                if (HitDiceRoll(60)) //&& ship.turretsTargetingThisShip.)   //Contains 3 mgturrets targeting this target
+                                {
+                                    foreach (CurrentTurretSetTarget turret in ship.turretsTargetingThisShip)
+                                    {
+                                        if (turret == CurrentTurretSetTarget.MGTurret)
+                                        {
+
+                                        }
+                                    }
+
+                                    ship.turretsTargetingThisShip.Add(CurrentTurretSetTarget.MGTurret);
+                                    if (HitDiceRoll(20))
+                                    {
+                                        //Crit for double damage
+                                        ship.turretsTargetingThisShip.Add(CurrentTurretSetTarget.MGTurret);
+                                    }
+                                    else
+                                    {
+                                        //Apply attack
+                                    }
+                                }
+                                //Miss target
                                 attackTimer = 0;
                             }
                             else
@@ -351,6 +370,19 @@ public class ShipData : MonoBehaviour
                     }
             }
             //~Else condition just picks a target
+        }
+    }
+
+    bool HitDiceRoll(float hitChance)
+    {
+        float diceRoll = Random.Range(0, 100);
+        if (diceRoll >= hitChance)
+        {
+            return (false);
+        }
+        else
+        {
+            return (true);
         }
     }
 

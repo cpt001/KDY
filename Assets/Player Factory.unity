@@ -40852,6 +40852,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WasherTower
       objectReference: {fileID: 0}
+    - target: {fileID: 5707962707949532561, guid: d580c619ff6e59a4a80eac54a54d0be9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

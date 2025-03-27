@@ -37,7 +37,7 @@ public class GridCheck : MonoBehaviour
     [SerializeField] private List<DockDebugInterface> dockDebugButtons = new List<DockDebugInterface>();
     [SerializeField] private Texture2D bulldozerCursor;
     [SerializeField] private GameObject previousTargetMachine = null;
-    private enum PlayerAction { Examine, Bulldoze, ChangeRecipe };
+    private enum PlayerAction { Examine, Bulldoze, ChangeRecipe, BuildWall, BuildRoom, BuildMachine };
     //[SerializeField] private List<Recipe> recipeList = new List<Recipe>();  //Local recipe list needed for GUI
 
     private void Awake()
@@ -74,6 +74,8 @@ public class GridCheck : MonoBehaviour
     {
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
         RaycastHit rayHit;
+
+        //For placing anything on the grid
         if (Physics.Raycast(ray, out rayHit, Mathf.Infinity, gridLayerMask))
         {
             //Vector3 screenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, rayHit.distance);
@@ -85,6 +87,8 @@ public class GridCheck : MonoBehaviour
                 buildingGhost.transform.position = gridPoint;
             }
         }
+
+        //For examination and machine setup
         if (Physics.Raycast(ray, out rayHit, Mathf.Infinity, machineLayerMask) && !bulldozerMode)
         {
             //Debug.Log("Detecting machinery");
@@ -107,6 +111,7 @@ public class GridCheck : MonoBehaviour
 
         }
     }
+    //All hail the grid
     static Vector3 SnapToGrid(Vector3 pos, float gridUnitSize)
     {
         Vector3 snapPos = Snapping.Snap(pos, Vector3.one * gridUnitSize, SnapAxis.All);
@@ -124,7 +129,6 @@ public class GridCheck : MonoBehaviour
             buildingGhost.transform.Rotate(new Vector3(0, 45, 0));
         }
     }
-
     void HandleConstruction()
     {
         //Construct Building
@@ -153,10 +157,6 @@ public class GridCheck : MonoBehaviour
     }
     void HandleDeconstruction()
     {
-        /*if (Input.GetKey(toggleBulldozerMode))
-        {
-            bulldozerMode = bulldozerMode ? false : true;
-        }*/
         if (bulldozerMode == true)
         {
             //Debug.Log("Bulldozer active");
@@ -271,5 +271,14 @@ public class GridCheck : MonoBehaviour
     {
         previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
         DockDebugSelectionPanel.SetActive(false);
+    }
+
+    public void CreateWall()
+    {
+
+    }
+    public void ConvertToRoom()
+    {
+
     }
 }

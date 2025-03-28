@@ -15260,6 +15260,145 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1022865457}
   m_CullTransparentMesh: 1
+--- !u!1 &1032961137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1032961141}
+  - component: {fileID: 1032961140}
+  - component: {fileID: 1032961139}
+  - component: {fileID: 1032961138}
+  - component: {fileID: 1032961143}
+  - component: {fileID: 1032961142}
+  m_Layer: 0
+  m_Name: WallPlaceholder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1032961138
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032961137}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1032961139
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032961137}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1032961140
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032961137}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1032961141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032961137}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1032961142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032961137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd9f007751e40f84d9c5d16400aa67c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StartConnection: {fileID: 0}
+  StartPoint: {x: 0, y: 0, z: 0}
+  EndConnection: {fileID: 0}
+  EndPoint: {x: 0, y: 0, z: 0}
+--- !u!114 &1032961143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032961137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25900898045db1f4babcb6629e61ef94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  placementValid: 0
+  trackedColliders: []
 --- !u!1 &1045905823
 GameObject:
   m_ObjectHideFlags: 0
@@ -16458,7 +16597,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: Fleet Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -18893,7 +19032,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1239096758}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1305194058}
+        m_TargetAssemblyTypeName: GridCheck, Assembly-CSharp
+        m_MethodName: CreateNewWall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1239096758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19379,65 +19530,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271652911}
   m_CullTransparentMesh: 1
---- !u!1 &1276214294
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1276214296}
-  - component: {fileID: 1276214295}
-  m_Layer: 0
-  m_Name: DrydockPool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1276214295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1276214294}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9483e6d661475ed49aea0363c11a7ff9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FighterCount: 0
-  BomberCount: 0
-  GunshipCount: 0
-  TransportCount: 0
-  GunboatCount: 0
-  CorvetteCount: 0
-  DestroyerCount: 0
-  FrigateCount: 0
-  CruiserCount: 0
-  BattleshipCount: 0
-  CarrierCount: 0
-  DreadnoughtCount: 0
-  damagedShipsInDock: []
-  FleetsPresent: []
-  fleetNameInput: {fileID: 0}
---- !u!4 &1276214296
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1276214294}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.8969746, y: 8.032954, z: -7.3304253}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1277500025
 GameObject:
   m_ObjectHideFlags: 0
@@ -19980,6 +20072,8 @@ MonoBehaviour:
   - {fileID: 1541769289}
   bulldozerCursor: {fileID: 2800000, guid: bfc2e39c176051c4bb6e5a7a557e6076, type: 3}
   previousTargetMachine: {fileID: 0}
+  wallPrefab: {fileID: 1032961137}
+  heldWall: {fileID: 0}
 --- !u!1 &1305781678
 GameObject:
   m_ObjectHideFlags: 0
@@ -23884,6 +23978,7 @@ GameObject:
   - component: {fileID: 1480858556}
   - component: {fileID: 1480858557}
   - component: {fileID: 1480858558}
+  - component: {fileID: 1480858559}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -24124,6 +24219,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ef456950fe9e19488973054bb572005, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1480858559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1480858551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9483e6d661475ed49aea0363c11a7ff9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FighterCount: 0
+  BomberCount: 0
+  GunshipCount: 0
+  TransportCount: 0
+  GunboatCount: 0
+  CorvetteCount: 0
+  DestroyerCount: 0
+  FrigateCount: 0
+  CruiserCount: 0
+  BattleshipCount: 0
+  CarrierCount: 0
+  DreadnoughtCount: 0
+  damagedShipsInDock: []
+  FleetsPresent: []
+  fleetNameInput: {fileID: 0}
 --- !u!1 &1481133168
 GameObject:
   m_ObjectHideFlags: 0
@@ -25054,7 +25176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1552845139
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48009,5 +48131,5 @@ SceneRoots:
   - {fileID: 1480858554}
   - {fileID: 2108279196}
   - {fileID: 1481133169}
-  - {fileID: 1276214296}
   - {fileID: 4300893776725825252}
+  - {fileID: 1032961141}

@@ -9,7 +9,7 @@ public class FleetData : MonoBehaviour
     public string fleetID;
     public List<ShipData> shipsInFleet;
     public FleetData hostileFleet;
-    //Temp
+    //Temp, set actual system later
     public Transform currentSystem;
 
     //This is triggered when a fleet enters a new system

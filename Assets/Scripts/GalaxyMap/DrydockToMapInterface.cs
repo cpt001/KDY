@@ -28,7 +28,28 @@ public class DrydockToMapInterface : MonoBehaviour
     public List<ShipData> damagedShipsInDock;
     public List<FleetData> FleetsPresent = new List<FleetData>();
 
-    public TMPro.TMP_InputField fleetNameInput;
+    [SerializeField] private TMPro.TMP_InputField fleetNameInput;
+
+    private void Start()
+    {
+        InitializeRandomShipAmounts();
+    }
+
+    void InitializeRandomShipAmounts()
+    {
+        FighterCount = Random.Range(0, 20);
+        BomberCount = Random.Range(0, 20);
+        GunshipCount = Random.Range(0, 20);
+        TransportCount = Random.Range(0, 20);
+        GunboatCount = Random.Range(0, 20);
+        CorvetteCount = Random.Range(0, 20);
+        DestroyerCount = Random.Range(0, 20);
+        FrigateCount = Random.Range(0, 20);
+        CruiserCount = Random.Range(0, 20);
+        BattleshipCount = Random.Range(0, 20);
+        CarrierCount = Random.Range(0, 20);
+        DreadnoughtCount = Random.Range(0, 20);
+    }
 
     //Opens a simple interface that allows the player to name their new fleet, then opens the manage fleet screen
     public void CreateNewFleet()

@@ -38,6 +38,8 @@ public class GridCheck : MonoBehaviour
     [SerializeField] private Texture2D bulldozerCursor;
     [SerializeField] private GameObject previousTargetMachine = null;
     private enum PlayerAction { Examine, Bulldoze, ChangeRecipe, BuildWall, BuildRoom, BuildMachine };
+    [SerializeField] private GameObject wallPrefab;
+    private GameObject heldWall;
     //[SerializeField] private List<Recipe> recipeList = new List<Recipe>();  //Local recipe list needed for GUI
 
     private void Awake()
@@ -52,6 +54,12 @@ public class GridCheck : MonoBehaviour
     {
         MouseToWorldGrid();
         HandleDeconstruction();
+
+        if (heldWall)
+        {
+            Debug.Log("wall held condition");
+            UpdateWallPositions(heldWall.GetComponent<Wall>(), heldWall.GetComponent<ColliderCheck>());
+        }
         if (!buildingGhost)
         {
             return;
@@ -66,8 +74,10 @@ public class GridCheck : MonoBehaviour
             //MouseToWorldGrid();
             //PlacementValidity();
             HandleRotation();
-            HandleConstruction();
+            HandleMachinePlacement();
         }
+        //yuno work?
+
     }
 
     void MouseToWorldGrid()
@@ -129,7 +139,7 @@ public class GridCheck : MonoBehaviour
             buildingGhost.transform.Rotate(new Vector3(0, 45, 0));
         }
     }
-    void HandleConstruction()
+    void HandleMachinePlacement()
     {
         //Construct Building
         if (Input.GetMouseButtonDown(0) && targetPullPool != null && buildingColliderCheck.placementValid)
@@ -264,8 +274,11 @@ public class GridCheck : MonoBehaviour
     }
     public void ConfirmRecipe()
     {
-        previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
-        RecipeSelectionPanel.SetActive(false);
+        if (previousTargetMachine)
+        {
+            previousTargetMachine.GetComponent<SelectionStateMachine>().SetColor(SelectionStateMachine.SelectionState.NotSelected);
+            RecipeSelectionPanel.SetActive(false);
+        }
     }
     public void ConfirmDockDebug()
     {
@@ -273,9 +286,54 @@ public class GridCheck : MonoBehaviour
         DockDebugSelectionPanel.SetActive(false);
     }
 
-    public void CreateWall()
+    //Button spawns new wall
+    public void CreateNewWall()
     {
+        if (!heldWall)
+        {
+            Debug.Log("Wall made");
+            heldWall = Instantiate(wallPrefab);
+        }
+    }
+    //Updates wall information
+    void UpdateWallPositions(Wall currentWall, ColliderCheck wallCollider)
+    {
+        Debug.Log("Updating wall");
+        //No information set
+        if (currentWall.StartPoint == Vector3.zero && currentWall.EndPoint == Vector3.zero)
+        {
+            heldWall.transform.position = gridPoint;
+        }
+        //First click sets start point
+        if (currentWall.StartPoint == Vector3.zero && wallCollider.placementValid && Input.GetMouseButtonDown(0))
+        {
+            currentWall.StartPoint = gridPoint;
+            return;
+        }
+        //NYI: Set start point with wall collision
 
+        //Handles dragging of new walls
+        if (currentWall.StartPoint != Vector3.zero && currentWall.EndPoint == Vector3.zero)
+        {
+            Vector3 initialScale = heldWall.transform.localScale;
+
+            float distance = Vector3.Distance(currentWall.StartPoint, gridPoint);
+            heldWall.transform.localScale = new Vector3(distance, initialScale.y, initialScale.z);
+           
+            Vector3 midPoint = (currentWall.StartPoint + gridPoint) / 2;
+            heldWall.transform.position = midPoint;
+
+            Vector3 rotation = gridPoint - currentWall.StartPoint;
+            heldWall.transform.right = rotation;
+        }
+        //Click sets end point
+        if (currentWall.StartPoint != Vector3.zero && currentWall.EndPoint == Vector3.zero && Input.GetMouseButtonDown(0))
+        {
+            currentWall.EndPoint = gridPoint;
+            heldWall = null;
+        }
+        //NYI: Set end point with wall collision
+        //Right click destroys wall
     }
     public void ConvertToRoom()
     {

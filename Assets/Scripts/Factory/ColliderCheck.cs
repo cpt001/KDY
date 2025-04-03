@@ -7,11 +7,24 @@ public class ColliderCheck : MonoBehaviour
     public bool placementValid;
     public List<Collider> trackedColliders = new List<Collider>();
     private Renderer buildingGhostRenderer => GetComponent<Renderer>();
+    public bool collidingWithWall;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ConveyorBelt") || other.gameObject.CompareTag("Machine"))
         {
             trackedColliders.Add(other);
+        }
+        if (other.CompareTag("Wall"))
+        {
+            if (!this.CompareTag("Wall"))
+            {
+                //Wall on Wall
+            }
+            else if (this.CompareTag("Wall") && name == "")
+            {
+                //Snap to wall
+            }
         }
     }
     private void OnTriggerExit(Collider other)

@@ -311,6 +311,10 @@ public class GridCheck : MonoBehaviour
             return;
         }
         //NYI: Set start point with wall collision
+        if (!wallCollider.placementValid)
+        {
+
+        }
 
         //Handles dragging of new walls
         if (currentWall.StartPoint != Vector3.zero && currentWall.EndPoint == Vector3.zero)

@@ -218,6 +218,10 @@ namespace FactoryFramework
             inputItems = new LocalStorage[inputItems.Length];
             outputItems = new LocalStorage[outputItems.Length];
         }
+        public void ClearOutputStorage()
+        {
+            outputItems = new LocalStorage[outputItems.Length];
+        }
         public bool AssignRecipe(Recipe recipe, bool clearStorage =false)
         {
             this.recipe = recipe;

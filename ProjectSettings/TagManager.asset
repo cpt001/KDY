@@ -8,6 +8,7 @@ TagManager:
   - Building
   - Machine
   - ConveyorBelt
+  - Wall
   layers:
   - Default
   - TransparentFX

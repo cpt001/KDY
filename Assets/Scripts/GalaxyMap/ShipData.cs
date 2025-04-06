@@ -29,8 +29,10 @@ public class ShipData : MonoBehaviour
     public List<CurrentTurretSetTarget> turretsTargetingThisShip = new List<CurrentTurretSetTarget>();
     public bool shipInCombat;
 
-    float health = 0;
-    float shield = 0;
+    public float maxHealth = 0;
+    public float health = 0;
+    public float maxShield = 0;
+    public float shield = 0;
 
     int MGturretCount = 0;
     int MissileRackCount = 0;
@@ -74,6 +76,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 30;
                     shield = 15;
+                    maxHealth = 30;
+                    maxShield = 15;
                     MGturretCount = 1;
                     MissileRackCount = 1;
 
@@ -85,6 +89,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 100;
                     shield = 45;
+                    maxHealth = 100;
+                    maxShield = 45;
                     MGturretCount = 3;
                     MissileRackCount = 2;
                     BombBay = 1;
@@ -97,6 +103,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 150;
                     shield = 75;
+                    maxHealth = 150;
+                    maxShield = 75;
                     MGturretCount = 2;
                     MissileRackCount = 2;
 
@@ -108,6 +116,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 70;
                     shield = 45;
+                    maxHealth = 70;
+                    maxShield = 45;
                     MGturretCount = 2;
                     isBoardable = false;
 
@@ -119,6 +129,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 220;
                     shield = 105;
+                    maxHealth = 220;
+                    maxShield = 105;
                     MGturretCount = 6;
                     MissileTurretCount = 2;
 
@@ -130,6 +142,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 200;
                     shield = 200;
+                    maxHealth = 200;
+                    maxShield = 200;
                     MGturretCount = 4;
                     MissileTurretCount = 3;
                     LightTurretCount = 1;
@@ -143,6 +157,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 600;
                     shield = 600;
+                    maxHealth = 600;
+                    maxShield = 600;
                     MGturretCount = 8;
                     MissileTurretCount = 4;
                     LightTurretCount = 2;
@@ -157,6 +173,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 450;
                     shield = 450;
+                    maxHealth = 450;
+                    maxShield = 450;
                     MGturretCount = 12;
                     MissileTurretCount = 4;
                     MedTurretCount = 2;
@@ -174,6 +192,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 1200;
                     shield = 1200;
+                    maxHealth = 1200;
+                    maxShield = 1200;
                     MGturretCount = 22;
                     MissileTurretCount = 8;
                     LightTurretCount = 4;
@@ -194,6 +214,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 1500;
                     shield = 1500;
+                    maxHealth = 1500;
+                    maxShield = 1500;
                     MGturretCount = 40;
                     MissileTurretCount = 14;
                     LightTurretCount = 12;
@@ -213,6 +235,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 1300;
                     shield = 800;
+                    maxHealth = 1300;
+                    maxShield = 800;
                     MGturretCount = 30;
                     MissileTurretCount = 10;
                     LightTurretCount = 6;
@@ -232,6 +256,8 @@ public class ShipData : MonoBehaviour
                 {
                     health = 2400;
                     shield = 3200;
+                    maxHealth = 2400;
+                    maxShield = 3200;
                     MGturretCount = 60;
                     MissileTurretCount = 24;
                     LightTurretCount = 20;

@@ -2900,7 +2900,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 99694281}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveFighter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &99694281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5719,7 +5731,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 211511944}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddDreadnought
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &211511944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6369,7 +6393,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 222315029}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveFrigate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &222315029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6626,7 +6662,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 234207419}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveBattleship
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &234207419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7187,7 +7235,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 259478527}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddCarrier
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &259478527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8202,7 +8262,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 290295688}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveGunship
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &290295688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8941,7 +9013,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 325686439}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveDestroyer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &325686439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9288,7 +9372,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 340184714}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveDreadnought
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &340184714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9409,7 +9505,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 346876504}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveCarrier
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &346876504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9460,8 +9568,9 @@ GameObject:
   - component: {fileID: 350852569}
   - component: {fileID: 350852568}
   - component: {fileID: 350852570}
+  - component: {fileID: 350852571}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Fleet Selection Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9478,7 +9587,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.27980545, y: 0.8453081, z: 0.7864063}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 440914360}
   m_Father: {fileID: 1330142907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -9536,14 +9646,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 0}
-  m_Horizontal: 1
+  m_Content: {fileID: 440914360}
+  m_Horizontal: 0
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 0
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 0}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
@@ -9554,6 +9664,19 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &350852571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350852566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
 --- !u!1 &351273185
 GameObject:
   m_ObjectHideFlags: 0
@@ -9636,7 +9759,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 351273188}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddCruiser
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &351273188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10160,7 +10295,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 371023544}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddDestroyer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &371023544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10613,6 +10760,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 417426001}
   m_CullTransparentMesh: 1
+--- !u!1 &440914359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 440914360}
+  m_Layer: 5
+  m_Name: FleetButtonContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &440914360
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 440914359}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 350852567}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 750, y: 430}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &459002433
 GameObject:
   m_ObjectHideFlags: 0
@@ -14664,7 +14846,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 646797288}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddCorvette
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &646797288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14763,7 +14957,7 @@ GameObject:
   - component: {fileID: 648539013}
   - component: {fileID: 648539012}
   m_Layer: 5
-  m_Name: LessGunship
+  m_Name: LessGunboat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14832,7 +15026,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 648539013}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveGunboat
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &648539013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15453,7 +15659,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 695760806}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveCruiser
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &695760806
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15963,7 +16181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 708489586}
   m_Layer: 5
-  m_Name: Gunship
+  m_Name: Gunboat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18226,7 +18444,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 802172951}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: CreateNewFleet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &802172951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18826,7 +19056,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 833677158}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveCorvette
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &833677158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21487,7 +21729,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 983586006}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddGunship
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &983586006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29742,7 +29996,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1290462989}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveBomber
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1290462989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32278,7 +32544,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1381349218}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddBattleship
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1381349218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33492,7 +33770,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1428420936}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: RemoveTransport
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1428420936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34879,7 +35169,6 @@ GameObject:
   - component: {fileID: 1480858555}
   - component: {fileID: 1480858556}
   - component: {fileID: 1480858557}
-  - component: {fileID: 1480858558}
   - component: {fileID: 1480858559}
   m_Layer: 0
   m_Name: EventSystem
@@ -35109,18 +35398,6 @@ MonoBehaviour:
   greenGhostMat: {fileID: 2100000, guid: 4fcc2220819511644aab66ef9f65ca46, type: 2}
   redGhostMat: {fileID: 2100000, guid: 109048728f9ded645881bff64684a2c4, type: 2}
   gridCheck: {fileID: 1305194058}
---- !u!114 &1480858558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480858551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ef456950fe9e19488973054bb572005, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1480858559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35133,23 +35410,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06eb307cdfdfc7242959b6966afc86bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fleetData: {fileID: 0}
   FleetsPresent: []
   DamagedShips: []
-  FighterCount: 0
-  BomberCount: 0
-  GunshipCount: 0
-  TransportCount: 0
-  GunboatCount: 0
-  CorvetteCount: 0
-  DestroyerCount: 0
-  FrigateCount: 0
-  CruiserCount: 0
-  BattleshipCount: 0
-  CarrierCount: 0
-  DreadnoughtCount: 0
+  FactoryFighterCount: 0
+  fighterFactoryCountText: {fileID: 1007042319}
+  FactoryBomberCount: 0
+  bomberFactoryCountText: {fileID: 1135930796}
+  FactoryGunshipCount: 0
+  gunshipFactoryCountText: {fileID: 1000832307}
+  FactoryTransportCount: 0
+  transportFactoryCountText: {fileID: 1194538938}
+  FactoryGunboatCount: 0
+  gunboatFactoryCountText: {fileID: 512195882}
+  FactoryCorvetteCount: 0
+  corvetteFactoryCountText: {fileID: 945684490}
+  FactoryDestroyerCount: 0
+  destroyerFactoryCountText: {fileID: 902384343}
+  FactoryFrigateCount: 0
+  frigateFactoryCountText: {fileID: 698072401}
+  FactoryCruiserCount: 0
+  cruiserFactoryCountText: {fileID: 2147277381}
+  FactoryBattleshipCount: 0
+  battleshipFactoryCountText: {fileID: 38970581}
+  FactoryCarrierCount: 0
+  carrierFactoryCountText: {fileID: 747687841}
+  FactoryDreadnoughtCount: 0
+  dreadnoughtFactoryCountText: {fileID: 1873147110}
+  fighterFleetCountText: {fileID: 1025831212}
+  bomberFleetCountText: {fileID: 417426003}
+  gunshipFleetCountText: {fileID: 1881196400}
+  transportFleetCountText: {fileID: 60233163}
+  gunboatFleetCountText: {fileID: 90439841}
+  corvetteFleetCountText: {fileID: 213684899}
+  destroyerFleetCountText: {fileID: 1731370709}
+  frigateFleetCountText: {fileID: 737517580}
+  cruiserFleetCountText: {fileID: 495098477}
+  battleshipFleetCountText: {fileID: 948600291}
+  carrierFleetCountText: {fileID: 273389577}
+  dreadnoughtFleetCountText: {fileID: 323264699}
+  fighterDamagedCountText: {fileID: 1019777874}
+  bomberDamagedCountText: {fileID: 493127499}
+  gunshipDamagedCountText: {fileID: 510406123}
+  transportDamagedCountText: {fileID: 262481926}
+  gunboatDamagedCountText: {fileID: 1634147381}
+  corvetteDamagedCountText: {fileID: 1281080587}
+  destroyerDamagedCountText: {fileID: 754885581}
+  frigateDamagedCountText: {fileID: 1056498305}
+  cruiserDamagedCountText: {fileID: 1438255966}
+  battleshipDamagedCountText: {fileID: 1108372131}
+  carrierDamagedCountText: {fileID: 981313607}
+  dreadnoughtDamagedCountText: {fileID: 10346084}
   damagedShipsInDock: []
-  fleetNameInput: {fileID: 0}
+  fleetNameInput: {fileID: 318188836}
+  fleetButtonContainer: {fileID: 440914359}
+  fleetButtonPrefab: {fileID: 4798866843613868052, guid: 198f5e43159e7e04a91e546308c9a733, type: 3}
 --- !u!1 &1481133168
 GameObject:
   m_ObjectHideFlags: 0
@@ -39903,7 +40217,7 @@ GameObject:
   - component: {fileID: 1715789862}
   - component: {fileID: 1715789861}
   m_Layer: 5
-  m_Name: MoreGunship
+  m_Name: MoreGunboat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39972,7 +40286,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1715789862}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddGunboat
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1715789862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42172,7 +42498,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1807077153}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddFighter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1807077153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43218,7 +43556,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1864925492}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddBomber
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1864925492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46147,7 +46497,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1989718352}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddFrigate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1989718352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49270,7 +49632,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2144614263}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1480858559}
+        m_TargetAssemblyTypeName: FleetCreationManager, Assembly-CSharp
+        m_MethodName: AddTransport
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2144614263
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -23,62 +23,62 @@ public class DrydockToFleetManagerInterface : MonoBehaviour
                 {
                     case ("Fighter"):
                         {
-                            fleetManager.FighterCount++;
+                            fleetManager.FactoryFighterCount++;
                             break;
                         }
                     case ("Bomber"):
                         {
-                            fleetManager.BomberCount++;
+                            fleetManager.FactoryBomberCount++;
                             break;
                         }
                     case ("Gunship"):
                         {
-                            fleetManager.GunshipCount++;
+                            fleetManager.FactoryGunshipCount++;
                             break;
                         }
                     case ("Transport"):
                         {
-                            fleetManager.TransportCount++;
+                            fleetManager.FactoryTransportCount++;
                             break;
                         }
                     case ("Gunboat"):
                         {
-                            fleetManager.GunboatCount++;
+                            fleetManager.FactoryGunboatCount++;
                             break;
                         }
                     case ("Corvette"):
                         {
-                            fleetManager.CorvetteCount++;
+                            fleetManager.FactoryCorvetteCount++;
                             break;
                         }
                     case ("Destroyer"):
                         {
-                            fleetManager.DestroyerCount++;
+                            fleetManager.FactoryDestroyerCount++;
                             break;
                         }
                     case ("Frigate"):
                         {
-                            fleetManager.FrigateCount++;
+                            fleetManager.FactoryFrigateCount++;
                             break;
                         }
                     case ("Cruiser"):
                         {
-                            fleetManager.CruiserCount++;
+                            fleetManager.FactoryCruiserCount++;
                             break;
                         }
                     case ("Battleship"):
                         {
-                            fleetManager.BattleshipCount++;
+                            fleetManager.FactoryBattleshipCount++;
                             break;
                         }                   
                     case ("Carrier"):
                         {
-                            fleetManager.CarrierCount++;
+                            fleetManager.FactoryCarrierCount++;
                             break;
                         }
                     case ("Dreadnought"):
                         {
-                            fleetManager.DreadnoughtCount++;
+                            fleetManager.FactoryDreadnoughtCount++;
                             break;
                         }
                 }

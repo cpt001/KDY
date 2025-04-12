@@ -11,6 +11,13 @@ using TMPro;
 /// 
 public class FleetCreationManager : MonoBehaviour
 {
+    [SerializeField] private FleetData currentFleetManaged;
+    [SerializeField] private TMPro.TMP_InputField fleetNameInput;
+    [SerializeField] private GameObject fleetManagementPanel;
+    [SerializeField] private GameObject fleetAdjustmentPanel;
+    [SerializeField] private GameObject fleetButtonContainer;
+    [SerializeField] private GameObject fleetButtonPrefab;
+
     public List<FleetData> FleetsPresent = new List<FleetData>();
     public List<ShipData> DamagedShips = new List<ShipData>();
     #region How many of each ship exist in the factory
@@ -107,12 +114,6 @@ public class FleetCreationManager : MonoBehaviour
     private int DamagedDreadnoughtCount;
     [SerializeField] private TextMeshProUGUI dreadnoughtDamagedCountText;
     #endregion
-    public List<ShipData> damagedShipsInDock;
-
-
-    [SerializeField] private TMPro.TMP_InputField fleetNameInput;
-    [SerializeField] private GameObject fleetButtonContainer;
-    [SerializeField] private GameObject fleetButtonPrefab;
 
     private void Start()
     {
@@ -187,8 +188,32 @@ public class FleetCreationManager : MonoBehaviour
         }
     }
 
+    //Each button sends a fleet to be managed here
     public void ManageFleet(FleetData targetFleet)
     {
+        fleetAdjustmentPanel.SetActive(true);
+        if (currentFleetManaged == null)
+        {
+            Debug.Log("New fleet being managed");
+            currentFleetManaged = targetFleet;
+        }
+        //Resets counts if another fleet is selected
+        else if (currentFleetManaged != targetFleet)
+        {
+            Debug.Log("In progress fleet found, returning counts to factory");
+            FactoryFighterCount += FleetFighterCount;
+            FactoryBomberCount += FleetBomberCount;
+            FactoryGunshipCount += FleetGunshipCount;
+            FactoryTransportCount += FleetTransportCount;
+            FactoryGunboatCount += FleetGunboatCount;
+            FactoryCorvetteCount += FleetCorvetteCount;
+            FactoryDestroyerCount += FleetDestroyerCount;
+            FactoryFrigateCount += FleetFrigateCount;
+            FactoryCruiserCount += FleetCruiserCount;
+            FactoryBattleshipCount += FleetBattleshipCount;
+            FactoryCarrierCount += FleetCarrierCount;
+            FactoryDreadnoughtCount += FleetDreadnoughtCount;
+        }
         //0's out previous fleet input
         FleetFighterCount = 0;
         FleetBomberCount = 0;
@@ -219,7 +244,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedFighterCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Bomber:
@@ -232,7 +256,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedBomberCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Gunship:
@@ -245,7 +268,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedGunshipCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Transport:
@@ -258,7 +280,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedTransportCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Gunboat:
@@ -271,7 +292,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedGunboatCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Corvette:
@@ -284,7 +304,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedCorvetteCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Destroyer:
@@ -297,7 +316,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedDestroyerCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Frigate:
@@ -310,7 +328,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedFrigateCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Cruiser:
@@ -323,7 +340,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedCruiserCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Battleship:
@@ -336,7 +352,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedBattleshipCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Carrier:
@@ -349,7 +364,6 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedCarrierCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                     case ShipData.ShipType.Dreadnought:
@@ -362,107 +376,139 @@ public class FleetCreationManager : MonoBehaviour
                             {
                                 DamagedDreadnoughtCount++;
                             }
-                            targetFleet.shipsInFleet.Remove(ship);
                             break;
                         }
                 }
             }
+            targetFleet.shipsInFleet.Clear();
         }
         UpdateCounterText();
     }
 
     //Sends collective fleet data from UI to fleetdata
-    public void ConfirmFleetChanges(FleetData targetFleet)
+    public void ConfirmFleetChanges()
     {
+        fleetAdjustmentPanel.SetActive(false);
         for (int i = 0; i < FleetFighterCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Fighter;
+            Debug.Log("Added fighter!");
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Fighter
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetBomberCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Bomber;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Bomber
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetGunshipCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Gunship;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Gunship
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetTransportCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Transport;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Transport
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetGunboatCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Gunboat;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Gunboat
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetCorvetteCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Corvette;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Corvette
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetDestroyerCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Destroyer;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Destroyer
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetFrigateCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Frigate;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Frigate
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetCruiserCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Cruiser;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Cruiser
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetBattleshipCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Battleship;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Battleship
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetCarrierCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Carrier;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Carrier
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetDreadnoughtCount; i++)
         {
-            ShipData newShip = new ShipData();
-            newShip.thisShip = ShipData.ShipType.Dreadnought;
+            ShipData newShip = new()
+            {
+                thisShip = ShipData.ShipType.Dreadnought
+            };
 
-            targetFleet.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);
         }
+
+        currentFleetManaged = null;
     }
 
+    public void OpenFleetManager()
+    {
+        fleetManagementPanel.SetActive(true);
+    }
     public void CloseFleetManager()
     {
-
+        fleetManagementPanel.SetActive(false);
     }
 
     #region Button fleet management

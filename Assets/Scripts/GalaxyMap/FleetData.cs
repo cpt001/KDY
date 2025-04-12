@@ -7,7 +7,7 @@ using UnityEngine;
 public class FleetData : MonoBehaviour
 {
     public string fleetID;
-    public List<ShipData> shipsInFleet;
+    public List<ShipData> shipsInFleet = new List<ShipData>();
     public FleetData hostileFleet;
     //Temp, set actual system later
     public Transform currentSystem;

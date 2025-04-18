@@ -68,7 +68,7 @@ public class ShipData : MonoBehaviour
     int DeployableGunboatCount = 0;
     int DeployableFrigateCount = 0;
 
-    void InitializeShipArmament()
+    public void InitializeShipArmament()
     {
         switch (thisShip)
         {

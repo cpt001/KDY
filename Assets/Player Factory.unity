@@ -31529,7 +31529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1330142907
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35496,6 +35496,7 @@ MonoBehaviour:
   fleetAdjustmentPanel: {fileID: 425862173}
   fleetButtonContainer: {fileID: 440914359}
   fleetButtonPrefab: {fileID: 4798866843613868052, guid: 198f5e43159e7e04a91e546308c9a733, type: 3}
+  fleetPool: {fileID: 2038850399}
   FleetsPresent: []
   DamagedShips: []
   FactoryFighterCount: 0
@@ -47431,6 +47432,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2031324708}
   m_CullTransparentMesh: 1
+--- !u!1 &2038850398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2038850400}
+  - component: {fileID: 2038850399}
+  m_Layer: 0
+  m_Name: Fleet Pool Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2038850399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038850398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a691c2b70bd75474d91c91fe9fd6ad1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pooledStructures: []
+  structureToPool: {fileID: 324065717838354896, guid: 31523dbfd02ea7142850bd491ee67d3c, type: 3}
+  amountToPool: 1000
+--- !u!4 &2038850400
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038850398}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 321.03296, y: 232.64099, z: 9.163147}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2041875620
 GameObject:
   m_ObjectHideFlags: 0
@@ -63341,5 +63389,6 @@ SceneRoots:
   - {fileID: 1480858554}
   - {fileID: 2108279196}
   - {fileID: 1481133169}
+  - {fileID: 2038850400}
   - {fileID: 4300893776725825252}
   - {fileID: 1032961141}

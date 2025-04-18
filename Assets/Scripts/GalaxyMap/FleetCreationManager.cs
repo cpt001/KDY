@@ -7,6 +7,8 @@ using TMPro;
 /// Script
 /// -Tracks every ship built within the factory, passed in by dd to fleetmanager scripts
 /// -Allows management of fleets at the factory
+/// 
+/// --> Manage fleet needs to look at the information on the the target fleet's subobject, then sort the data accordingly.
 /// </summary>
 /// 
 public class FleetCreationManager : MonoBehaviour
@@ -17,6 +19,7 @@ public class FleetCreationManager : MonoBehaviour
     [SerializeField] private GameObject fleetAdjustmentPanel;
     [SerializeField] private GameObject fleetButtonContainer;
     [SerializeField] private GameObject fleetButtonPrefab;
+    [SerializeField] private MachineryPooling fleetPool;
 
     public List<FleetData> FleetsPresent = new List<FleetData>();
     public List<ShipData> DamagedShips = new List<ShipData>();
@@ -140,7 +143,10 @@ public class FleetCreationManager : MonoBehaviour
     //Opens a simple interface that allows the player to name their new fleet, then opens the manage fleet screen
     public void CreateNewFleet()
     {
-        FleetData newFleetData = gameObject.AddComponent<FleetData>();
+        //FleetData newFleetData = gameObject.AddComponent<FleetData>();
+        FleetData newFleetData = fleetPool.GetPooledStructures().GetComponent<FleetData>();
+        newFleetData.gameObject.SetActive(true);
+
         if (fleetNameInput.text != "")  //Apparently the field isnt null, but also doesnt contain anything x.x
         {
             Debug.Log("name input: " + fleetNameInput.text);
@@ -391,111 +397,94 @@ public class FleetCreationManager : MonoBehaviour
         fleetAdjustmentPanel.SetActive(false);
         for (int i = 0; i < FleetFighterCount; i++)
         {
-            Debug.Log("Added fighter!");
-            ShipData newShip = new()
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Fighter;
+            newShip.InitializeShipArmament();
+            currentFleetManaged.shipsInFleet.Add(newShip);
+            #region Worth revisiting later?
+            /*ShipData newShip = new()
             {
                 thisShip = ShipData.ShipType.Fighter
             };
 
-            currentFleetManaged.shipsInFleet.Add(newShip);
+            currentFleetManaged.shipsInFleet.Add(newShip);*/
+            #endregion
         }
         for (int i = 0; i < FleetBomberCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Bomber
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Bomber;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetGunshipCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Gunship
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Gunship;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetTransportCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Transport
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Transport;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetGunboatCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Gunboat
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Gunboat;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetCorvetteCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Corvette
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Corvette;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetDestroyerCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Destroyer
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Destroyer;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetFrigateCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Frigate
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Frigate;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetCruiserCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Cruiser
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Cruiser;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetBattleshipCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Battleship
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Battleship;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetCarrierCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Carrier
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Carrier;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
         for (int i = 0; i < FleetDreadnoughtCount; i++)
         {
-            ShipData newShip = new()
-            {
-                thisShip = ShipData.ShipType.Dreadnought
-            };
-
+            ShipData newShip = currentFleetManaged.transform.GetChild(0).gameObject.AddComponent<ShipData>();
+            newShip.thisShip = ShipData.ShipType.Dreadnought;
+            newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
         }
 

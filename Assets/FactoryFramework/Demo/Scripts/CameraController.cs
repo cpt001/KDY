@@ -23,11 +23,11 @@ public class CameraController : MonoBehaviour
     private float minCameraDist = 5f;
     private float maxCameraDist = 50f;
 
-    private Camera camera;
+    private Camera targetCamera;
 
     private void Awake()
     {
-        camera = GetComponentInChildren<Camera>();
+        targetCamera = GetComponentInChildren<Camera>();
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class CameraController : MonoBehaviour
         float roll = 0f + (Input.GetKey(CW) ? 1f : 0f) - (Input.GetKey(CCW) ? 1f : 0f);
 
         Vector3 moveDelta = new Vector3(sideways, 0f, forward) * moveSpeed * Time.deltaTime;
-        Vector3 rotDelta = new Vector3(0f, roll, 0f) * rotateSpeed * Time.deltaTime;
+        Vector3 rotDelta = new Vector3(0f, -roll, 0f) * rotateSpeed * Time.deltaTime;
 
         _desiredPosition += transform.TransformVector(moveDelta);
         _desiredRotation += rotDelta;
@@ -47,11 +47,11 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, _desiredPosition, dampening * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(_desiredRotation), dampening * Time.deltaTime);
 
-        Vector3 dir = camera.transform.localPosition.normalized;
+        Vector3 dir = targetCamera.transform.localPosition.normalized;
         float zoomDelta = Input.mouseScrollDelta.y * zoomSpeed * Time.deltaTime;
-        float dist = camera.transform.localPosition.magnitude;
+        float dist = targetCamera.transform.localPosition.magnitude;
         float zoomLevel = Mathf.Clamp(dist - zoomDelta, minCameraDist, maxCameraDist);
-        camera.transform.localPosition = dir * zoomLevel;
+        targetCamera.transform.localPosition = dir * zoomLevel;
 
     }
 }

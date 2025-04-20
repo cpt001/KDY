@@ -149,8 +149,8 @@ public class FleetCreationManager : MonoBehaviour
 
         if (fleetNameInput.text != "")  //Apparently the field isnt null, but also doesnt contain anything x.x
         {
-            Debug.Log("name input: " + fleetNameInput.text);
-            Debug.Log("Named fleet created");
+            //Debug.Log("name input: " + fleetNameInput.text);
+            //Debug.Log("Named fleet created");
             newFleetData.fleetID = fleetNameInput.text;
             //ManageFleet(newFleetData);
             FleetsPresent.Add(newFleetData);
@@ -159,7 +159,7 @@ public class FleetCreationManager : MonoBehaviour
         else
         {
             //Autoname
-            Debug.Log("Generic fleet created");
+            //Debug.Log("Generic fleet created");
             //int currentFleetCount = FleetsPresent.Count + 1;
             newFleetData.fleetID = "Fleet " + FleetsPresent.Count;
             //ManageFleet(newFleetData);
@@ -200,13 +200,13 @@ public class FleetCreationManager : MonoBehaviour
         fleetAdjustmentPanel.SetActive(true);
         if (currentFleetManaged == null)
         {
-            Debug.Log("New fleet being managed");
+            //Debug.Log("New fleet being managed");
             currentFleetManaged = targetFleet;
         }
         //Resets counts if another fleet is selected
         else if (currentFleetManaged != targetFleet)
         {
-            Debug.Log("In progress fleet found, returning counts to factory");
+            //Debug.Log("In progress fleet found, returning counts to factory");
             FactoryFighterCount += FleetFighterCount;
             FactoryBomberCount += FleetBomberCount;
             FactoryGunshipCount += FleetGunshipCount;
@@ -233,6 +233,8 @@ public class FleetCreationManager : MonoBehaviour
         FleetBattleshipCount = 0;
         FleetCarrierCount = 0;
         FleetDreadnoughtCount = 0;
+        #region Old Method
+        /* --Old Method... This might actually be working, found a typo. Too late. x.x
         //Populate list of ships from existing fleet, reduces to simple numbers for modification
         if (targetFleet.shipsInFleet != null)
         {
@@ -388,6 +390,164 @@ public class FleetCreationManager : MonoBehaviour
             }
             targetFleet.shipsInFleet.Clear();
         }
+        */
+        #endregion
+        if (targetFleet.shipsInFleet != null)
+        {
+            foreach (ShipData ship in targetFleet.transform.GetComponentsInChildren<ShipData>())
+            {
+                switch (ship.thisShip)
+                {
+                    case ShipData.ShipType.Fighter:
+                        {
+                            Debug.Log("Found fighter, adding to counters");
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetFighterCount++;
+                            }
+                            else
+                            {
+                                DamagedFighterCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Bomber:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetBomberCount++;
+                            }
+                            else
+                            {
+                                DamagedBomberCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Gunship:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetGunshipCount++;
+                            }
+                            else
+                            {
+                                DamagedGunshipCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Transport:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetTransportCount++;
+                            }
+                            else
+                            {
+                                DamagedTransportCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Gunboat:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetGunboatCount++;
+                            }
+                            else
+                            {
+                                DamagedGunboatCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Corvette:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetCorvetteCount++;
+                            }
+                            else
+                            {
+                                DamagedCorvetteCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Destroyer:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetDestroyerCount++;
+                            }
+                            else
+                            {
+                                DamagedDestroyerCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Frigate:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetFrigateCount++;
+                            }
+                            else
+                            {
+                                DamagedFrigateCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Cruiser:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetCruiserCount++;
+                            }
+                            else
+                            {
+                                DamagedCruiserCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Battleship:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetBattleshipCount++;
+                            }
+                            else
+                            {
+                                DamagedBattleshipCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Carrier:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetCarrierCount++;
+                            }
+                            else
+                            {
+                                DamagedCarrierCount++;
+                            }
+                            break;
+                        }
+                    case ShipData.ShipType.Dreadnought:
+                        {
+                            if (ship.health == ship.maxHealth)
+                            {
+                                FleetDreadnoughtCount++;
+                            }
+                            else
+                            {
+                                DamagedDreadnoughtCount++;
+                            }
+                            break;
+                        }
+                }
+                Destroy(ship);
+            }
+            targetFleet.shipsInFleet.Clear();
+        }
         UpdateCounterText();
     }
 
@@ -486,6 +646,12 @@ public class FleetCreationManager : MonoBehaviour
             newShip.thisShip = ShipData.ShipType.Dreadnought;
             newShip.InitializeShipArmament();
             currentFleetManaged.shipsInFleet.Add(newShip);
+        }
+
+        //Name changing
+        if (fleetNameInput.text != currentFleetManaged.fleetID)
+        {
+            currentFleetManaged.fleetID = fleetNameInput.text;
         }
 
         currentFleetManaged = null;

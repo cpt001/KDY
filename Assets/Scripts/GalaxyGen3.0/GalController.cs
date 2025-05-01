@@ -1,0 +1,171 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+/// <summary>
+/// Data hierarchy [Galaxy, Sector, System, Orbiting Body
+/// -Galaxy - The main goal of the game. Reconquer the entire galaxy. Holds all information.
+/// -Sector - Gives the player overarching goals within their campaign to achieve
+/// -System - Individual systems within a sector, containing resources and hostiles
+/// -Orbiting body - Detailed information within a system to give it more life in the game
+/// </summary>
+public class GalController : MonoBehaviour
+{
+    [Header("Generation Parameters")]
+    [SerializeField] private Slider galacticArmCount;   //How many arms galaxy will have    || Limited 1-11
+    private float turnFraction; //Spacing between spawned nodes/sectors in fibannoci spiral
+    [SerializeField] private Slider sectorCount;    //How wide the galaxy will be || Limited 30-300
+    private enum GalacticCenterDeadZone { Small, Medium, Large }; //Determines how many nodes are skipped during generation
+    private GalacticCenterDeadZone deadzone;
+    private float deadZoneCollisionRadius;
+    private bool galaxyAlreadyPresent;
+    [Header("Sector Parameters")]
+    private List<Sector> sectorsInGalaxy = new List<Sector>();
+    [SerializeField] private GameObject sectorPrefab;
+    [SerializeField] private LayerMask sectorLayerMask;
+    private enum SectorSize { Small, Medium, Large };
+    private SectorSize sectorSize;
+    [Header("Star Parameter")]
+    [SerializeField] private GameObject starPrefab;
+
+    public void GenerateNewGalaxy()
+    {
+        if (!galaxyAlreadyPresent)
+        {
+            GenerateArms();
+            galaxyAlreadyPresent = true;
+        }
+        else
+        {
+            DestroyPreviousGalaxy();
+            GenerateArms();
+        }
+    }
+    void DestroyPreviousGalaxy()
+    {
+        foreach (GameObject child in gameObject.transform)
+        {
+            Destroy(child);
+        }
+    }
+
+    void GenerateArms()
+    {
+        //Nodes are generated while going a certain distance around a circle. .99 turn fraction will move 99% of the way around a circle before generating the next
+        #region Sector Generation
+        switch (galacticArmCount.value)
+        {
+            case (1): { turnFraction = 0.99f; break; }
+            case (2): { turnFraction = 0.509f; break; }
+            case (3): { turnFraction = 0.3300575f; break; }
+            case (4): { turnFraction = 0.2450275f; break; }
+            case (5): { turnFraction = 0.195001f; break; }
+            case (6): { turnFraction = 0.1700575f; break; }
+            case (7): { turnFraction = 0.14001f; break; }
+            case (8): { turnFraction = 0.1230575f; break; }
+            case (9): { turnFraction = 0.113001f; break; }
+            case (10): { turnFraction = .0990001f; break; }
+            case (11): { turnFraction = 0.09000546f; break; }
+        }
+
+        //Generates each sector
+        for (int i = 0; i < sectorCount.value; i++)
+        {
+            float dst = i + .001f / galacticArmCount.value;
+            float angle = 2f * Mathf.PI * turnFraction * i;
+
+            float x = dst * Mathf.Cos(angle);
+            float z = dst * Mathf.Sin(angle);
+
+            Instantiate(sectorPrefab, new Vector3(x, 0, z), Quaternion.identity, gameObject.transform);
+            //if (i == sectorCount.value - 1) defunct?
+        }
+        #endregion
+        //Determines size of deadzone at galactic center, and removes sectors
+        #region Deadzone removal
+        switch (deadzone)
+        {
+            case GalacticCenterDeadZone.Small: { deadZoneCollisionRadius = 10.0f; break; }
+            case GalacticCenterDeadZone.Medium: { deadZoneCollisionRadius = 20.0f; break; }
+            case GalacticCenterDeadZone.Large: { deadZoneCollisionRadius = 30.0f; break; }
+        }
+
+        RaycastHit[] deadzoneObjects = Physics.SphereCastAll(gameObject.transform.position, deadZoneCollisionRadius, Vector3.left, Mathf.Infinity, sectorLayerMask, QueryTriggerInteraction.Collide);
+        foreach (RaycastHit sector in deadzoneObjects)
+        {
+            Destroy(sector.transform.gameObject);
+        }
+        #endregion
+
+        StartCoroutine(GenerateSectors());
+    }
+
+    IEnumerator GenerateSectors()
+    {
+        //Find and combine some sectors
+        foreach (GameObject sector in gameObject.transform)
+        {
+            //Activate particle generator with parameters from UI
+            StartCoroutine(GenerateSystemData(sector));
+
+            switch (sectorSize)
+            {
+                case SectorSize.Small:
+                    {
+                        sector.GetComponent<Sector>().sectorPriority = Random.Range(1, 4);
+                        break;
+                    }
+                case SectorSize.Medium:
+                    {
+                        sector.GetComponent<Sector>().sectorPriority = Random.Range(1, 6);
+                        break;
+                    }
+                case SectorSize.Large:
+                    {
+                        sector.GetComponent<Sector>().sectorPriority = Random.Range(1, 8);
+                        break;
+                    }
+            }
+
+            if (sector.GetComponent<Sector>().sectorPriority < 3)
+            {
+                //Mark for combination to another sector.
+                //-Set target sector (nearest sector over priority)
+                //-Move generated stars from this sector to target sector
+                //-Destroy this sector
+            }
+        }
+        //Add sectors to list on this controller
+
+        yield return null;
+    }
+
+    IEnumerator GenerateSystemData(GameObject sector)
+    {
+        ParticleSystem sectorParticle = sector.GetComponent<ParticleSystem>();
+        sectorParticle.Play();
+        ParticleSystem.Particle[] generatedSector = new ParticleSystem.Particle[sectorParticle.particleCount];
+        sectorParticle.GetParticles(generatedSector);
+        foreach (ParticleSystem.Particle star in generatedSector)
+        {
+            GameObject starObject = Instantiate(starPrefab, star.position, transform.rotation, transform.parent);
+            StarSystem starSystem = starObject.GetComponent<StarSystem>();
+            sector.GetComponent<Sector>().starSystems.Add(starSystem);
+        }
+
+        //Set star type
+        //Enemy generation on node
+        //Set number of orbiting bodies
+        yield return null;
+    }
+
+    IEnumerator GenerateOrbitingBodies()
+    {
+        //Determine star type
+        //Determine type of orbiting body
+        //Determine resource and amount from orbiting body
+        //Determine ease of access to resource (harvesting time)
+        yield return null;
+    }
+}

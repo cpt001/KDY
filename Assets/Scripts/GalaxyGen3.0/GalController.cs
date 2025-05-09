@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 /// <summary>
 /// Data hierarchy [Galaxy, Sector, System, Orbiting Body
@@ -21,8 +22,8 @@ public class GalController : MonoBehaviour
     private float deadZoneCollisionRadius;
     private bool galaxyAlreadyPresent;
     [Header("Sector Parameters")]
-    private List<Sector> sectorsInGalaxy = new List<Sector>();
     [SerializeField] private GameObject sectorPrefab;
+    private List<Sector> sectorsInGalaxy = new List<Sector>();
     [SerializeField] private LayerMask sectorLayerMask;
     private enum SectorSize { Small, Medium, Large };
     private SectorSize sectorSize;
@@ -44,9 +45,9 @@ public class GalController : MonoBehaviour
     }
     void DestroyPreviousGalaxy()
     {
-        foreach (GameObject child in gameObject.transform)
+        foreach (Transform child in gameObject.transform)
         {
-            Destroy(child);
+            Destroy(child.gameObject);
         }
     }
 
@@ -78,8 +79,11 @@ public class GalController : MonoBehaviour
             float x = dst * Mathf.Cos(angle);
             float z = dst * Mathf.Sin(angle);
 
-            Instantiate(sectorPrefab, new Vector3(x, 0, z), Quaternion.identity, gameObject.transform);
+            GameObject sector = Instantiate(sectorPrefab, new Vector3(x, 0, z), Quaternion.identity, gameObject.transform);
+            sectorsInGalaxy.Add(sector.GetComponent<Sector>());
             //if (i == sectorCount.value - 1) defunct?
+            ///Can i skip generation on the first % of the sectors?
+            ///Mark 3rd and 4th from last sectors as being capital sectors. This should put them on opposing sides of the galaxy, but not on the very edge 
         }
         #endregion
         //Determines size of deadzone at galactic center, and removes sectors
@@ -97,17 +101,20 @@ public class GalController : MonoBehaviour
             Destroy(sector.transform.gameObject);
         }
         #endregion
-
-        StartCoroutine(GenerateSectors());
+        
+        if (transform.childCount == sectorCount.value)
+        {
+            StartCoroutine(GenerateSectors());
+        }
     }
 
     IEnumerator GenerateSectors()
     {
         //Find and combine some sectors
-        foreach (GameObject sector in gameObject.transform)
+        foreach (Transform sector in gameObject.transform)
         {
             //Activate particle generator with parameters from UI
-            StartCoroutine(GenerateSystemData(sector));
+            StartCoroutine(GenerateSystemData(sector.gameObject));
 
             switch (sectorSize)
             {
@@ -128,10 +135,18 @@ public class GalController : MonoBehaviour
                     }
             }
 
-            if (sector.GetComponent<Sector>().sectorPriority < 3)
+            Sector sectorComponent = sector.GetComponent<Sector>();
+
+            if (sectorComponent.sectorPriority < 3)
             {
                 //Mark for combination to another sector.
+                sectorComponent.markForCombination = true;
                 //-Set target sector (nearest sector over priority)
+                sectorComponent.localSectors = sectorsInGalaxy;
+                //This is currently sorting just by priority... it also needs to take transform locality into account
+                sectorComponent.localSectors.OrderBy(t => t.transform).ThenBy(p => sectorComponent.sectorPriority);
+                //sectorComponent.localSectors.Sort((a, b) => a.sectorPriority.CompareTo(b.sectorPriority));
+
                 //-Move generated stars from this sector to target sector
                 //-Destroy this sector
             }

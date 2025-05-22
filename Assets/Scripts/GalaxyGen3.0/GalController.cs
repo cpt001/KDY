@@ -114,7 +114,7 @@ public class GalController : MonoBehaviour
         foreach (Transform sector in gameObject.transform)
         {
             //Activate particle generator with parameters from UI
-            StartCoroutine(GenerateSystemData(sector.gameObject));
+            StartCoroutine(GenerateStarAndSystemData(sector.gameObject));
 
             switch (sectorSize)
             {
@@ -137,7 +137,7 @@ public class GalController : MonoBehaviour
 
             Sector sectorComponent = sector.GetComponent<Sector>();
 
-            if (sectorComponent.sectorPriority < 3)
+            if (sectorComponent.sectorPriority < 2)
             {
                 //Mark for combination to another sector.
                 sectorComponent.markForCombination = true;
@@ -148,7 +148,19 @@ public class GalController : MonoBehaviour
                 //sectorComponent.localSectors.Sort((a, b) => a.sectorPriority.CompareTo(b.sectorPriority));
 
                 //-Move generated stars from this sector to target sector
+                /*foreach (Sector targetSector in sectorComponent.localSectors)
+                {
+                    if (targetSector.sectorPriority > sectorComponent.sectorPriority)
+                    {
+                        foreach (StarSystem star in sectorComponent.starSystems)
+                        {
+                            targetSector.starSystems.Add(star);
+                        }
+                    }
+                }
                 //-Destroy this sector
+                Destroy(sector.gameObject);
+                */
             }
         }
         //Add sectors to list on this controller
@@ -156,15 +168,21 @@ public class GalController : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator GenerateSystemData(GameObject sector)
+    //The bug was my not parenting correctly, then not remembering that the individual stars lack a visual component for the moment
+    //Regeneration doesnt work
+    IEnumerator GenerateStarAndSystemData(GameObject sector)
     {
+        yield return new WaitForSeconds(0.1f);
         ParticleSystem sectorParticle = sector.GetComponent<ParticleSystem>();
         sectorParticle.Play();
+        Debug.Log(sectorParticle + " should populate with gameobjects");
         ParticleSystem.Particle[] generatedSector = new ParticleSystem.Particle[sectorParticle.particleCount];
         sectorParticle.GetParticles(generatedSector);
         foreach (ParticleSystem.Particle star in generatedSector)
         {
-            GameObject starObject = Instantiate(starPrefab, star.position, transform.rotation, transform.parent);
+            //Each star is being found, but objects arent being made?
+            GameObject starObject = Instantiate(starPrefab, star.position, transform.rotation, sector.transform);
+            Debug.Log("Star object: " + starObject.gameObject);
             StarSystem starSystem = starObject.GetComponent<StarSystem>();
             sector.GetComponent<Sector>().starSystems.Add(starSystem);
         }
@@ -183,4 +201,12 @@ public class GalController : MonoBehaviour
         //Determine ease of access to resource (harvesting time)
         yield return null;
     }
+
+    ///Next to do:
+    ///-Get star data from older project
+    ///--Colors, temps, likelihoods, etc
+    ///-Work on sector combination
+    ///-Create orbiting body model from scrapped planets in original model
+    ///-Create fleet and freighter interactions
+    ///-Create interface
 }

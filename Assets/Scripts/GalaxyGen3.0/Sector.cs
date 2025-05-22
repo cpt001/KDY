@@ -8,4 +8,6 @@ public class Sector : MonoBehaviour
     public List<StarSystem> starSystems = new List<StarSystem>();
     public bool markForCombination = false;
     public List<Sector> localSectors = new List<Sector>();
+
+    //Generate star and system data
 }

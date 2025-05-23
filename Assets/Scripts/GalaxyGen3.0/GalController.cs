@@ -57,6 +57,7 @@ public class GalController : MonoBehaviour
         #region Sector Generation
         switch (galacticArmCount.value)
         {
+            //Need to modify with furthest points
             case (1): { turnFraction = 0.99f; break; }
             case (2): { turnFraction = 0.509f; break; }
             case (3): { turnFraction = 0.3300575f; break; }
@@ -66,7 +67,7 @@ public class GalController : MonoBehaviour
             case (7): { turnFraction = 0.14001f; break; }
             case (8): { turnFraction = 0.1230575f; break; }
             case (9): { turnFraction = 0.113001f; break; }
-            case (10): { turnFraction = .0990001f; break; }
+            case (10): { turnFraction = 0.0990001f; break; }
             case (11): { turnFraction = 0.09000546f; break; }
         }
 
@@ -84,6 +85,37 @@ public class GalController : MonoBehaviour
             //if (i == sectorCount.value - 1) defunct?
             ///Can i skip generation on the first % of the sectors?
             ///Mark 3rd and 4th from last sectors as being capital sectors. This should put them on opposing sides of the galaxy, but not on the very edge 
+            if (galacticArmCount.value != 1)
+            {
+                if (i == (sectorCount.value - 1))
+                {
+                    sector.GetComponent<Sector>().enemyCapitalSector = true;
+                    sector.name = sector.name + " {E}";
+                    //Debug.Log("Enemy capital: " + sector);
+                }
+                if (i == (sectorCount.value - galacticArmCount.value))  //This doesnt seem to work very well with higher arm counts
+                {
+                    sector.GetComponent<Sector>().playerCapitalSector = true;
+                    sector.name = sector.name + " {P}";
+                    //Debug.Log("Player capital: " + sector);
+                }
+            }
+            else
+            {
+                if (i == (sectorCount.value - sectorCount.value))
+                {
+                    sector.GetComponent<Sector>().enemyCapitalSector = true;
+                    sector.name = sector.name + " {E}";
+                    //Debug.Log("Enemy capital: " + sector);
+                }
+                if (i == (sectorCount.value - galacticArmCount.value))
+                {
+                    sector.GetComponent<Sector>().playerCapitalSector = true;
+                    sector.name = sector.name + " {P}";
+                    //Debug.Log("Player capital: " + sector);
+                }
+            }
+
         }
         #endregion
         //Determines size of deadzone at galactic center, and removes sectors
@@ -148,19 +180,21 @@ public class GalController : MonoBehaviour
                 //sectorComponent.localSectors.Sort((a, b) => a.sectorPriority.CompareTo(b.sectorPriority));
 
                 //-Move generated stars from this sector to target sector
-                /*foreach (Sector targetSector in sectorComponent.localSectors)
+                foreach (Sector targetSector in sectorComponent.localSectors)
                 {
                     if (targetSector.sectorPriority > sectorComponent.sectorPriority)
                     {
                         foreach (StarSystem star in sectorComponent.starSystems)
                         {
                             targetSector.starSystems.Add(star);
+                            star.gameObject.transform.parent = targetSector.transform;
                         }
                     }
                 }
                 //-Destroy this sector
-                Destroy(sector.gameObject);
-                */
+                //Destroy(sector.gameObject);
+                Debug.Log(sector.gameObject + " marked for destruction");
+                
             }
         }
         //Add sectors to list on this controller
@@ -175,14 +209,13 @@ public class GalController : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         ParticleSystem sectorParticle = sector.GetComponent<ParticleSystem>();
         sectorParticle.Play();
-        Debug.Log(sectorParticle + " should populate with gameobjects");
         ParticleSystem.Particle[] generatedSector = new ParticleSystem.Particle[sectorParticle.particleCount];
         sectorParticle.GetParticles(generatedSector);
         foreach (ParticleSystem.Particle star in generatedSector)
         {
             //Each star is being found, but objects arent being made?
             GameObject starObject = Instantiate(starPrefab, star.position, transform.rotation, sector.transform);
-            Debug.Log("Star object: " + starObject.gameObject);
+            //Debug.Log("Star object: " + starObject.gameObject);
             StarSystem starSystem = starObject.GetComponent<StarSystem>();
             sector.GetComponent<Sector>().starSystems.Add(starSystem);
         }

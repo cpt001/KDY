@@ -8,6 +8,8 @@ public class Sector : MonoBehaviour
     public List<StarSystem> starSystems = new List<StarSystem>();
     public bool markForCombination = false;
     public List<Sector> localSectors = new List<Sector>();
+    public bool playerCapitalSector = false;
+    public bool enemyCapitalSector = false;
 
     //Generate star and system data
 }

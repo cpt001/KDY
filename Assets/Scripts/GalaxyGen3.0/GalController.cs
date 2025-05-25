@@ -83,8 +83,7 @@ public class GalController : MonoBehaviour
             GameObject sector = Instantiate(sectorPrefab, new Vector3(x, 0, z), Quaternion.identity, gameObject.transform);
             sectorsInGalaxy.Add(sector.GetComponent<Sector>());
             //if (i == sectorCount.value - 1) defunct?
-            ///Can i skip generation on the first % of the sectors?
-            ///Mark 3rd and 4th from last sectors as being capital sectors. This should put them on opposing sides of the galaxy, but not on the very edge 
+            #region Determine player and enemy spawn sectors
             if (galacticArmCount.value != 1)
             {
                 if (i == (sectorCount.value - 1))
@@ -115,11 +114,11 @@ public class GalController : MonoBehaviour
                     //Debug.Log("Player capital: " + sector);
                 }
             }
-
+            #endregion
         }
         #endregion
         //Determines size of deadzone at galactic center, and removes sectors
-        #region Deadzone removal
+        #region Deadzone settings - Removes sector clusterfuck in center of galaxy
         switch (deadzone)
         {
             case GalacticCenterDeadZone.Small: { deadZoneCollisionRadius = 10.0f; break; }
@@ -127,10 +126,12 @@ public class GalController : MonoBehaviour
             case GalacticCenterDeadZone.Large: { deadZoneCollisionRadius = 30.0f; break; }
         }
 
-        RaycastHit[] deadzoneObjects = Physics.SphereCastAll(gameObject.transform.position, deadZoneCollisionRadius, Vector3.left, Mathf.Infinity, sectorLayerMask, QueryTriggerInteraction.Collide);
-        foreach (RaycastHit sector in deadzoneObjects)
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, deadZoneCollisionRadius, sectorLayerMask, QueryTriggerInteraction.Collide);        
+        foreach (var hitCollider in hitColliders)
         {
-            Destroy(sector.transform.gameObject);
+            Debug.Log("Destroying hit collider " + hitCollider.gameObject);
+            Destroy(hitCollider.gameObject);
         }
         #endregion
         
@@ -171,6 +172,7 @@ public class GalController : MonoBehaviour
 
             if (sectorComponent.sectorPriority < 2)
             {
+                yield return new WaitForSeconds(0.1f);
                 //Mark for combination to another sector.
                 sectorComponent.markForCombination = true;
                 //-Set target sector (nearest sector over priority)
@@ -202,7 +204,6 @@ public class GalController : MonoBehaviour
         yield return null;
     }
 
-    //The bug was my not parenting correctly, then not remembering that the individual stars lack a visual component for the moment
     //Regeneration doesnt work
     IEnumerator GenerateStarAndSystemData(GameObject sector)
     {
@@ -213,13 +214,14 @@ public class GalController : MonoBehaviour
         sectorParticle.GetParticles(generatedSector);
         foreach (ParticleSystem.Particle star in generatedSector)
         {
-            //Each star is being found, but objects arent being made?
-            GameObject starObject = Instantiate(starPrefab, star.position, transform.rotation, sector.transform);
+            //Needs to be local position
+            GameObject starObject = Instantiate(starPrefab, star.position, sector.transform.rotation, sector.transform);
+            starObject.transform.localPosition = star.position;
             //Debug.Log("Star object: " + starObject.gameObject);
             StarSystem starSystem = starObject.GetComponent<StarSystem>();
             sector.GetComponent<Sector>().starSystems.Add(starSystem);
         }
-
+        sectorParticle.Pause();
         //Set star type
         //Enemy generation on node
         //Set number of orbiting bodies
@@ -238,8 +240,11 @@ public class GalController : MonoBehaviour
     ///Next to do:
     ///-Get star data from older project
     ///--Colors, temps, likelihoods, etc
+    ///--Can likely implement shadergraph, found a good tutorial
+    ///
     ///-Work on sector combination
-    ///-Create orbiting body model from scrapped planets in original model
+    ///-Work on star to star linkages
+    ///-Populate galaxy with enemies
     ///-Create fleet and freighter interactions
     ///-Create interface
 }

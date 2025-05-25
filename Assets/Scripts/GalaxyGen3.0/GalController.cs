@@ -195,7 +195,7 @@ public class GalController : MonoBehaviour
                 }
                 //-Destroy this sector
                 //Destroy(sector.gameObject);
-                Debug.Log(sector.gameObject + " marked for destruction");
+                //Debug.Log(sector.gameObject + " marked for destruction");
                 
             }
         }
@@ -226,6 +226,11 @@ public class GalController : MonoBehaviour
         //Enemy generation on node
         //Set number of orbiting bodies
         yield return null;
+    }
+
+    void SetStarData()
+    {
+
     }
 
     IEnumerator GenerateOrbitingBodies()

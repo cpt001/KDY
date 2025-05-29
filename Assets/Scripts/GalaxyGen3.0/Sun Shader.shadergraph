@@ -755,7 +755,7 @@
         "a": 0.0
     },
     "isMainColor": false,
-    "m_ColorMode": 0
+    "m_ColorMode": 1
 }
 
 {
@@ -1173,9 +1173,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -551.9999389648438,
-            "y": 426.0,
-            "width": 130.99996948242188,
+            "x": -552.0,
+            "y": 425.0,
+            "width": 131.00003051757813,
             "height": 34.0
         }
     },

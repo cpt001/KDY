@@ -131,7 +131,7 @@ public class GalController : MonoBehaviour
         foreach (var hitCollider in hitColliders)
         {
             Debug.Log("Destroying hit collider " + hitCollider.gameObject);
-            Destroy(hitCollider.gameObject);
+            //Destroy(hitCollider.gameObject);
         }
         #endregion
         
@@ -194,7 +194,7 @@ public class GalController : MonoBehaviour
                     }
                 }
                 //-Destroy this sector
-                //Destroy(sector.gameObject);
+                Destroy(sector.gameObject, 15f);
                 //Debug.Log(sector.gameObject + " marked for destruction");
                 
             }
@@ -220,9 +220,11 @@ public class GalController : MonoBehaviour
             //Debug.Log("Star object: " + starObject.gameObject);
             StarSystem starSystem = starObject.GetComponent<StarSystem>();
             sector.GetComponent<Sector>().starSystems.Add(starSystem);
+            //Set star type
+            starSystem.SetupStar(star.GetCurrentColor(sectorParticle));
         }
         sectorParticle.Pause();
-        //Set star type
+
         //Enemy generation on node
         //Set number of orbiting bodies
         yield return null;
@@ -243,11 +245,7 @@ public class GalController : MonoBehaviour
     }
 
     ///Next to do:
-    ///-Get star data from older project
-    ///--Colors, temps, likelihoods, etc
-    ///--Can likely implement shadergraph, found a good tutorial
-    ///
-    ///-Work on sector combination
+    ///-Work on sector combination - Ought to be working, run a few more times to be certain
     ///-Work on star to star linkages
     ///-Populate galaxy with enemies
     ///-Create fleet and freighter interactions

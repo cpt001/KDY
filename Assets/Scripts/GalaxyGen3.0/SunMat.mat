@@ -42,7 +42,7 @@ Material:
     - _CellSpeed: 1
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _SolarFlare: 10
+    - _SolarFlare: 2
     m_Colors:
     - _BaseColor: {r: 0.9516964, g: 0, b: 1, a: 0}
     - _CellColor: {r: 1, g: 1, b: 1, a: 0}

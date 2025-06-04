@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe77c5e6ae4f2b46a3de54eac65686f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputColor: {r: 0, g: 0, b: 0, a: 0}
   fleetsInSystem: []
+  orbitingBodies: []
+  satellitePrefab: {fileID: 5749721932654844981, guid: c6ce0158b158c81429262ac5ef3f5328, type: 3}
   typeOfStar: 0
   connectedStars: []
   satellites: []

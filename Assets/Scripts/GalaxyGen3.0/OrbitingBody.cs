@@ -20,7 +20,7 @@ public class OrbitingBody : MonoBehaviour
         Derelict,
         BattleSite,
         Asteroid,
-        CometField,        
+        CometField,
     }
 
     [Header("Body Details")]
@@ -47,4 +47,9 @@ public class OrbitingBody : MonoBehaviour
 
     [Header("Resources Present")]
     public Dictionary<Item, int> resourcesPresent = new Dictionary<Item, int>();
+
+    public void GenerateBody()
+    {
+        //Determine body type
+    }
 }

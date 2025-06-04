@@ -9,18 +9,20 @@ public class StarSystem : MonoBehaviour
     //public Color inputColor;
     private int starTemp;
     public List<FleetData> fleetsInSystem = new List<FleetData>();
+    public List<OrbitingBody> orbitingBodies = new List<OrbitingBody>();
+    [SerializeField] private GameObject satellitePrefab;
 
     public enum StarType
     {
         Null,
-        ClassO,     //UV Star           -- very rare -- massive stars -- very hot -- may damage ships in system, even with shields and through armor
-        ClassB,     //Blue Luminous     -- silicon mentioned -- unusual properties of faster rotations around, maybe introduces issues with ship control?
-        ClassA,     //White/BlueWhite   -- ionized metals -- ~1 in 160
-        ClassG,     //Yellow            -- neutral metals -- ~1 in 13 -- our sun is classed a g star
-        ClassK,     //Orange            -- best chance of life -- neutral metals
-        ClassM,     //Red Dwarf         -- 76% of main sequence stars are m -- lower neutral metals, oxide visible
-        ClassL,     //Brown Dwarf       -- dark red in color -- low gravity of star -- alkali metals prominent
-        ClassC,     //Carbon star       -- nearly dead start -- high amounts of carbon from burned material present in atmosphere -- usually giants or super giants
+        O,     //UV Star           -- very rare -- massive stars -- very hot -- may damage ships in system, even with shields and through armor
+        B,     //Blue Luminous     -- silicon mentioned -- unusual properties of faster rotations around, maybe introduces issues with ship control?
+        A,     //White/BlueWhite   -- ionized metals -- ~1 in 160
+        G,     //Yellow            -- neutral metals -- ~1 in 13 -- our sun is classed a g star
+        K,     //Orange            -- best chance of life -- neutral metals
+        M,     //Red Dwarf         -- 76% of main sequence stars are m -- lower neutral metals, oxide visible
+        L,     //Brown Dwarf       -- dark red in color -- low gravity of star -- alkali metals prominent
+        C,     //Carbon star       -- nearly dead start -- high amounts of carbon from burned material present in atmosphere -- usually giants or super giants
         Neutron,    //Dead star         -- small and cold -- larger it is, more neutrino flux carried
         BlackHole,  //Dead star         -- an explosion so massive that a hole in space has replaced it -- event horizon is lethal
         Pulsar,     //Rotating star, super magnetized -- lethal to ships caught in magnetization
@@ -31,45 +33,47 @@ public class StarSystem : MonoBehaviour
     public StarType typeOfStar;
 
     public List<StarSystem> connectedStars = new List<StarSystem>();
+    private int maxSatelliteCount;
     public List<OrbitingBody> satellites = new List<OrbitingBody>();
 
     public Color starColor;
 
+    //Sets star type based on probability matrix
     public void SetupStar(Color starInputColor) 
     {
         //Sets star probabilities
         float starProbability = Mathf.RoundToInt(Random.Range(0, 100));
         if (starProbability == 1)
         {
-            typeOfStar = StarType.ClassO;   //.000003% chance of seeing one of these irl. Adjusted to 1%
+            typeOfStar = StarType.O;   //.000003% chance of seeing one of these irl. Adjusted to 1%
         }
         else if (starProbability >= 2 && starProbability <= 4)
         {
-            typeOfStar = StarType.ClassB;   //.13% | 2%
+            typeOfStar = StarType.B;   //.13% | 2%
         }
         else if (starProbability >= 5 && starProbability <= 9)
         {
-            typeOfStar = StarType.ClassA;   //.6% | 4%
+            typeOfStar = StarType.A;   //.6% | 4%
         }
         else if (starProbability >= 10 && starProbability <= 18)
         {
-            typeOfStar = StarType.ClassG;   //7.6% | 8%
+            typeOfStar = StarType.G;   //7.6% | 8%
         }
         else if (starProbability >= 19 && starProbability <= 30)
         {
-            typeOfStar = StarType.ClassK;   //12.1% | 21%
+            typeOfStar = StarType.K;   //12.1% | 21%
         }
         else if (starProbability >= 31 && starProbability <= 72)
         {
-            typeOfStar = StarType.ClassM;   //76.5% | 41%
+            typeOfStar = StarType.M;   //76.5% | 41%
         }
         else if (starProbability >= 73 && starProbability <= 89)
         {
-            typeOfStar = StarType.ClassL;   //"Common" | 16%
+            typeOfStar = StarType.L;   //"Common" | 16%
         }
         else if (starProbability >= 90 && starProbability <= 97)
         {
-            typeOfStar = StarType.ClassC;   //70 observed   | 7%
+            typeOfStar = StarType.C;   //70 observed   | 7%
         }
         else
         {
@@ -102,7 +106,7 @@ public class StarSystem : MonoBehaviour
 
 
 
-        StartCoroutine(SetStarColor()); 
+        StartCoroutine(SetStarParameters()); 
         //inputColor = starInputColor;
 
         //typeOfStar = (StarType)Random.Range(1, 13);
@@ -112,8 +116,8 @@ public class StarSystem : MonoBehaviour
         ///Then star size
 
     }
-
-    public IEnumerator SetStarColor()
+    //Sets the star up based on the setupstar parameter chosen
+    public IEnumerator SetStarParameters()
     {
         yield return new WaitForSeconds(0.1f);
         //Debug.Log("Star Input color " + inputColor);
@@ -126,7 +130,7 @@ public class StarSystem : MonoBehaviour
                     Debug.Log("Star @" + transform.name + " is null");
                     break;
                 }
-            case StarType.ClassO:   //Super massive, super hot, temp - 25000 - 50000k (89540f) = .000003% 
+            case StarType.O:   //Super massive, super hot, temp - 25000 - 50000k (89540f) = .000003% 
                 {
                     SetStarScale(1.5f);
                     starTemp = Random.Range(25000, 50000);
@@ -135,7 +139,7 @@ public class StarSystem : MonoBehaviour
                     starColor = new Color(12.55f, 8.63f, 35.69f);   //UV
                     break;
                 }
-            case StarType.ClassB:   //Fast rotation, silicon?, temp - 10000k to 25000k (44540f) = .13% -- No corona
+            case StarType.B:   //Fast rotation, silicon?, temp - 10000k to 25000k (44540f) = .13% -- No corona
                 {
                     SetStarScale(1f);
                     starColor = new Color(0.0f, 87.5f, 100.0f);   //Blue Luminous
@@ -144,7 +148,7 @@ public class StarSystem : MonoBehaviour
                     //Rotation - Very Fast
                     break;
                 }
-            case StarType.ClassA:   //ionized metals, 1/160 chance, temp - 7400k to 10000k = .6%
+            case StarType.A:   //ionized metals, 1/160 chance, temp - 7400k to 10000k = .6%
                 {
                     SetStarScale(.75f);
                     starColor = new Color(189f, 219f, 224f);   //White/Bluewhite
@@ -153,7 +157,7 @@ public class StarSystem : MonoBehaviour
                     //Rotation - Very FastNR
                     break;
                 }
-            case StarType.ClassG:   //neutral metals, 1/13, SOL, temp - 5000 to 6000k, hab zone - 0.9 to 1.2 AU = 7.6%
+            case StarType.G:   //neutral metals, 1/13, SOL, temp - 5000 to 6000k, hab zone - 0.9 to 1.2 AU = 7.6%
                 {
                     SetStarScale(.6f);
                     starColor = new Color(255f, 255f, 0f);   //Yellow
@@ -162,7 +166,7 @@ public class StarSystem : MonoBehaviour
                     //Rotation - Very FastNR
                     break;
                 }
-            case StarType.ClassK:   //Neutral metals, Best chance of life, temp - 3500 to 5000k, hab zone - 0.7 to 1.0 AU = 12.1%
+            case StarType.K:   //Neutral metals, Best chance of life, temp - 3500 to 5000k, hab zone - 0.7 to 1.0 AU = 12.1%
                 {
                     SetStarScale(.5f);
                     starColor = new Color(100.0f, 76.1f, 7.8f);   //Orange
@@ -171,29 +175,29 @@ public class StarSystem : MonoBehaviour
                     //Rotation - Very FastNR
                     break;
                 }
-            case StarType.ClassM:   //oxide, lower neutral metals, 76% chance that star is class M, temp - 3000k, hab zone - 0.3 au to 0.6 au = 76.5%
+            case StarType.M:   //oxide, lower neutral metals, 76% chance that star is class M, temp - 2300 to 3900k, hab zone - 0.3 au to 0.6 au = 76.5%
                 {
                     SetStarScale(.4f);
                     starColor = new Color(255f, 0f, 0f);   //Red
-                    //Temp - ~30000
+                    starTemp = Random.Range(2300, 3900);
                     //Element - Titanium Oxide  (TiO2)
                     //Rotation - Very FastNR
                     break;
                 }
-            case StarType.ClassL:   //Low gravity, alkali metals prominent, temp - 1500 to 2500k, hab zone - .007 to .044 AU (1050km - 6700) = "Common"
+            case StarType.L:   //Low gravity, alkali metals prominent, temp - 1500 to 2500k, hab zone - .007 to .044 AU (1050km - 6700) = "Common"
                 {
                     SetStarScale(.3f);
                     starColor = new Color(69.8f, 22.7f, 0.0f);   //Brown
-                    //Temp - 1500, 2500
+                    starTemp = Random.Range(1500, 2500);
                     //Element - Hydride Bands/Alkalide metals (FeH, CrH, MgH, CaH)/(Na, K, Rb, Cs)
                     //Rotation - Very FastNR
                     break;
                 }
-            case StarType.ClassC:   //High carbon atmosphere, high alkaline metals, temp 31.15 kelvin to 3000k - "70 observed"
+            case StarType.C:   //High carbon atmosphere, high alkaline metals, temp 31.15 kelvin to 3000k - "70 observed"
                 {
                     SetStarScale(.3f);
                     starColor = new Color(34.1f, 11.0f, 0.0f);   //Carbon (Dark Brown/Red)
-                    //Temp - 3000
+                    starTemp = Random.Range(2800, 5000);
                     //Element - Carbon (C)
                     //Rotation - Very FastNR
                     break;
@@ -201,27 +205,32 @@ public class StarSystem : MonoBehaviour
             case StarType.Neutron:
                 {
                     starColor = new Color(0f, 0f, 139f);   //Dark blue
+                    starTemp = 1000000;
                     //Element - Neutronium
                     break;
                 }
             case StarType.BlackHole:
                 {
                     starColor = new Color(0f, 0f, 0f);
+                    starTemp = 0;
                     break;
                 }
             case StarType.Quasar:
                 {
                     starColor = new Color(255f, 69f, 0f);   //Red Orange
+                    starTemp = 1000000000;
                     break;
                 }
             case StarType.Pulsar:
                 {
                     starColor = new Color(128f, 0f, 128f);   //Purple
+                    starTemp = Random.Range(3000, 6200);
                     break;
                 }
             case StarType.Nebula:
                 {
                     starColor = new Color(128f, 0f, 128f);   //Ranges. Red, pink, green, bright blue. Can probably implement this with a cascading implementation
+                    starTemp = Random.Range(0, 7000);
                     //Element: Hydrogen, Helium, Dust
                     break;
                 }
@@ -231,20 +240,71 @@ public class StarSystem : MonoBehaviour
                     break;
                 }
         }
-        /*float hdrIntensityR = Mathf.Pow(2, inputColor.r);
-        float hdrIntensityG = Mathf.Pow(2, inputColor.g);
-        float hdrIntensityB = Mathf.Pow(2, inputColor.b);
+        float hdrIntensityR = Mathf.Pow(2, starColor.r);
+        float hdrIntensityG = Mathf.Pow(2, starColor.g);
+        float hdrIntensityB = Mathf.Pow(2, starColor.b);
         Color adjustedColor = new Color(hdrIntensityR, hdrIntensityG, hdrIntensityB);
-        */
+        
         starRenderer.material.SetColor("_BaseColor", starColor);
         //starRenderer.material.SetColor("_CellColor", adjustedColor);
         
+        if (typeOfStar == StarType.Null || typeOfStar == StarType.Neutron || typeOfStar == StarType.Nebula || typeOfStar == StarType.Nova)
+        {
+            //No planets allowed
+            maxSatelliteCount = 0;
+            name = typeOfStar + " | T:" + starTemp + "K | C:" + transform.position;
+        }
+        else if (typeOfStar == StarType.BlackHole || typeOfStar == StarType.Quasar || typeOfStar == StarType.Pulsar)
+        {
+            //Low chance, low planet count
+            int rand = Random.Range(0, 10);
+            if (rand <= 2)
+            {
+                maxSatelliteCount = Random.Range(1, 4);
+                if (maxSatelliteCount != 0)
+                {
+                    name = typeOfStar + maxSatelliteCount + " | T:" + starTemp + "K | C:" + transform.position;
+                }
+                else
+                {
+                    name = typeOfStar + " | T:" + starTemp + "K | C:" + transform.position;
+                }
+            }
+        }
+        else
+        {
+            //All other stars get planets
+            maxSatelliteCount = Random.Range(0, 15);
+            name = "Class " + typeOfStar + maxSatelliteCount + " | T:" + starTemp + "K | C:" + transform.position;
+        }
+        for (int i = 0; i < maxSatelliteCount; i++)
+        {
+            StartCoroutine(SpawnOrbitingBodies());
+        }
     }
 
     void SetStarScale(float TargetSize)
     {
         transform.localScale = new Vector3(TargetSize, TargetSize, TargetSize);
+        //Already have color, temp
 
+    }
+
+    public IEnumerator SpawnOrbitingBodies()
+    {
+        int randMoons = Random.Range(0, 8);
+        GameObject satellite = Instantiate(satellitePrefab, transform);
+        satellite.GetComponent<OrbitingBody>().GenerateBody();
+        satellites.Add(satellite.GetComponent<OrbitingBody>());
+
+        for (int i = 0; i < randMoons; i++)
+        {
+            GameObject moon = Instantiate(satellitePrefab, satellite.transform);
+            satellite.GetComponent<OrbitingBody>().GenerateBody();
+            satellite.GetComponent<OrbitingBody>().moons.Add(moon.GetComponent<OrbitingBody>());
+        }
+
+        yield return null;
     }
 
     public void OnMouseDown()

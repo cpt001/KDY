@@ -170,7 +170,7 @@ public class GalController : MonoBehaviour
 
             Sector sectorComponent = sector.GetComponent<Sector>();
 
-            if (sectorComponent.sectorPriority < 2)
+            if (sectorComponent.sectorPriority < 2 && !sectorComponent.playerCapitalSector && !sectorComponent.enemyCapitalSector)
             {
                 yield return new WaitForSeconds(0.1f);
                 //Mark for combination to another sector.

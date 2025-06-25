@@ -5,6 +5,8 @@ using FactoryFramework;
 using System.Linq;
 /// <summary>
 /// Classify body types into the habitability index, then randomize based on the score.
+/// 
+/// -Removed temperatures. Its just an entirely unnecessary layer that was overcomplicating my thought process for this system
 /// </summary>
 public class OrbitingBody : MonoBehaviour
 {
@@ -39,14 +41,13 @@ public class OrbitingBody : MonoBehaviour
     public Color seaColor;
 
     [Header("Body Attributes")]
-    public int bodyTemperature;
     public float orbitalSpeed;
     public float spinSpeed;
     public bool techtonicallyActive;
     public List<OrbitingBody> moons = new List<OrbitingBody>();
     public enum AtmosphericHabitability { Safe, Masked, Pressure_Suit, Vehicular, Unsafe }; public AtmosphericHabitability atmosphereHostility;          //Swapped from float, this has better data conveyance
-    public enum EndemicHabitability { Intelligent_Life, Sentient, Basic_Life, Monocellular, Extinct }; public EndemicHabitability endemicHabitation;
-    public enum ColonizationStatus { Ecumenopolis, City, Scattered_Towns, Outposts, Expeditionary, Unexplored }; public ColonizationStatus colonization;    
+    public enum EndemicHabitability { Intelligent_Life, Sentient, Basic_Life, Monocellular, Extinct }; public EndemicHabitability endemicHabitation;        //Native creatures
+    public enum ColonizationStatus { Ecumenopolis, City, Scattered_Towns, Outposts, Expeditionary, Unexplored }; public ColonizationStatus colonization;    //
     public enum SurvivorStatus { Bunkered_Survivors, Scattered_Survivors, Escapists, LoneSurvivors, TotalDestruction }; public SurvivorStatus survivors;    //No chance any planet is untouched - colonization status determines full range of potential survivors
 
     [Header("Resources Present")]
@@ -60,48 +61,53 @@ public class OrbitingBody : MonoBehaviour
         ring2Depth = ring1Depth + 1;
         ring3Depth = ring2Depth + 1;
 
+
         bodyType = (BodyType)Random.Range(0, System.Enum.GetValues(typeof(BodyType)).Length);
 
         switch(bodyType)
         {            
-            case BodyType.Terrestrial:
+            case BodyType.Terrestrial:      //244 - 340 kelvin
                 {
                     //GenPlanet
                     break;
                 }
-            case BodyType.Volcanic:
+            case BodyType.Volcanic:         //1070 - 1770 kelvin
                 {
                     //GenPlanet
                     break;
                 }
-            case BodyType.Gas:
+            case BodyType.Gas:              //Pick element, set temp
                 {
                     //GenPlanet
                     break;
                 }
-            case BodyType.Oceanic:
+            case BodyType.Oceanic:          //Pick element, set temp
                 {
                     //GenPlanet
                     break;
                 }
-            case BodyType.Icy:
+            case BodyType.Icy:              //25-30 kelvin
+                {
+                    //GenPlanet
+                    int atmoChance = Random.Range(0, 2);
+                    break;
+                }
+            case BodyType.Desert:           //Any temp
                 {
                     //GenPlanet
                     break;
                 }
-            case BodyType.Desert:
+            case BodyType.Barren:           //Any temp
                 {
                     //GenPlanet
-                    break;
-                }
-            case BodyType.Barren:
-                {
-                    //GenPlanet
+                    int atmoChance = Random.Range(0, 2);
                     break;
                 }
             case BodyType.ShatteredWorld:
                 {
                     //SpecialGen
+                    int atmoChance = Random.Range(0, 2);
+
                     break;
                 }
             case BodyType.PlanetaryNebula:
@@ -133,199 +139,76 @@ public class OrbitingBody : MonoBehaviour
 
     }
 
-    private IEnumerator GeneratePlanetaryBody(BodyType bodyType, bool hasAtmo, bool hasSea)
+    private IEnumerator GeneratePlanetaryBody(bool limitedColonization, bool hasAtmo, bool hasSea)
     {
         if (hasAtmo)
         {
             atmoDepth = Random.Range(size + 0.5f, size + 2f);
             cloudDepth = (atmoDepth + size) / 2;
             atmosphereHostility = (AtmosphericHabitability)Random.Range(0, System.Enum.GetValues(typeof(AtmosphericHabitability)).Length);
+            endemicHabitation = (EndemicHabitability)Random.Range(0, 5);
         }
         if (hasSea)
         {
             seaDepth = size;
         }
 
-        //Determine temperature range based on the habitability || Determine habitability based on the temperature? -- Might be better to determine the body type based on temps instead
         switch (atmosphereHostility)
-        {            
+        {
+
             case AtmosphericHabitability.Safe:
                 {
-                    switch (bodyType)
-                    {                        
-                        case BodyType.Terrestrial:
-                            {
-                                bodyTemperature = Random.Range(-40, 150);
-                                break;
-                            }
-                        case BodyType.Volcanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Gas:
-                            {
-                                break;
-                            }
-                        case BodyType.Oceanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Icy:
-                            {
-                                break;
-                            }
-                        case BodyType.Desert:
-                            {
-                                break;
-                            }
-                        case BodyType.Barren:
-                            {
-                                break;
-                            }
+                    colonization = (ColonizationStatus)Random.Range(0, 6);
+                    if (limitedColonization)
+                    {
+                        if (colonization != ColonizationStatus.Unexplored)
+                        {
+                            survivors = (SurvivorStatus)Random.Range(2, 5);
+                        }
                     }
+                    else
+                    {
+                        if (colonization != ColonizationStatus.Unexplored)
+                        {
+                            survivors = (SurvivorStatus)Random.Range(0, 5);
+                        }
+                    }
+
                     break;
                 }
             case AtmosphericHabitability.Masked:
                 {
-                    switch (bodyType)
+                    colonization = (ColonizationStatus)Random.Range(1, 6);
+                    if (colonization != ColonizationStatus.Unexplored)
                     {
-                        case BodyType.Terrestrial:
-                            {
-                                bodyTemperature = Random.Range(-40, 150);
-                                break;
-                            }
-                        case BodyType.Volcanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Gas:
-                            {
-                                break;
-                            }
-                        case BodyType.Oceanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Icy:
-                            {
-                                break;
-                            }
-                        case BodyType.Desert:
-                            {
-                                break;
-                            }
-                        case BodyType.Barren:
-                            {
-                                break;
-                            }
+                        survivors = (SurvivorStatus)Random.Range(0, 5);
                     }
                     break;
                 }
             case AtmosphericHabitability.Pressure_Suit:
                 {
-                    switch (bodyType)
+                    colonization = (ColonizationStatus)Random.Range(2, 6);
+                    if (colonization != ColonizationStatus.Unexplored)
                     {
-                        case BodyType.Terrestrial:
-                            {
-                                bodyTemperature = Random.Range(-100, 200);
-                                break;
-                            }
-                        case BodyType.Volcanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Gas:
-                            {
-                                break;
-                            }
-                        case BodyType.Oceanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Icy:
-                            {
-                                break;
-                            }
-                        case BodyType.Desert:
-                            {
-                                break;
-                            }
-                        case BodyType.Barren:
-                            {
-                                break;
-                            }
+                        survivors = (SurvivorStatus)Random.Range(0, 5);
                     }
                     break;
                 }
             case AtmosphericHabitability.Vehicular:
                 {
-                    switch (bodyType)
+                    colonization = (ColonizationStatus)Random.Range(1, 6);
+                    if (colonization != ColonizationStatus.Unexplored)
                     {
-                        case BodyType.Terrestrial:
-                            {
-                                bodyTemperature = Random.Range(-250, 250);
-                                break;
-                            }
-                        case BodyType.Volcanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Gas:
-                            {
-                                break;
-                            }
-                        case BodyType.Oceanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Icy:
-                            {
-                                break;
-                            }
-                        case BodyType.Desert:
-                            {
-                                break;
-                            }
-                        case BodyType.Barren:
-                            {
-                                break;
-                            }
+                        survivors = (SurvivorStatus)Random.Range(0, 5);
                     }
                     break;
                 }
             case AtmosphericHabitability.Unsafe:
                 {
-                    switch (bodyType)
+                    colonization = (ColonizationStatus)Random.Range(4, 6);
+                    if (colonization != ColonizationStatus.Unexplored)
                     {
-                        case BodyType.Terrestrial:
-                            {
-                                bodyTemperature = Random.Range(-400, 400);
-                                break;
-                            }
-                        case BodyType.Volcanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Gas:
-                            {
-                                break;
-                            }
-                        case BodyType.Oceanic:
-                            {
-                                break;
-                            }
-                        case BodyType.Icy:
-                            {
-                                break;
-                            }
-                        case BodyType.Desert:
-                            {
-                                break;
-                            }
-                        case BodyType.Barren:
-                            {
-                                break;
-                            }
+                        survivors = (SurvivorStatus)Random.Range(0, 5);
                     }
                     break;
                 }

@@ -7,6 +7,10 @@ using System.Linq;
 /// Classify body types into the habitability index, then randomize based on the score.
 /// 
 /// -Removed temperatures. Its just an entirely unnecessary layer that was overcomplicating my thought process for this system
+/// -To do: 
+/// -Designate each body to be generated
+/// -Set spin speed
+/// -Create visual element
 /// </summary>
 public class OrbitingBody : MonoBehaviour
 {
@@ -48,7 +52,7 @@ public class OrbitingBody : MonoBehaviour
     public enum AtmosphericHabitability { Safe, Masked, Pressure_Suit, Vehicular, Unsafe }; public AtmosphericHabitability atmosphereHostility;          //Swapped from float, this has better data conveyance
     public enum EndemicHabitability { Intelligent_Life, Sentient, Basic_Life, Monocellular, Extinct }; public EndemicHabitability endemicHabitation;        //Native creatures
     public enum ColonizationStatus { Ecumenopolis, City, Scattered_Towns, Outposts, Expeditionary, Unexplored }; public ColonizationStatus colonization;    //
-    public enum SurvivorStatus { Bunkered_Survivors, Scattered_Survivors, Escapists, LoneSurvivors, TotalDestruction }; public SurvivorStatus survivors;    //No chance any planet is untouched - colonization status determines full range of potential survivors
+    public enum SurvivorStatus { Bunkered_Survivors, Scattered_Survivors, Escapists, Lone_Survivors, Annihilation }; public SurvivorStatus survivors;    //No chance any planet is untouched - colonization status determines full range of potential survivors
 
     [Header("Resources Present")]
     public Dictionary<Item, int> resourcesPresent = new Dictionary<Item, int>();
@@ -179,9 +183,19 @@ public class OrbitingBody : MonoBehaviour
             case AtmosphericHabitability.Masked:
                 {
                     colonization = (ColonizationStatus)Random.Range(1, 6);
-                    if (colonization != ColonizationStatus.Unexplored)
+                    if (limitedColonization)
                     {
-                        survivors = (SurvivorStatus)Random.Range(0, 5);
+                        if (colonization != ColonizationStatus.Unexplored)
+                        {
+                            survivors = (SurvivorStatus)Random.Range(3, 5);
+                        }
+                    }
+                    else
+                    {
+                        if (colonization != ColonizationStatus.Unexplored)
+                        {
+                            survivors = (SurvivorStatus)Random.Range(0, 5);
+                        }
                     }
                     break;
                 }
@@ -190,16 +204,16 @@ public class OrbitingBody : MonoBehaviour
                     colonization = (ColonizationStatus)Random.Range(2, 6);
                     if (colonization != ColonizationStatus.Unexplored)
                     {
-                        survivors = (SurvivorStatus)Random.Range(0, 5);
+                        survivors = (SurvivorStatus)Random.Range(1, 5);
                     }
                     break;
                 }
             case AtmosphericHabitability.Vehicular:
                 {
-                    colonization = (ColonizationStatus)Random.Range(1, 6);
+                    colonization = (ColonizationStatus)Random.Range(3, 6);
                     if (colonization != ColonizationStatus.Unexplored)
                     {
-                        survivors = (SurvivorStatus)Random.Range(0, 5);
+                        survivors = (SurvivorStatus)Random.Range(3, 5);
                     }
                     break;
                 }
@@ -208,7 +222,7 @@ public class OrbitingBody : MonoBehaviour
                     colonization = (ColonizationStatus)Random.Range(4, 6);
                     if (colonization != ColonizationStatus.Unexplored)
                     {
-                        survivors = (SurvivorStatus)Random.Range(0, 5);
+                        survivors = (SurvivorStatus)Random.Range(4, 5);
                     }
                     break;
                 }

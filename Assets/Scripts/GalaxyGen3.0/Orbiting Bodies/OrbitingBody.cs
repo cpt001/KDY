@@ -39,10 +39,14 @@ public class OrbitingBody : MonoBehaviour
     public float ring3Depth;    //
     public float atmoDepth;     //Sits above planet as outer layer
     public Color atmoColor;
+    [SerializeField] private GameObject atmoObject => GetComponent<GameObject>().transform.Find("Atmosphere").gameObject;
     public float cloudDepth;    //Sits slightly above planet
     public Color cloudColor;
+    [SerializeField] private GameObject cloudObject => GetComponent<GameObject>().transform.Find("Clouds").gameObject;
     public float seaDepth;      //Static size of planet, just a simple colored sphere
     public Color seaColor;
+    [SerializeField] private GameObject seaObject => GetComponent<GameObject>().transform.Find("Ocean").gameObject;
+    [SerializeField] private GameObject landObject => GetComponent<GameObject>().transform.Find("Land").gameObject;
 
     [Header("Body Attributes")]
     public float orbitalSpeed;
@@ -145,10 +149,15 @@ public class OrbitingBody : MonoBehaviour
 
     private IEnumerator GeneratePlanetaryBody(bool limitedColonization, bool hasAtmo, bool hasSea)
     {
+        landObject.transform.localScale = new Vector3(size, size, size);
         if (hasAtmo)
         {
             atmoDepth = Random.Range(size + 0.5f, size + 2f);
+            atmoObject.transform.localScale = new Vector3(atmoDepth, atmoDepth, atmoDepth);
+
             cloudDepth = (atmoDepth + size) / 2;
+            cloudObject.transform.localScale = new Vector3(cloudDepth, cloudDepth, cloudDepth);
+
             atmosphereHostility = (AtmosphericHabitability)Random.Range(0, System.Enum.GetValues(typeof(AtmosphericHabitability)).Length);
             endemicHabitation = (EndemicHabitability)Random.Range(0, 5);
         }

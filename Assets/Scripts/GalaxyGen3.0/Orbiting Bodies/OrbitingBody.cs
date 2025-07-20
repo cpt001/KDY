@@ -46,6 +46,7 @@ public class OrbitingBody : MonoBehaviour
     public float seaDepth;      //Static size of planet, just a simple colored sphere
     public Color seaColor;
     [SerializeField] private GameObject seaObject => GetComponent<GameObject>().transform.Find("Ocean").gameObject;
+    public Color landColor;
     [SerializeField] private GameObject landObject => GetComponent<GameObject>().transform.Find("Land").gameObject;
 
     [Header("Body Attributes")]
@@ -150,13 +151,16 @@ public class OrbitingBody : MonoBehaviour
     private IEnumerator GeneratePlanetaryBody(bool limitedColonization, bool hasAtmo, bool hasSea)
     {
         landObject.transform.localScale = new Vector3(size, size, size);
+        landColor = Random.ColorHSV();
         if (hasAtmo)
         {
             atmoDepth = Random.Range(size + 0.5f, size + 2f);
             atmoObject.transform.localScale = new Vector3(atmoDepth, atmoDepth, atmoDepth);
+            atmoColor = Random.ColorHSV();
 
             cloudDepth = (atmoDepth + size) / 2;
             cloudObject.transform.localScale = new Vector3(cloudDepth, cloudDepth, cloudDepth);
+            cloudColor = Random.ColorHSV();
 
             atmosphereHostility = (AtmosphericHabitability)Random.Range(0, System.Enum.GetValues(typeof(AtmosphericHabitability)).Length);
             endemicHabitation = (EndemicHabitability)Random.Range(0, 5);

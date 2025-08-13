@@ -279,7 +279,7 @@ public class StarSystem : MonoBehaviour
         }
         for (int i = 0; i < maxSatelliteCount; i++)
         {
-            StartCoroutine(SpawnOrbitingBodies());
+            StartCoroutine(SpawnOrbitingBodies(i));
         }
     }
 
@@ -289,13 +289,19 @@ public class StarSystem : MonoBehaviour
         //Already have color, temp
 
     }
-
-    public IEnumerator SpawnOrbitingBodies()
+    /// <summary>
+    /// Assign a number to each satellite for use in display order. 
+    /// Give satellites names (in OB script)
+    /// Start working on display aspect, starting with UI
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator SpawnOrbitingBodies(int iCount)
     {
         int randMoons = Random.Range(0, 8);
         GameObject satellite = Instantiate(satellitePrefab, transform);
         satellite.GetComponent<OrbitingBody>().GenerateBody();
         satellites.Add(satellite.GetComponent<OrbitingBody>());
+        satellite.GetComponent<OrbitingBody>().satelliteOrbitalOrder = iCount;
 
         for (int i = 0; i < randMoons; i++)
         {

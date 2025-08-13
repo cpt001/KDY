@@ -16,13 +16,13 @@ public class OrbitingBody : MonoBehaviour
 {
     public enum BodyType
     {
-        Terrestrial,
-        Volcanic,
-        Gas,
-        Oceanic,
-        Icy,
-        Desert,
-        Barren,
+        Terrestrial,            //Green, brown, blue
+        Volcanic,               //Red, orange, black
+        Gas,                    //Any
+        Oceanic,                //Blue, red, green
+        Icy,                    //White to blue
+        Desert,                 //White, tan, red
+        Barren,                 //Gray
         ShatteredWorld,
         PlanetaryNebula,
         Derelict,
@@ -33,6 +33,7 @@ public class OrbitingBody : MonoBehaviour
     public BodyType bodyType;
 
     [Header("Body Details")]
+    public int satelliteOrbitalOrder;
     public int size;            //Physical size of planet. Has a seamless noise map applied to it to create illusion of terrain
     public int ring1Depth;      //
     public float ring2Depth;    //
@@ -45,7 +46,6 @@ public class OrbitingBody : MonoBehaviour
     [SerializeField] private GameObject cloudObject => GetComponent<GameObject>().transform.Find("Clouds").gameObject;
     public float seaDepth;      //Static size of planet, just a simple colored sphere
     public Color seaColor;
-    [SerializeField] private GameObject seaObject => GetComponent<GameObject>().transform.Find("Ocean").gameObject;
     public Color landColor;
     [SerializeField] private GameObject landObject => GetComponent<GameObject>().transform.Find("Land").gameObject;
 
@@ -62,8 +62,22 @@ public class OrbitingBody : MonoBehaviour
     [Header("Resources Present")]
     public Dictionary<Item, int> resourcesPresent = new Dictionary<Item, int>();
 
+    [Header("Noise Map")]
+    public int pixWidth;
+    public int pixHeight;
+    //Origin of sampled area in plane
+    public float xOrg;
+    public float yOrg;
+    //Cycles repeated by w/h
+    public float scale = 1f;
+    private Texture2D noiseTex;
+    private Color[] pix;
+    private Renderer rend => GetComponent<Renderer>();
+
+    //Star system calls this to generate its bodies, and the moons surrounding them
     public void GenerateBody()
     {
+        //StartCoroutine(GenerateNoiseMap());
         //Determine body type
         size = Random.Range(1, 12);
         ring1Depth = size + 2;
@@ -75,48 +89,109 @@ public class OrbitingBody : MonoBehaviour
 
         switch(bodyType)
         {            
-            case BodyType.Terrestrial:      //244 - 340 kelvin
+            case BodyType.Terrestrial:      //244 - 340 kelvin, these always have atmosphere
                 {
                     //GenPlanet
+                    int randColony = Random.Range(0, 10);
+                    int hasLiquidSea = Random.Range(0, 2);
+                    if (randColony <= 3)
+                    {
+                        //Unlimited colony options
+                        if (hasLiquidSea == 2)
+                        {
+                            GeneratePlanetaryBody(false, true, true);
+                        }
+                        else
+                        {
+                            GeneratePlanetaryBody(false, true, false);
+                        }
+                    }
+                    else
+                    {
+                        //Limited colony options
+                        if (hasLiquidSea == 2)
+                        {
+                            GeneratePlanetaryBody(true, true, true);
+                        }
+                        else
+                        {
+                            GeneratePlanetaryBody(true, true, false);
+                        }
+                    }
                     break;
                 }
             case BodyType.Volcanic:         //1070 - 1770 kelvin
                 {
                     //GenPlanet
+                    GeneratePlanetaryBody(true, true, false);
                     break;
                 }
             case BodyType.Gas:              //Pick element, set temp
                 {
                     //GenPlanet
+                    GeneratePlanetaryBody(true, true, false);
                     break;
                 }
             case BodyType.Oceanic:          //Pick element, set temp
                 {
                     //GenPlanet
+                    GeneratePlanetaryBody(false, true, true);
                     break;
                 }
             case BodyType.Icy:              //25-30 kelvin
                 {
                     //GenPlanet
                     int atmoChance = Random.Range(0, 2);
+                    int hasLiquidSea = Random.Range(0, 10);
+                    if (atmoChance == 2)
+                    {
+                        if (hasLiquidSea <= 3)
+                        {
+                            GeneratePlanetaryBody(true, true, true);
+                        }
+                        else
+                        {
+                            GeneratePlanetaryBody(true, true, false);
+                        }
+                    }
+                    else
+                    {
+                        GeneratePlanetaryBody(false, false, false);
+                    }
+
                     break;
                 }
             case BodyType.Desert:           //Any temp
                 {
                     //GenPlanet
+                    int atmoChance = Random.Range(0, 2);
+                    if (atmoChance == 2)
+                    {
+                        GeneratePlanetaryBody(true, true, false);
+                    }
+                    else
+                    {
+                        GeneratePlanetaryBody(false, false, false);
+                    }
                     break;
                 }
             case BodyType.Barren:           //Any temp
                 {
                     //GenPlanet
                     int atmoChance = Random.Range(0, 2);
+                    if (atmoChance == 2)
+                    {
+                        GeneratePlanetaryBody(false, true, false);
+                    }
+                    else
+                    {
+                        GeneratePlanetaryBody(false, false, false);
+                    }
                     break;
                 }
             case BodyType.ShatteredWorld:
                 {
                     //SpecialGen
-                    int atmoChance = Random.Range(0, 2);
-
                     break;
                 }
             case BodyType.PlanetaryNebula:
@@ -145,11 +220,12 @@ public class OrbitingBody : MonoBehaviour
                     break;
                 }
         }
-
     }
 
     private IEnumerator GeneratePlanetaryBody(bool limitedColonization, bool hasAtmo, bool hasSea)
     {
+        gameObject.name = bodyType.ToString() + satelliteOrbitalOrder;
+
         landObject.transform.localScale = new Vector3(size, size, size);
         landColor = Random.ColorHSV();
         if (hasAtmo)
@@ -241,6 +317,30 @@ public class OrbitingBody : MonoBehaviour
                 }
         }
 
+        yield return null;
+    }
+
+    private IEnumerator GenerateNoiseMap()
+    {
+        //Set Area
+        noiseTex = new Texture2D(pixWidth, pixHeight);
+        pix = new Color[noiseTex.width * noiseTex.height];
+        rend.material.mainTexture = noiseTex;
+
+        //Calculate noise for each pixel in texture
+        for (float y = 0; y < noiseTex.height; y++)
+        {
+            for (float x = 0; x < noiseTex.width; x++)
+            {
+                float xCoord = xOrg + x / noiseTex.width * scale;
+                float yCoord = yOrg + y / noiseTex.height * scale;
+                float sample = Mathf.PerlinNoise(xCoord, yCoord);
+                pix[(int)y * noiseTex.width + (int)x] = new Color(sample, sample, sample);
+            }
+        }
+        //Copy pixel data to texture, load to GPU
+        noiseTex.SetPixels(pix);
+        noiseTex.Apply();
         yield return null;
     }
 }

@@ -40,14 +40,14 @@ public class OrbitingBody : MonoBehaviour
     public float ring3Depth;    //
     public float atmoDepth;     //Sits above planet as outer layer
     public Color atmoColor;
-    [SerializeField] private GameObject atmoObject => GetComponent<GameObject>().transform.Find("Atmosphere").gameObject;
+    [SerializeField] private GameObject atmoObject => transform.Find("Atmosphere").gameObject;
     public float cloudDepth;    //Sits slightly above planet
     public Color cloudColor;
-    [SerializeField] private GameObject cloudObject => GetComponent<GameObject>().transform.Find("Clouds").gameObject;
+    [SerializeField] private GameObject cloudObject => transform.Find("Clouds").gameObject;
     public float seaDepth;      //Static size of planet, just a simple colored sphere
     public Color seaColor;
     public Color landColor;
-    [SerializeField] private GameObject landObject => GetComponent<GameObject>().transform.Find("Land").gameObject;
+    [SerializeField] private GameObject landObject => transform.Find("Land").gameObject;
 
     [Header("Body Attributes")]
     public float orbitalSpeed;
@@ -99,11 +99,11 @@ public class OrbitingBody : MonoBehaviour
                         //Unlimited colony options
                         if (hasLiquidSea == 2)
                         {
-                            GeneratePlanetaryBody(false, true, true);
+                            StartCoroutine(GeneratePlanetaryBody(false, true, true));
                         }
                         else
                         {
-                            GeneratePlanetaryBody(false, true, false);
+                            StartCoroutine(GeneratePlanetaryBody(false, true, false));
                         }
                     }
                     else
@@ -111,11 +111,11 @@ public class OrbitingBody : MonoBehaviour
                         //Limited colony options
                         if (hasLiquidSea == 2)
                         {
-                            GeneratePlanetaryBody(true, true, true);
+                            StartCoroutine(GeneratePlanetaryBody(true, true, true));
                         }
                         else
                         {
-                            GeneratePlanetaryBody(true, true, false);
+                            StartCoroutine(GeneratePlanetaryBody(true, true, false));
                         }
                     }
                     break;
@@ -123,19 +123,19 @@ public class OrbitingBody : MonoBehaviour
             case BodyType.Volcanic:         //1070 - 1770 kelvin
                 {
                     //GenPlanet
-                    GeneratePlanetaryBody(true, true, false);
+                    StartCoroutine(GeneratePlanetaryBody(true, true, false));
                     break;
                 }
             case BodyType.Gas:              //Pick element, set temp
                 {
                     //GenPlanet
-                    GeneratePlanetaryBody(true, true, false);
+                    StartCoroutine(GeneratePlanetaryBody(true, true, false));
                     break;
                 }
             case BodyType.Oceanic:          //Pick element, set temp
                 {
                     //GenPlanet
-                    GeneratePlanetaryBody(false, true, true);
+                    StartCoroutine(GeneratePlanetaryBody(false, true, true));
                     break;
                 }
             case BodyType.Icy:              //25-30 kelvin
@@ -147,16 +147,16 @@ public class OrbitingBody : MonoBehaviour
                     {
                         if (hasLiquidSea <= 3)
                         {
-                            GeneratePlanetaryBody(true, true, true);
+                            StartCoroutine(GeneratePlanetaryBody(true, true, true));
                         }
                         else
                         {
-                            GeneratePlanetaryBody(true, true, false);
+                            StartCoroutine(GeneratePlanetaryBody(true, true, false));
                         }
                     }
                     else
                     {
-                        GeneratePlanetaryBody(false, false, false);
+                        StartCoroutine(GeneratePlanetaryBody(false, false, false));
                     }
 
                     break;
@@ -167,11 +167,11 @@ public class OrbitingBody : MonoBehaviour
                     int atmoChance = Random.Range(0, 2);
                     if (atmoChance == 2)
                     {
-                        GeneratePlanetaryBody(true, true, false);
+                        StartCoroutine(GeneratePlanetaryBody(true, true, false));
                     }
                     else
                     {
-                        GeneratePlanetaryBody(false, false, false);
+                        StartCoroutine(GeneratePlanetaryBody(false, false, false));
                     }
                     break;
                 }
@@ -181,42 +181,56 @@ public class OrbitingBody : MonoBehaviour
                     int atmoChance = Random.Range(0, 2);
                     if (atmoChance == 2)
                     {
-                        GeneratePlanetaryBody(false, true, false);
+                        StartCoroutine(GeneratePlanetaryBody(false, true, false));
                     }
                     else
                     {
-                        GeneratePlanetaryBody(false, false, false);
+                        StartCoroutine(GeneratePlanetaryBody(false, false, false));
                     }
                     break;
                 }
             case BodyType.ShatteredWorld:
                 {
                     //SpecialGen
+                    gameObject.name = "Shattered World (TBI) - " + satelliteOrbitalOrder;
                     break;
                 }
             case BodyType.PlanetaryNebula:
                 {
                     //SpecialGen
+                    gameObject.name = "Planetary Nebula (TBI) - " + satelliteOrbitalOrder;
                     break;
                 }
             case BodyType.Derelict:
                 {
                     //SpecialGen
+                    gameObject.name = "Derelict (TBI) - " + satelliteOrbitalOrder;
                     break;
                 }
             case BodyType.BattleSite:
                 {
                     //SpecialGen
+                    gameObject.name = "Battle Site (TBI) - " + satelliteOrbitalOrder;
                     break;
                 }
             case BodyType.Asteroid:
                 {
                     //SpecialGen
+                    int AsteroidType = Random.Range(0, 2);
+                    if (AsteroidType == 0)
+                    {
+                        gameObject.name = "Singular Asteroid (TBI) - " + satelliteOrbitalOrder;
+                    }
+                    else
+                    {
+                        gameObject.name = "Asteroid Field (TBI) - " + satelliteOrbitalOrder;
+                    }
                     break;
                 }
             case BodyType.CometField:
                 {
                     //SpecialGen
+                    gameObject.name = "Comet Field (TBI) - " + satelliteOrbitalOrder;
                     break;
                 }
         }
@@ -224,7 +238,7 @@ public class OrbitingBody : MonoBehaviour
 
     private IEnumerator GeneratePlanetaryBody(bool limitedColonization, bool hasAtmo, bool hasSea)
     {
-        gameObject.name = bodyType.ToString() + satelliteOrbitalOrder;
+        gameObject.name = bodyType.ToString() + " - " + satelliteOrbitalOrder;
 
         landObject.transform.localScale = new Vector3(size, size, size);
         landColor = Random.ColorHSV();

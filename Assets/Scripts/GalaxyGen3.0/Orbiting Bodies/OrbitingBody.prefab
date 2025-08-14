@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyType: 0
+  satelliteOrbitalOrder: 0
   size: 0
   ring1Depth: 0
   ring2Depth: 0

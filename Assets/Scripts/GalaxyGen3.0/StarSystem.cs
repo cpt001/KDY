@@ -4,12 +4,21 @@ using UnityEngine;
 
 public class StarSystem : MonoBehaviour
 {
+    public GalaxyMapUI mapUI;
+    public enum ContestationStatus
+    {
+        Hostile,
+        Contested,
+        Friendly,
+        Neutral,
+    }
+    public ContestationStatus contestation;
+
     private Renderer starRenderer => GetComponent<Renderer>();
     [ColorUsage(true, true)]
     //public Color inputColor;
     private int starTemp;
     public List<FleetData> fleetsInSystem = new List<FleetData>();
-    public List<OrbitingBody> orbitingBodies = new List<OrbitingBody>();
     [SerializeField] private GameObject satellitePrefab;
 
     public enum StarType
@@ -315,12 +324,12 @@ public class StarSystem : MonoBehaviour
 
     public void OnMouseDown()
     {
-        
+        mapUI.PopulateHoverUI(this);
     }
 
     public void OnMouseOver()
     {
-        
+        mapUI.PopulateClickedUI(this);
     }
 
     public void OnMouseExit()

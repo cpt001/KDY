@@ -52,7 +52,6 @@ public class MainUI : MonoBehaviour
         {
             if (newGameOpen)
             {
-                SceneManager.UnloadSceneAsync(1);
                 newGameOpen = false;
             }
             else

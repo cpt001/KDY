@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StarSystem : MonoBehaviour
 {
-    public GalaxyMapUI mapUI;
+    public GalaxyMapUI mapUI => transform.root.GetComponent<GalaxyMapUI>();
     public enum ContestationStatus
     {
         Hostile,
@@ -272,11 +272,11 @@ public class StarSystem : MonoBehaviour
                 maxSatelliteCount = Random.Range(1, 4);
                 if (maxSatelliteCount != 0)
                 {
-                    name = typeOfStar + maxSatelliteCount + " | T:" + starTemp + "K | C:" + transform.position;
+                    name = contestation.ToString() + " " + typeOfStar + " " + maxSatelliteCount + " | T:" + starTemp + "K | C:" + transform.position;
                 }
                 else
                 {
-                    name = typeOfStar + " | T:" + starTemp + "K | C:" + transform.position;
+                    name = contestation.ToString() + " " +  typeOfStar + " | T:" + starTemp + "K | C:" + transform.position;
                 }
             }
         }
@@ -324,16 +324,16 @@ public class StarSystem : MonoBehaviour
 
     public void OnMouseDown()
     {
-        mapUI.PopulateHoverUI(this);
+        mapUI.PopulateClickedUI(this);
     }
 
     public void OnMouseOver()
     {
-        mapUI.PopulateClickedUI(this);
+        mapUI.PopulateHoverUI(this);
     }
 
     public void OnMouseExit()
     {
-        
+        mapUI.DepopulateHoverUI();
     }
 }

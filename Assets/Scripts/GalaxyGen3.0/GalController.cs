@@ -195,8 +195,8 @@ public class GalController : MonoBehaviour
                 }
                 //-Destroy this sector
                 Destroy(sector.gameObject, 15f);
-                //Debug.Log(sector.gameObject + " marked for destruction");
                 
+
             }
         }
         //Add sectors to list on this controller
@@ -224,6 +224,22 @@ public class GalController : MonoBehaviour
             starSystem.SetupStar(star.GetCurrentColor(sectorParticle));
         }
         sectorParticle.Pause();
+
+        //Gives each star other stars data, and prioritizes them based on locality
+        sector.GetComponent<Sector>().StartLinkingCoroutine();
+        //Generate visual component of linkage
+        //Check in target star's starsConnected list, if this body is not present, then connect
+        foreach (StarSystem star in sector.GetComponent<Sector>().starSystems)
+        {
+            foreach (StarSystem targetStar in star.possibleStarConnections)
+            {
+                if (!targetStar.starsConnected.Contains(star))
+                {
+                    Debug.Log("Star not detected, attempting connection");
+                    star.StartConnectBody(targetStar);
+                }
+            }
+        }
 
         //Enemy generation on node
         //Set number of orbiting bodies

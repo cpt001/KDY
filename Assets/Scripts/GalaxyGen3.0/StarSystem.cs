@@ -5,6 +5,7 @@ using UnityEngine;
 public class StarSystem : MonoBehaviour
 {
     public GalaxyMapUI mapUI => transform.root.GetComponent<GalaxyMapUI>();
+    public Sector systemSector => transform.parent.GetComponent<Sector>();
     public enum ContestationStatus
     {
         Hostile,
@@ -41,7 +42,10 @@ public class StarSystem : MonoBehaviour
     }
     public StarType typeOfStar;
 
-    public List<StarSystem> connectedStars = new List<StarSystem>();
+    public bool allowExternalConnections;
+    public int maxConnections;
+    public List<StarSystem> possibleStarConnections = new List<StarSystem>();
+    public List<StarSystem> starsConnected = new List<StarSystem>();
     private int maxSatelliteCount;
     public List<OrbitingBody> satellites = new List<OrbitingBody>();
 
@@ -50,6 +54,9 @@ public class StarSystem : MonoBehaviour
     //Sets star type based on probability matrix
     public void SetupStar(Color starInputColor) 
     {
+        //This adds the system to the sector object for later usage
+        systemSector.systemsInSector.Add(transform);
+
         //Sets star probabilities
         float starProbability = Mathf.RoundToInt(Random.Range(0, 100));
         if (starProbability == 1)
@@ -292,6 +299,8 @@ public class StarSystem : MonoBehaviour
         }
     }
 
+
+
     void SetStarScale(float TargetSize)
     {
         transform.localScale = new Vector3(TargetSize, TargetSize, TargetSize);
@@ -299,8 +308,6 @@ public class StarSystem : MonoBehaviour
 
     }
     /// <summary>
-    /// Assign a number to each satellite for use in display order. 
-    /// Give satellites names (in OB script)
     /// Start working on display aspect, starting with UI
     /// </summary>
     /// <returns></returns>
@@ -319,6 +326,18 @@ public class StarSystem : MonoBehaviour
             satellite.GetComponent<OrbitingBody>().moons.Add(moon.GetComponent<OrbitingBody>());
         }
 
+        yield return null;
+    }
+
+    public void StartConnectBody(StarSystem starTarget)
+    {
+        StartCoroutine(ConnectBody(starTarget));
+    }
+
+    public IEnumerator ConnectBody(StarSystem target)
+    {
+        target.starsConnected.Add(this);
+        //Generate a line renderer from this star to target star
         yield return null;
     }
 

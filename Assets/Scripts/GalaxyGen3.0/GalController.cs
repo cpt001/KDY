@@ -233,6 +233,8 @@ public class GalController : MonoBehaviour
         {
             foreach (StarSystem targetStar in star.possibleStarConnections)
             {
+                //targetStar.StartConnectBody(targetStar);
+
                 if (!targetStar.starsConnected.Contains(star))
                 {
                     Debug.Log("Star not detected, attempting connection");

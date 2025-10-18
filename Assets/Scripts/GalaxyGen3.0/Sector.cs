@@ -44,7 +44,6 @@ public class Sector : MonoBehaviour
                 currentSystem.possibleStarConnections = currentSystem.possibleStarConnections.OrderBy(z => Vector3.Distance(z.transform.position, currentSystem.transform.position)).ToList();
                 //Remove extra stars
                 currentSystem.possibleStarConnections.RemoveRange(2, 12);
-                //Line renderer is best method of approach, but how to avoid doubling up?
             }
             else
             {

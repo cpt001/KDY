@@ -48,13 +48,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbe77c5e6ae4f2b46a3de54eac65686f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lineDrawingTool: {fileID: 7507018150135037203, guid: 62574fbb623537f498b1f993da026b7d, type: 3}
   contestation: 0
   fleetsInSystem: []
   satellitePrefab: {fileID: 5749721932654844981, guid: c6ce0158b158c81429262ac5ef3f5328, type: 3}
   typeOfStar: 0
   allowExternalConnections: 0
   maxConnections: 0
-  connectedStars: []
+  possibleStarConnections: []
+  starsConnected: []
   satellites: []
   starColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!135 &2509255469930778591

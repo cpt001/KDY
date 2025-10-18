@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StarSystem : MonoBehaviour
 {
+    public GameObject lineDrawingTool;
     public GalaxyMapUI mapUI => transform.root.GetComponent<GalaxyMapUI>();
     public Sector systemSector => transform.parent.GetComponent<Sector>();
     public enum ContestationStatus
@@ -97,18 +98,22 @@ public class StarSystem : MonoBehaviour
             if (rand == 0)
             {
                 typeOfStar = StarType.Neutron;
+                contestation = ContestationStatus.Neutral;
             }
             if (rand == 1)
             {
                 typeOfStar = StarType.BlackHole;
+                contestation = ContestationStatus.Neutral;
             }
             if (rand == 2)
             {
                 typeOfStar = StarType.Quasar;
+                contestation = ContestationStatus.Neutral;
             }
             if (rand == 3)
             {
                 typeOfStar = StarType.Pulsar;
+                contestation = ContestationStatus.Neutral;
             }
             if (rand == 4)
             {
@@ -117,6 +122,7 @@ public class StarSystem : MonoBehaviour
             if (rand == 5)
             {
                 typeOfStar = StarType.Nova;
+                contestation = ContestationStatus.Neutral;
             }
         }
 
@@ -336,8 +342,129 @@ public class StarSystem : MonoBehaviour
 
     public IEnumerator ConnectBody(StarSystem target)
     {
-        target.starsConnected.Add(this);
+        /*target.starsConnected.Add(this);
         //Generate a line renderer from this star to target star
+        if (!gameObject.GetComponent<LineRenderer>())
+        {
+            LineRenderer starLine = gameObject.AddComponent<LineRenderer>();
+            starLine.startWidth = 0.3f;
+            starLine.endWidth = 0.1f;
+            starLine.SetPosition(0, transform.position);
+            starLine.SetPosition(1, target.transform.position);
+        }
+        else
+        {
+            LineRenderer starLine = gameObject.GetComponent<LineRenderer>();
+            //This throws an out of bounds warning?
+            starLine.SetPosition(2, target.transform.position);
+            starLine.SetPosition(3, target.transform.position);
+        }*/
+
+        /*yield return new WaitForSeconds(0.2f);
+
+        if (possibleStarConnections.Count != 0)
+        {
+            LineRenderer starLine = gameObject.AddComponent<LineRenderer>();
+            starLine.SetPosition(0, transform.position);
+            starLine.startWidth = 0.2f;
+            starLine.endWidth = 0.1f;
+            //if this method doesn't work, spawn subobjects with each target selected
+            for (int i = 0; i > possibleStarConnections.Count; i++)
+            {
+                starLine.SetPosition(i, possibleStarConnections[i].transform.position);
+            }
+        }*/
+        GameObject starlineObject = Instantiate(lineDrawingTool,transform.position, Quaternion.identity, this.transform);
+        LineRenderer starLine = starlineObject.GetComponent<LineRenderer>();
+        starLine.SetPosition(0, gameObject.transform.position);
+        starLine.SetPosition(1, target.transform.position);
+        switch (contestation)
+        {
+            case ContestationStatus.Hostile:
+                {
+                    starLine.startColor = Color.red;
+                    if (target.contestation == ContestationStatus.Hostile)
+                    {
+                        starLine.endColor = Color.red;
+                    }
+                    if (target.contestation == ContestationStatus.Contested)
+                    {
+                        starLine.endColor = Color.yellow;
+                    }
+                    if (target.contestation == ContestationStatus.Friendly)
+                    {
+                        starLine.endColor = Color.cyan;
+                    }
+                    if (target.contestation == ContestationStatus.Neutral)
+                    {
+                        starLine.endColor = Color.white;
+                    }
+                    break;
+                }
+            case ContestationStatus.Friendly:
+                {
+                    starLine.startColor = Color.cyan;
+                    if (target.contestation == ContestationStatus.Hostile)
+                    {
+                        starLine.endColor = Color.red;
+                    }
+                    if (target.contestation == ContestationStatus.Contested)
+                    {
+                        starLine.endColor = Color.yellow;
+                    }
+                    if (target.contestation == ContestationStatus.Friendly)
+                    {
+                        starLine.endColor = Color.cyan;
+                    }
+                    if (target.contestation == ContestationStatus.Neutral)
+                    {
+                        starLine.endColor = Color.white;
+                    }
+                    break;
+                }
+            case ContestationStatus.Contested:
+                {
+                    starLine.startColor = Color.yellow;
+                    if (target.contestation == ContestationStatus.Hostile)
+                    {
+                        starLine.endColor = Color.red;
+                    }
+                    if (target.contestation == ContestationStatus.Contested)
+                    {
+                        starLine.endColor = Color.blue;
+                    }
+                    if (target.contestation == ContestationStatus.Friendly)
+                    {
+                        starLine.endColor = Color.cyan;
+                    }
+                    if (target.contestation == ContestationStatus.Neutral)
+                    {
+                        starLine.endColor = Color.white;
+                    }
+                    break;
+                }
+            case ContestationStatus.Neutral:
+                {
+                    starLine.startColor = Color.white;
+                    if (target.contestation == ContestationStatus.Hostile)
+                    {
+                        starLine.endColor = Color.red;
+                    }
+                    if (target.contestation == ContestationStatus.Contested)
+                    {
+                        starLine.endColor = Color.blue;
+                    }
+                    if (target.contestation == ContestationStatus.Friendly)
+                    {
+                        starLine.endColor = Color.cyan;
+                    }
+                    if (target.contestation == ContestationStatus.Neutral)
+                    {
+                        starLine.endColor = Color.white;
+                    }
+                    break;
+                }
+        }
         yield return null;
     }
 
